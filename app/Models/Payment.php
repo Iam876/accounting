@@ -17,9 +17,17 @@ class Payment extends Model
         'payment_date',
     ];
 
+    // public function billing()
+    // {
+    //     return $this->belongsTo(Billings::class);
+    // }
+    public function paymentType()
+    {
+        return $this->belongsTo(PaymentType::class);
+    }
     public function billing()
     {
-        return $this->belongsTo(Billings::class);
+        return $this->belongsTo(Billings::class, 'billing_id'); // Correct foreign key: billing_id
     }
 
     public function paymentMethod()

@@ -3,23 +3,23 @@
 
     <a href="index.html"
         class="d-inline-flex d-sm-inline-flex align-items-center d-md-inline-flex d-lg-none align-items-center device-logo">
-        <img src="assets/img/logo.svg" width="120px" class="img-fluid logo2" alt="Logo">
+        <img src="{{asset('assets')}}/img/logo.svg" width="120px" class="img-fluid logo2" alt="Logo">
     </a>
     <div class="main-logo d-inline float-start d-lg-flex align-items-center d-none d-sm-none d-md-none">
         <div class="logo-white">
             <a href="index.html">
-                <img src="assets/img/logo-full-white.png" class="img-fluid logo-blue" alt="Logo">
+                <img src="{{asset('assets')}}/img/logo.svg" class="img-fluid logo-blue" alt="Logo">
             </a>
             <a href="index.html">
-                <img src="assets/img/logo-small-white.png" class="img-fluid logo-small" alt="Logo">
+                <img src="{{asset('assets')}}/img/logo.svg" class="img-fluid logo-small" alt="Logo">
             </a>
         </div>
         <div class="logo-color">
             <a href="index.html">
-                <img src="assets/img/logo.svg" width="120px" class="img-fluid logo-blue" alt="Logo">
+                <img src="{{asset('assets')}}/img/logo.svg" width="120px" class="img-fluid logo-blue" alt="Logo">
             </a>
             <a href="index.html">
-                <img src="assets/img/logo-small.png" class="img-fluid logo-small" alt="Logo">
+                <img src="{{asset('assets')}}/img/logo.svg" class="img-fluid logo-small" alt="Logo">
             </a>
         </div>
     </div>
@@ -39,7 +39,7 @@
     <div class="top-nav-search">
         <form>
             <input type="text" class="form-control" placeholder="Search here">
-            <button class="btn" type="submit"><img src="assets/img/icons/search.svg" alt="img"></button>
+            <button class="btn" type="submit"><img src="{{asset('assets')}}/img/icons/search.svg" alt="img"></button>
         </form>
     </div>
     <!-- /Search -->
@@ -55,20 +55,20 @@
         <!-- Flag -->
         <li class="nav-item dropdown has-arrow flag-nav">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
-                <img src="assets/img/flags/us1.png" alt="flag"><span>English</span>
+                <img src="{{asset('assets')}}/img/flags/us1.png" alt="flag"><span>English</span>
             </a>
             <div class="dropdown-menu dropdown-menu-end">
                 <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="assets/img/flags/us.png" alt="flag"><span>English</span>
+                    <img src="{{asset('assets')}}/img/flags/us.png" alt="flag"><span>English</span>
                 </a>
                 <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="assets/img/flags/fr.png" alt="flag"><span>French</span>
+                    <img src="{{asset('assets')}}/img/flags/fr.png" alt="flag"><span>French</span>
                 </a>
                 <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="assets/img/flags/es.png" alt="flag"><span>Spanish</span>
+                    <img src="{{asset('assets')}}/img/flags/es.png" alt="flag"><span>Spanish</span>
                 </a>
                 <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="assets/img/flags/de.png" alt="flag"><span>German</span>
+                    <img src="{{asset('assets')}}/img/flags/de.png" alt="flag"><span>German</span>
                 </a>
             </div>
         </li>
@@ -96,7 +96,7 @@
                                 <div class="d-flex">
                                     <span class="avatar avatar-md active">
                                         <img class="avatar-img rounded-circle" alt="avatar-img"
-                                            src="assets/img/profiles/avatar-02.jpg">
+                                            src="{{asset('assets')}}/img/profiles/avatar-02.jpg">
                                     </span>
                                     <div class="media-body">
                                         <p class="noti-details"><span class="noti-title">Lex Murphy</span> requested
@@ -117,7 +117,7 @@
                                 <div class="d-flex">
                                     <span class="avatar avatar-md active">
                                         <img class="avatar-img rounded-circle" alt="avatar-img"
-                                            src="assets/img/profiles/avatar-10.jpg">
+                                            src="{{asset('assets')}}/img/profiles/avatar-10.jpg">
                                     </span>
                                     <div class="media-body">
                                         <p class="noti-details"><span class="noti-title">Ray Arnold</span> left 6
@@ -134,7 +134,7 @@
                                 <div class="d-flex">
                                     <span class="avatar avatar-md">
                                         <img class="avatar-img rounded-circle" alt="avatar-img"
-                                            src="assets/img/profiles/avatar-13.jpg">
+                                            src="{{asset('assets')}}/img/profiles/avatar-13.jpg">
                                     </span>
                                     <div class="media-body">
                                         <p class="noti-details"><span class="noti-title">Dennis Nedry</span>
@@ -156,7 +156,7 @@
                                 <div class="d-flex">
                                     <span class="avatar avatar-md">
                                         <img class="avatar-img rounded-circle" alt="avatar-img"
-                                            src="assets/img/profiles/avatar-05.jpg">
+                                            src="{{asset('assets')}}/img/profiles/avatar-05.jpg">
                                     </span>
                                     <div class="media-body">
                                         <p class="noti-details"><span class="noti-title">John Hammond</span> created
@@ -184,7 +184,7 @@
         <li class="nav-item dropdown">
             <a href="javascript:void(0)" class="user-link  nav-link" data-bs-toggle="dropdown">
                 <span class="user-img">
-                    <img src="assets/img/profiles/avatar-07.jpg" alt="img" class="profilesidebar">
+                    <img src="{{asset('assets')}}/img/profiles/avatar-07.jpg" alt="img" class="profilesidebar">
                     <span class="animate-circle"></span>
                 </span>
                 <span class="user-content">
@@ -218,8 +218,7 @@
                                 <form method="POST" action="{{ route('logout') }}" id="logout-form">
                                     @csrf
                                     <a class="dropdown-item" href="#"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log
-                                        Out</a>
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">LogOut</a>
                                 </form>
                             </li>
                         </ul>

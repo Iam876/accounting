@@ -29,6 +29,8 @@ return new class extends Migration
             
             // Date fields
             $table->date('billing_start_month');
+            $table->date('house_enroll_date')->nullable();
+            $table->date('termination_date')->nullable();
             
             // Monetary fields
             $table->decimal('rent', 10, 2);
@@ -39,6 +41,7 @@ return new class extends Migration
             $table->date('initial_costs_collection_date')->nullable();  // Ensure this exists
             $table->date('rent_collection_date')->nullable();
             $table->date('utilities_collection_date')->nullable();
+            $table->decimal('balance_due', 10, 2)->nullable();
             
             // Payment tracking
             $table->string('payment_id');

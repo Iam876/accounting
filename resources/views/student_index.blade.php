@@ -17,14 +17,13 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div class="content-page-header ">
-                    <h5>Schools</h5>
+                    <h5>Students</h5>
                     <div class="list-btn">
                         <ul class="filter-list">
                             <li>
                                 <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                                     data-bs-placement="bottom" data-bs-original-title="Filter"><span class="me-2"><img
-                                            src="{{ asset('assets') }}/img/icons/filter-icon.svg"
-                                            alt="filter"></span>Filter </a>
+                                            src="{{asset('assets')}}/img/icons/filter-icon.svg" alt="filter"></span>Filter </a>
                             </li>
                             <li class="">
                                 <div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -52,13 +51,10 @@
                                     data-bs-placement="bottom" data-bs-original-title="Print"><span><i
                                             class="fe fe-printer"></i></span> </a>
                             </li>
-                            {{-- <li>
-										<a class="btn btn-primary" href="add-products.html"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Product</a>
-									</li> --}}
                             <li>
                                 <a href="#" class="btn btn-primary waves-effect waves-light mt-1"
-                                    data-bs-toggle="modal" data-bs-target="#school_modal_add"><i
-                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Schools</a>
+                                data-bs-toggle="modal" data-bs-target="#student_modal_add"><i class="fa fa-plus-circle me-2"
+                                        aria-hidden="true"></i>Add Student</a>
                             </li>
                         </ul>
                     </div>
@@ -66,105 +62,170 @@
             </div>
             <!-- /Page Header -->
 
-            <!-- /Modal Start -->
-            <div id="school_modal_add" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
-                style="display: none;">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        {{-- <div class="modal-header">
-                            <h4 class="modal-title">Modal Content is Responsive</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div> --}}
-                        <div class="modal-body p-4 form-group-bank">
-                            <div class="row">
+             <!-- /Modal Start -->
+             <div id="student_modal_add" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
+             style="display: none; --bs-modal-width: 1280px;">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     {{-- <div class="modal-header">
+                         <h4 class="modal-title">Modal Content is Responsive</h4>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div> --}}
+                     <div class="modal-body p-4">
+                         <div class="row">
+                            <div class="form-group-item">
+                                <h5 class="form-title">Basic Details</h5>
                                 <div class="profile-picture">
                                     <div class="upload-profile">
                                         <div class="profile-img">
-                                            <img id="blah" class="avatar" src="assets/img/profiles/avatar-14.jpg"
-                                                alt="profile-img">
+                                            <img id="blah" class="avatar" src="assets/img/profiles/avatar-14.jpg" alt="profile-img">
                                         </div>
                                         <div class="add-profile">
                                             <h5>Upload a New Photo</h5>
                                             <span>Profile-pic.jpg</span>
                                         </div>
                                     </div>
-                                    <div class="img-upload d-flex">
+                                    <div class="img-upload">
                                         <label class="btn btn-upload">
                                             Upload <input type="file">
                                         </label>
                                         <a class="btn btn-remove">Remove</a>
+                                    </div>										
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="input-block mb-3">
+                                            <label>Student Name <span class="text-danger">*</span></label> 
+                                            <input type="text" class="form-control" placeholder="Enter Student Name">
+                                        </div>
                                     </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="input-block mb-3">
+                                            <label>Name Katakana<span class="text-danger">*</span></label> 
+                                            <input type="text" class="form-control" placeholder="Enter Name in Katakana">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="input-block mb-3">
+                                            <label>Email <span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" placeholder="Enter Email Address">
+                                        </div>											
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="input-block mb-3">
+                                            <label>Phone <span class="text-danger">*</span></label>
+                                            <input type="text" id="mobile_code" class="form-control" placeholder="Phone Number" name="name">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="input-block mb-3">
+                                            <label>School Name <span class="text-danger">*</span></label>
+                                            <select class="select">
+                                                <option>Select Currency</option>
+                                                <option>₹</option>
+                                                <option>$</option>
+                                                <option>£</option>
+                                                <option>€</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="input-block mb-3">
+                                            <label>Country <span class="text-danger">*</span></label>
+                                            <input type="text" id="mobile_code" class="form-control" placeholder="Country" name="name">
+                                        </div>
+                                    </div>
+                                    {{-- <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="input-block mb-3">
+                                            <label for="notes">Notes</label>
+                                            <textarea name="text" class="form-control" style="height: 45px;" id="notes" cols="80" rows="10"></textarea>
+                                        </div>											
+                                    </div> --}}
+                                    
+                                </div>
+                                <div class="row form-group-bank p-2" style="margin-left: 0px; margin-right:0px;">
+                                    {{-- <div class="col-xl-12 col-lg-12"> --}}
+                                        {{-- <div class=""> --}}
+                                            {{-- <div class="input-block mb-3 notes-form-group-info">
+												<div class="input-block mb-3">
+													<label>Contract Date</label>
+													<div class="cal-icon cal-icon-info">
+														<input type="text" class="datetimepicker form-control" placeholder="Select Date">
+													</div>
+												</div>											
+											</div> --}}
+                                            {{-- input-block mb-3 notes-form-group-info --}}
+                                            <div class="col-md-6">
+												<div class="input-block mb-3">
+													<label>Contract Date <span class="text-danger">*</span></label>
+													<div class="cal-icon cal-icon-info">
+														<input type="text" class="datetimepicker form-control" placeholder="Select Date">
+													</div>
+												</div>											
+											</div>
+                                            <div class="col-md-6">
+												<div class="input-block mb-3">
+													<label>Terminition Date <span class="text-danger">*</span></label>
+													<div class="cal-icon cal-icon-info">
+														<input type="text" class="datetimepicker form-control" placeholder="Select Date">
+													</div>
+												</div>											
+											</div>
+                                            <div class="input-block mb-3 notes-form-group-info">
+                                                <label>Notes</label>
+                                                <textarea class="form-control" placeholder="Enter Notes"></textarea>
+                                            </div>
+                                        {{-- </div> --}}
+                                    {{-- </div> --}}
+                                    {{-- <div class="col-xl-6 col-lg-12">
+                                        <div class="form-group-bank">
+                                            <div class="invoice-total-box">
+                                                <div class="invoice-total-inner">
+                                                    <p>Taxable Amount <span>$1360.00</span></p>
+                                                    <p>Discount <span>$136.00</span></p>
+                                                    <p>Vat <span>$0.00</span></p>
+                                                    <div class="status-toggle justify-content-between">
+                                                        <div class="d-flex align-center">
+                                                            <p>Round Off </p>
+                                                            <input id="rating_1" class="check" type="checkbox" checked="">
+                                                            <label for="rating_1" class="checktoggle checkbox-bg">checkbox</label>
+                                                        </div>
+                                                        <span>$0.00</span>
+                                                    </div>																
+                                                </div>
+                                                <div class="invoice-total-footer">
+                                                    <h4>Total Amount <span>$1224.00</span></h4>
+                                                </div>
+                                            </div>
+                                            <div class="input-block mb-3">
+                                                <label>Signature Name</label>
+                                                <input type="text" class="form-control" placeholder="Enter Signature Name">
+                                            </div>
+                                            <div class="input-block mb-0">
+                                                <label>Signature Image</label>
+                                                <div class="input-block mb-3 service-upload service-upload-info mb-0">
+                                                    <span><i class="fe fe-upload-cloud me-1"></i>Upload Signature</span>
+                                                    <input type="file" multiple="" id="image_sign">
+                                                    <div id="frames"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> --}}
                                 </div>
                             </div>
-                            <div class="row">
-                                {{-- <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-1" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="field-1" placeholder="John">
-                                    </div>
-                                </div> --}}
-                                <div class="col-md-12">
-									<div class="input-block mb-3">
-										<label>School <span class="text-danger">*</span></label>
-										<input type="text" class="form-control" placeholder="Enter Email Address">
-									</div>											
-								</div>
-								<div class="col-md-12">
-									<div class="input-block mb-3">
-										<label>Phone <span class="text-danger">*</span></label>
-										<input type="text" id="" class="form-control" placeholder="Phone Number" name="name">
-									</div>
-								</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-3" class="form-label">Address <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="field-3" placeholder="Address">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-4" class="form-label">Prefecture <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="field-4" placeholder="Boston">
-                                    </div>
-                                </div>
-                                {{-- <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="field-5" class="form-label">Country</label>
-                                        <input type="text" class="form-control" id="field-5"
-                                            placeholder="United States">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="field-6" class="form-label">Zip</label>
-                                        <input type="text" class="form-control" id="field-6" placeholder="123456">
-                                    </div>
-                                </div> --}}
-                            </div>
-                            {{-- <div class="row">
-                                <div class="col-md-12">
-                                    <div class="">
-                                        <label for="field-7" class="form-label">Personal Info</label>
-                                        <textarea class="form-control" id="field-7" placeholder="Write something about yourself"></textarea>
-                                    </div>
-                                </div>
-                            </div> --}}
-                            <div class="row">
-                                <div class="col-md-12 mt-3 add-customer-btns text-end">
-                                    <button type="button" class="btn customer-btn-cancel"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn customer-btn-save">Add Schools</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Modal End -->
+                         </div>
+                         <div class="row">
+                             <div class="col-md-12 mt-3 add-customer-btns text-end">
+                                 <button type="button" class="btn customer-btn-cancel"
+                                     data-bs-dismiss="modal">Close</button>
+                                 <button type="button" class="btn customer-btn-save">Add Student</button>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         <!-- /Modal End -->
 
             <!-- Search Filter -->
             <div id="filter_inputs" class="card filter-card">
@@ -195,20 +256,20 @@
 
             <!-- All Invoice -->
             <!-- <div class="card invoices-tabs-card">
-              <div class="invoices-main-tabs">
-               <div class="row align-items-center">
-                <div class="col-lg-12">
-                 <div class="invoices-tabs">
-                  <ul>
-                   <li><a href="product-list.html" class="active">Product</a></li>
-                   <li><a href="category.html">Category</a></li>
-                   <li><a href="units.html">Units</a></li>
-                  </ul>
-                 </div>
-                </div>
-               </div>
-              </div>
-             </div> -->
+          <div class="invoices-main-tabs">
+           <div class="row align-items-center">
+            <div class="col-lg-12">
+             <div class="invoices-tabs">
+              <ul>
+               <li><a href="product-list.html" class="active">Product</a></li>
+               <li><a href="category.html">Category</a></li>
+               <li><a href="units.html">Units</a></li>
+              </ul>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div> -->
             <!-- /All Invoice -->
 
             <!-- Table -->
@@ -222,29 +283,35 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>#</th>
-                                                <th>School Image</th>
+                                                <th>Student Image</th>
+                                                <th>Student Name</th>
+                                                <th>Katakana Name</th>
                                                 <th>School Name</th>
-                                                <th>Contact</th>
-                                                <th>Address</th>
-                                                <th>Prefecture</th>
+                                                <th>Contract Data</th>
+                                                <th>Terminition Data</th>
+                                                <th>Nationality</th>
+                                                <th>Notes</th>
                                                 <!-- <th>Selling Price</th> -->
                                                 <!-- <th>Purchase Price</th> -->
                                                 <th class="no-sort">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($schoolData as $schools)
+                                            @foreach ($studentData as $student)
                                                 <tr>
-                                                    <td>{{ $schools->id }}</td>
+                                                    <td>{{ $student->id }}</td>
                                                     <td>
                                                         <a href="profile.html" class="avatar avatar-md me-2 companies">
-                                                            <img class="avatar-img sales-rep" src="{{ $schools->image }}"
+                                                            <img class="avatar-img sales-rep" src="{{ $student->student_image }}"
                                                                 alt="User Image">
                                                     </td>
-                                                    <td>{{ $schools->school_name }}</td>
-                                                    <td>{{ $schools->contact }}</td>
-                                                    <td>{{ $schools->address }}</td>
-                                                    <td>{{ $schools->prefecture }}</td>
+                                                    <td>{{ $student->student_name }}</td>
+                                                    <td>{{ $student->name_katakana }}</td>
+                                                    <td>{{ $student->school->school_name }}</td>
+                                                    <td>{{ $student->contract_date }}</td>
+                                                    <td>{{ $student->termination_date }}</td>
+                                                    <td>{{ $student->remarks }}</td>
+                                                    <td>{{ $student->remarks }}</td>
                                                     <td class="d-flex align-items-center">
                                                         <div class="dropdown dropdown-action">
                                                             <a href="#" class=" btn-action-icon "
@@ -314,8 +381,7 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
-                                                <span><img src="{{ asset('assets') }}/img/icons/search.svg"
-                                                        alt="img"></span>
+                                                <span><img src="{{asset('assets')}}/img/icons/search.svg" alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -398,8 +464,7 @@
                                         <div class="form-custom">
                                             <input type="text" class="form-control" id="member_search2"
                                                 placeholder="Search Invoice">
-                                            <span><img src="{{ asset('assets') }}/img/icons/search.svg"
-                                                    alt="img"></span>
+                                            <span><img src="{{asset('assets')}}/img/icons/search.svg" alt="img"></span>
                                         </div>
                                         <label class="custom_check w-100">
                                             <input type="checkbox" name="product-code">
@@ -577,4 +642,3 @@
     <!-- </div> -->
     <!-- /Main Wrapper -->
 @endsection
-

@@ -11,278 +11,258 @@
     <!-- /Sidebar -->
 
     <!-- Page Wrapper -->
-    <div class="page-wrapper">
-        <div class="content container-fluid">
-
-            <!-- Page Header -->
-            <div class="page-header">
-                <div class="content-page-header ">
-                    <h5>Schools</h5>
-                    <div class="list-btn">
-                        <ul class="filter-list">
-                            <li>
-                                <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" data-bs-original-title="Filter"><span class="me-2"><img
-                                            src="{{ asset('assets') }}/img/icons/filter-icon.svg"
-                                            alt="filter"></span>Filter </a>
-                            </li>
-                            <li class="">
-                                <div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-original-title="Download">
-                                    <a href="#" class="btn-filters" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><span><i class="fe fe-download"></i></span></a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <ul class="d-block">
-                                            <li>
-                                                <a class="d-flex align-items-center download-item"
-                                                    href="javascript:void(0);" download><i
-                                                        class="far fa-file-pdf me-2"></i>PDF</a>
-                                            </li>
-                                            <li>
-                                                <a class="d-flex align-items-center download-item"
-                                                    href="javascript:void(0);" download><i
-                                                        class="far fa-file-text me-2"></i>CVS</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="btn-filters" href="javascript:void(0);" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" data-bs-original-title="Print"><span><i
-                                            class="fe fe-printer"></i></span> </a>
-                            </li>
-                            {{-- <li>
-										<a class="btn btn-primary" href="add-products.html"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Product</a>
-									</li> --}}
-                            <li>
-                                <a href="#" class="btn btn-primary waves-effect waves-light mt-1"
-                                    data-bs-toggle="modal" data-bs-target="#school_modal_add"><i
-                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Schools</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- /Page Header -->
-
-            <!-- /Modal Start -->
-            <div id="school_modal_add" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
-                style="display: none;">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        {{-- <div class="modal-header">
-                            <h4 class="modal-title">Modal Content is Responsive</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div> --}}
-                        <div class="modal-body p-4 form-group-bank">
-                            <div class="row">
-                                <div class="profile-picture">
-                                    <div class="upload-profile">
-                                        <div class="profile-img">
-                                            <img id="blah" class="avatar" src="assets/img/profiles/avatar-14.jpg"
-                                                alt="profile-img">
-                                        </div>
-                                        <div class="add-profile">
-                                            <h5>Upload a New Photo</h5>
-                                            <span>Profile-pic.jpg</span>
-                                        </div>
-                                    </div>
-                                    <div class="img-upload d-flex">
-                                        <label class="btn btn-upload">
-                                            Upload <input type="file">
-                                        </label>
-                                        <a class="btn btn-remove">Remove</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                {{-- <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-1" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="field-1" placeholder="John">
-                                    </div>
-                                </div> --}}
-                                <div class="col-md-12">
-									<div class="input-block mb-3">
-										<label>School <span class="text-danger">*</span></label>
-										<input type="text" class="form-control" placeholder="Enter Email Address">
-									</div>											
+			<div class="page-wrapper">
+				<div class="content container-fluid">
+					<!-- Page Header -->
+					<div class="card">
+						<div class="card-body">
+							<div class="page-header">
+								<div class="content-invoice-header">
+									<h5>Invoice Details</h5>
+									
 								</div>
-								<div class="col-md-12">
-									<div class="input-block mb-3">
-										<label>Phone <span class="text-danger">*</span></label>
-										<input type="text" id="" class="form-control" placeholder="Phone Number" name="name">
+							</div>
+							<!-- /Page Header -->
+							<div class="row justify-content-center">
+								<div class="col-lg-8">
+									<div class="cards">
+										<div class="card-bod">
+											<div class="card-table">
+												<div class="card-bod">
+													<!-- Invoice Logo -->
+													<div class="invoice-item invoice-item-one">
+														<div class="row align-items-center">
+															<div class="col-md-6">
+																<div class="invoice-logo">
+																	<img src="{{asset('assets')}}/img/logo.svg" class="light-color-logo" alt="logo">
+																	<img src="{{asset('assets')}}/img/logo.svg" class="dark-white-logo" alt="logo">
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="invoice-info">
+																	<h1 class="text-warning">UNPAID</h1>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- /Invoice Logo -->
+				
+													<!-- Invoice Date -->
+													<div class="invoice-item invoice-item-date">
+														<div class="row">
+															<div class="col-md-6">
+																<p class="text-start invoice-details">
+																	Issue Date<span>: </span><strong>13 Apr 2023</strong> 
+																</p>
+															</div>
+															<div class="col-md-6">
+																<p class="text-start invoice-details">
+																	Due Date<span>: </span><strong>03 Jun 2023</strong><span class="text-danger">Due in 8 days</span>
+																</p>
+															</div>
+															<!-- <div class="col-md-4">
+																<p class="invoice-details">
+																	Invoice No<span>: </span><strong>INV 00001</strong> 
+																</p>
+															</div> -->
+														</div>
+													</div>
+													<!-- /Invoice Date -->
+													
+													<!-- Invoice To -->
+													<div class="invoice-item invoice-item-two">
+														<div class="row">
+															<div class="col-md-6">
+																<div class="invoice-info">
+																	<strong class="customer-text-one">Invoiced To<span>:</span></strong>
+																	<p class="invoice-details-two">
+																		John Williams<br>
+																		15 Hodges Mews, High Wycombe<br>
+																		HP12 3JL<br>
+																		United Kingdom
+																	</p>
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="invoice-info invoice-info2">
+																	<strong class="customer-text-one">Pay To<span>:</span></strong>
+																	<p class="invoice-details-two">
+																		Walter Roberson<br>
+																		299 Star Trek Drive, Panama City,<br>
+																		Florida, 32405,<br>
+																		USA
+																	</p>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- /Invoice To -->
+				
+													<!-- Invoice Item -->
+													<div class="invoice-item invoice-table-wrap">
+														<div class="invoice-table-head">
+															<h6>Items:</h6>
+														</div>
+														<div class="row">
+															<div class="col-md-12">
+																<div class="table-responsive">
+																	<table class="table table-center table-hover mb-0">
+																		<thead class="thead-light">
+																			<tr>
+																				<th>Product / Service</th>
+																				<th>Quantity</th>
+																				<th>Unit</th>
+																				<th>Rate</th>
+																				<th>Discount</th>
+																				<th>Tax</th>
+																				<th>Amount</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr>
+																				<td>Nike Jordan</td>
+																				<td>1</td>
+																				<td>Pcs</td>
+																				<td>$1360.00</td>
+																				<td>0</td>
+																				<td>0</td>
+																				<td>$1360.00</td>
+																			</tr>
+																			<tr>
+																				<td>Lobar Handy</td>
+																				<td>1</td>
+																				<td>Inch</td>
+																				<td>$155.00</td>
+																				<td>0</td>
+																				<td>0</td>
+																				<td>$155.00</td>
+																			</tr>
+																			<tr>
+																				<td>Bold V3.2</td>
+																				<td>1</td>
+																				<td>Pcs</td>
+																				<td>$1055.00</td>
+																				<td>0</td>
+																				<td>0</td>
+																				<td>$1055.00</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- /Invoice Item -->
+													<div class="col-lg-12 col-md-12">
+														<div class="invoice-total-card">
+															<div class="invoice-total-box">
+																<div class="invoice-total-inner">
+																	<p>Taxable <span>$360.00</span></p>
+																	<p>Discount<span>$13.20</span></p>
+																	<p>Vat <span>$0.00</span></p>
+																</div>
+																<div class="invoice-total-footer">
+																	<h4>Total Amount <span>$347.80</span></h4>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-3" class="form-label">Address <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="field-3" placeholder="Address">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-4" class="form-label">Prefecture <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="field-4" placeholder="Boston">
-                                    </div>
-                                </div>
-                                {{-- <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="field-5" class="form-label">Country</label>
-                                        <input type="text" class="form-control" id="field-5"
-                                            placeholder="United States">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="field-6" class="form-label">Zip</label>
-                                        <input type="text" class="form-control" id="field-6" placeholder="123456">
-                                    </div>
-                                </div> --}}
-                            </div>
-                            {{-- <div class="row">
-                                <div class="col-md-12">
-                                    <div class="">
-                                        <label for="field-7" class="form-label">Personal Info</label>
-                                        <textarea class="form-control" id="field-7" placeholder="Write something about yourself"></textarea>
-                                    </div>
-                                </div>
-                            </div> --}}
-                            <div class="row">
-                                <div class="col-md-12 mt-3 add-customer-btns text-end">
-                                    <button type="button" class="btn customer-btn-cancel"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn customer-btn-save">Add Schools</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Modal End -->
-
-            <!-- Search Filter -->
-            <div id="filter_inputs" class="card filter-card">
-                <div class="card-body pb-0">
-                    <div class="row">
-                        <div class="col-sm-6 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Name</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Email</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Phone</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Search Filter -->
-
-            <!-- All Invoice -->
-            <!-- <div class="card invoices-tabs-card">
-              <div class="invoices-main-tabs">
-               <div class="row align-items-center">
-                <div class="col-lg-12">
-                 <div class="invoices-tabs">
-                  <ul>
-                   <li><a href="product-list.html" class="active">Product</a></li>
-                   <li><a href="category.html">Category</a></li>
-                   <li><a href="units.html">Units</a></li>
-                  </ul>
-                 </div>
-                </div>
-               </div>
-              </div>
-             </div> -->
-            <!-- /All Invoice -->
-
-            <!-- Table -->
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class=" card-table">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <div class="companies-table">
-                                    <table class="table table-center table-hover datatable">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>School Image</th>
-                                                <th>School Name</th>
-                                                <th>Contact</th>
-                                                <th>Address</th>
-                                                <th>Prefecture</th>
-                                                <!-- <th>Selling Price</th> -->
-                                                <!-- <th>Purchase Price</th> -->
-                                                <th class="no-sort">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($schoolData as $schools)
-                                                <tr>
-                                                    <td>{{ $schools->id }}</td>
-                                                    <td>
-                                                        <a href="profile.html" class="avatar avatar-md me-2 companies">
-                                                            <img class="avatar-img sales-rep" src="{{ $schools->image }}"
-                                                                alt="User Image">
-                                                    </td>
-                                                    <td>{{ $schools->school_name }}</td>
-                                                    <td>{{ $schools->contact }}</td>
-                                                    <td>{{ $schools->address }}</td>
-                                                    <td>{{ $schools->prefecture }}</td>
-                                                    <td class="d-flex align-items-center">
-                                                        <div class="dropdown dropdown-action">
-                                                            <a href="#" class=" btn-action-icon "
-                                                                data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                    class="fas fa-ellipsis-v"></i></a>
-                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                <ul>
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="edit-products.html"><i
-                                                                                class="far fa-edit me-2"></i>Edit</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#delete_modal"><i
-                                                                                class="far fa-trash-alt me-2"></i>Delete</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Table -->
-
-        </div>
-    </div>
-    <!-- /Page Wrapper -->
+								<div class="col-lg-4">
+									<div class="card timeline-card">
+										<div class="card-body">
+											<div class="input-block mb-3">
+												<label>Status</label>
+												<select class="select">
+													<option>Paid</option>
+													<option>Unpaid</option>
+													<option>Partially paid</option>
+													<option>Overdue</option>
+													<option>Cancelled</option>
+													<option>Refunded</option>
+													<option>Draft</option>
+												</select>
+											</div>
+											<div class="invoice-info invoice-info2 admin-invoice invoice-item mb-4">
+												<strong class="customer-text-one">Payment Details<span>:</span></strong>
+												<p class="text-start invoice-details-two invoice-details mb-2">
+													PayPal :<strong>examplepaypal.co</strong>
+												</p>
+												<p class="text-start invoice-details-two invoice-details mb-2">
+													Account :<strong>examplepaypal.co</strong>
+												</p>
+												<p class="text-start invoice-details-two invoice-details">
+													Payment Term :
+												</p>
+												<div class="due-date">
+													<strong>15 days</strong><span class="text-danger">Due in 8 days</span>
+												</div>
+											</div>
+											<strong class="customer-text-one">Timeline<span>:</span></strong>
+											<ul class="activity-feed">
+												<li class="feed-item timeline-item">
+													<span class="feed-text timeline-user"><a href="profile.html">John Smith</a> Created Invoice</span>
+													<div class="invoice-date"><span class="start-date">07 April 2023</span><span>07 April 2023</span></div>
+												</li>
+												<li class="feed-item timeline-item">
+													<span class="feed-text timeline-user"><a href="profile.html">John Smith</a> Created Invoice</span>
+													<div class="invoice-date"><span class="start-date">07 April 2023</span><span>07 April 2023</span></div>
+												</li>
+												<li class="feed-item timeline-item">
+													<span class="feed-text timeline-user"><a href="profile.html">John Smith</a> Created Invoice</span>
+													<div class="invoice-date"><span class="start-date">07 April 2023</span><span>07 April 2023</span></div>
+												</li>
+												<li class="feed-item timeline-item">
+													<span class="feed-text timeline-user"><a href="profile.html">John Smith</a> Created Invoice</span>
+													<div class="invoice-date"><span class="start-date">07 April 2023</span><span>07 April 2023</span></div>
+												</li>
+												<li class="feed-item timeline-item">
+													<span class="feed-text timeline-user"><a href="profile.html">John Smith</a> Created Invoice</span>
+													<div class="invoice-date"><span class="start-date">07 April 2023</span><span>07 April 2023</span></div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="terms-conditions">
+									<div class="row align-items-center justify-content-between">
+										<div class="col-lg-6 col-md-6">
+											<div class="invoice-terms align-center justify-content-start">
+												<span class="invoice-terms-icon bg-white-smoke me-3">
+													<i class="fe fe-file-text"></i>
+												</span>
+												<div class="invocie-note">
+													<h6>Terms & Conditions</h6>
+													<p class="mb-0">Authoritatively envisioneer business action items through parallel sources.</p>
+												</div>
+											</div>
+											<div class="invoice-terms align-center justify-content-start">
+												<span class="invoice-terms-icon bg-white-smoke me-3">
+													<i class="fe fe-file-minus"></i>
+												</span>
+												<div class="invocie-note">
+													<h6>Note</h6>
+													<p class="mb-0">This is computer generated receipt and does not require physical signature.</p>
+												</div>
+											</div>
+										</div>
+										<div class="invoice-sign text-end col-lg-6">										
+											<span class="d-block">Authorised Sign</span>
+											<img class="img-fluid d-inline-block light-color-logo" src="{{asset('assets')}}/img/signature.png" alt="sign">
+											<img class="img-fluid d-inline-block dark-white-logo" src="{{asset('assets')}}/img/signature-white.png" alt="sign">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /Page Wrapper -->
 
     <!-- Add Asset -->
     <div class="toggle-sidebar">
@@ -577,4 +557,3 @@
     <!-- </div> -->
     <!-- /Main Wrapper -->
 @endsection
-

@@ -17,48 +17,13 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div class="content-page-header ">
-                    <h5>Schools</h5>
+                    <h5>Signature </h5>
                     <div class="list-btn">
                         <ul class="filter-list">
                             <li>
-                                <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" data-bs-original-title="Filter"><span class="me-2"><img
-                                            src="{{ asset('assets') }}/img/icons/filter-icon.svg"
-                                            alt="filter"></span>Filter </a>
-                            </li>
-                            <li class="">
-                                <div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-original-title="Download">
-                                    <a href="#" class="btn-filters" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><span><i class="fe fe-download"></i></span></a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <ul class="d-block">
-                                            <li>
-                                                <a class="d-flex align-items-center download-item"
-                                                    href="javascript:void(0);" download><i
-                                                        class="far fa-file-pdf me-2"></i>PDF</a>
-                                            </li>
-                                            <li>
-                                                <a class="d-flex align-items-center download-item"
-                                                    href="javascript:void(0);" download><i
-                                                        class="far fa-file-text me-2"></i>CVS</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="btn-filters" href="javascript:void(0);" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" data-bs-original-title="Print"><span><i
-                                            class="fe fe-printer"></i></span> </a>
-                            </li>
-                            {{-- <li>
-										<a class="btn btn-primary" href="add-products.html"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Product</a>
-									</li> --}}
-                            <li>
-                                <a href="#" class="btn btn-primary waves-effect waves-light mt-1"
-                                    data-bs-toggle="modal" data-bs-target="#school_modal_add"><i
-                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Schools</a>
+                                <a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="modal"
+                                    data-bs-target="#add_modal"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add
+                                    Signature</a>
                             </li>
                         </ul>
                     </div>
@@ -66,150 +31,9 @@
             </div>
             <!-- /Page Header -->
 
-            <!-- /Modal Start -->
-            <div id="school_modal_add" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
-                style="display: none;">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        {{-- <div class="modal-header">
-                            <h4 class="modal-title">Modal Content is Responsive</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div> --}}
-                        <div class="modal-body p-4 form-group-bank">
-                            <div class="row">
-                                <div class="profile-picture">
-                                    <div class="upload-profile">
-                                        <div class="profile-img">
-                                            <img id="blah" class="avatar" src="assets/img/profiles/avatar-14.jpg"
-                                                alt="profile-img">
-                                        </div>
-                                        <div class="add-profile">
-                                            <h5>Upload a New Photo</h5>
-                                            <span>Profile-pic.jpg</span>
-                                        </div>
-                                    </div>
-                                    <div class="img-upload d-flex">
-                                        <label class="btn btn-upload">
-                                            Upload <input type="file">
-                                        </label>
-                                        <a class="btn btn-remove">Remove</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                {{-- <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-1" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="field-1" placeholder="John">
-                                    </div>
-                                </div> --}}
-                                <div class="col-md-12">
-									<div class="input-block mb-3">
-										<label>School <span class="text-danger">*</span></label>
-										<input type="text" class="form-control" placeholder="Enter Email Address">
-									</div>											
-								</div>
-								<div class="col-md-12">
-									<div class="input-block mb-3">
-										<label>Phone <span class="text-danger">*</span></label>
-										<input type="text" id="" class="form-control" placeholder="Phone Number" name="name">
-									</div>
-								</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-3" class="form-label">Address <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="field-3" placeholder="Address">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-4" class="form-label">Prefecture <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="field-4" placeholder="Boston">
-                                    </div>
-                                </div>
-                                {{-- <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="field-5" class="form-label">Country</label>
-                                        <input type="text" class="form-control" id="field-5"
-                                            placeholder="United States">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="field-6" class="form-label">Zip</label>
-                                        <input type="text" class="form-control" id="field-6" placeholder="123456">
-                                    </div>
-                                </div> --}}
-                            </div>
-                            {{-- <div class="row">
-                                <div class="col-md-12">
-                                    <div class="">
-                                        <label for="field-7" class="form-label">Personal Info</label>
-                                        <textarea class="form-control" id="field-7" placeholder="Write something about yourself"></textarea>
-                                    </div>
-                                </div>
-                            </div> --}}
-                            <div class="row">
-                                <div class="col-md-12 mt-3 add-customer-btns text-end">
-                                    <button type="button" class="btn customer-btn-cancel"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn customer-btn-save">Add Schools</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Modal End -->
 
-            <!-- Search Filter -->
-            <div id="filter_inputs" class="card filter-card">
-                <div class="card-body pb-0">
-                    <div class="row">
-                        <div class="col-sm-6 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Name</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Email</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Phone</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Search Filter -->
 
-            <!-- All Invoice -->
-            <!-- <div class="card invoices-tabs-card">
-              <div class="invoices-main-tabs">
-               <div class="row align-items-center">
-                <div class="col-lg-12">
-                 <div class="invoices-tabs">
-                  <ul>
-                   <li><a href="product-list.html" class="active">Product</a></li>
-                   <li><a href="category.html">Category</a></li>
-                   <li><a href="units.html">Units</a></li>
-                  </ul>
-                 </div>
-                </div>
-               </div>
-              </div>
-             </div> -->
-            <!-- /All Invoice -->
+
 
             <!-- Table -->
             <div class="row">
@@ -217,62 +41,193 @@
                     <div class=" card-table">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <div class="companies-table">
-                                    <table class="table table-center table-hover datatable">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>School Image</th>
-                                                <th>School Name</th>
-                                                <th>Contact</th>
-                                                <th>Address</th>
-                                                <th>Prefecture</th>
-                                                <!-- <th>Selling Price</th> -->
-                                                <!-- <th>Purchase Price</th> -->
-                                                <th class="no-sort">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($schoolData as $schools)
-                                                <tr>
-                                                    <td>{{ $schools->id }}</td>
-                                                    <td>
-                                                        <a href="profile.html" class="avatar avatar-md me-2 companies">
-                                                            <img class="avatar-img sales-rep" src="{{ $schools->image }}"
-                                                                alt="User Image">
-                                                    </td>
-                                                    <td>{{ $schools->school_name }}</td>
-                                                    <td>{{ $schools->contact }}</td>
-                                                    <td>{{ $schools->address }}</td>
-                                                    <td>{{ $schools->prefecture }}</td>
-                                                    <td class="d-flex align-items-center">
-                                                        <div class="dropdown dropdown-action">
-                                                            <a href="#" class=" btn-action-icon "
-                                                                data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                    class="fas fa-ellipsis-v"></i></a>
-                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                <ul>
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="edit-products.html"><i
-                                                                                class="far fa-edit me-2"></i>Edit</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#delete_modal"><i
-                                                                                class="far fa-trash-alt me-2"></i>Delete</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <table class="table table-center datatable signature-table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Signature Name</th>
+                                            <th>Signature</th>
+                                            <th>Status</th>
+                                            <th class="no-sort">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Allen</td>
+                                            <td>
+                                                <div class="table-avatar">
+                                                    <img class="img-fluid light-color-logo" width="80" height="30"
+                                                        src="assets/img/user-signature.png" alt="User Image">
+                                                    <img class="img-fluid dark-white-logo" width="80" height="30"
+                                                        src="assets/img/user-signature-white.png" alt="User Image">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="status-toggle">
+                                                    <input id="rating_1" class="check" type="checkbox" checked="">
+                                                    <label for="rating_1" class="checktoggle checkbox-bg">checkbox</label>
+                                                </div>
+                                            </td>
+                                            <td class="d-flex align-items-center">
+                                                <a class=" btn-action-icon active me-2" href="javascript:void(0);"
+                                                    data-bs-toggle="tooltip" title="Remove default"
+                                                    data-bs-placement="left"><i class="fe fe-star"></i></a>
+                                                <a class=" btn-action-icon me-2" href="javascript:void(0);"
+                                                    data-bs-toggle="modal" data-bs-target="#edit_modal"><i
+                                                        class="fe fe-edit"></i></a>
+                                                <a class=" btn-action-icon" href="javascript:void(0);"
+                                                    data-bs-toggle="modal" data-bs-target="#warning_modal"><i
+                                                        class="fe fe-trash-2"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Raymond</td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <img class="img-fluid light-color-logo" width="80" height="30"
+                                                        src="assets/img/user-signature.png" alt="User Image">
+                                                    <img class="img-fluid dark-white-logo" width="80" height="30"
+                                                        src="assets/img/user-signature-white.png" alt="User Image">
+                                                </h2>
+                                            </td>
+                                            <td>
+                                                <div class="status-toggle">
+                                                    <input id="rating_2" class="check" type="checkbox" checked="">
+                                                    <label for="rating_2" class="checktoggle checkbox-bg">checkbox</label>
+                                                </div>
+                                            </td>
+                                            <td class="d-flex align-items-center">
+                                                <a class=" btn-action-icon me-2" href="javascript:void(0);"
+                                                    data-bs-toggle="tooltip" title="Make as default"
+                                                    data-bs-placement="left"><i class="fe fe-star"></i></a>
+                                                <a class=" btn-action-icon me-2" href="javascript:void(0);"
+                                                    data-bs-toggle="modal" data-bs-target="#edit_modal"><i
+                                                        class="fe fe-edit"></i></a>
+                                                <a class=" btn-action-icon" href="javascript:void(0);"
+                                                    data-bs-toggle="modal" data-bs-target="#warning_modal"><i
+                                                        class="fe fe-trash-2"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Ralph</td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <img class="img-fluid light-color-logo" width="80" height="30"
+                                                        src="assets/img/user-signature.png" alt="User Image">
+                                                    <img class="img-fluid dark-white-logo" width="80" height="30"
+                                                        src="assets/img/user-signature-white.png" alt="User Image">
+                                                </h2>
+                                            </td>
+                                            <td>
+                                                <div class="status-toggle">
+                                                    <input id="rating_3" class="check" type="checkbox">
+                                                    <label for="rating_3" class="checktoggle checkbox-bg">checkbox</label>
+                                                </div>
+                                            </td>
+                                            <td class="d-flex align-items-center">
+                                                <a class=" btn-action-icon me-2" href="javascript:void(0);"
+                                                    data-bs-toggle="tooltip" title="Make as default"
+                                                    data-bs-placement="left"><i class="fe fe-star"></i></a>
+                                                <a class=" btn-action-icon me-2" href="javascript:void(0);"
+                                                    data-bs-toggle="modal" data-bs-target="#edit_modal"><i
+                                                        class="fe fe-edit"></i></a>
+                                                <a class=" btn-action-icon" href="javascript:void(0);"
+                                                    data-bs-toggle="modal" data-bs-target="#warning_modal"><i
+                                                        class="fe fe-trash-2"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Ruth</td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <img class="img-fluid light-color-logo" width="80" height="30"
+                                                        src="assets/img/user-signature.png" alt="User Image">
+                                                    <img class="img-fluid dark-white-logo" width="80" height="30"
+                                                        src="assets/img/user-signature-white.png" alt="User Image">
+                                                </h2>
+                                            </td>
+                                            <td>
+                                                <div class="status-toggle">
+                                                    <input id="rating_4" class="check" type="checkbox" checked="">
+                                                    <label for="rating_4" class="checktoggle checkbox-bg">checkbox</label>
+                                                </div>
+                                            </td>
+                                            <td class="d-flex align-items-center">
+                                                <a class=" btn-action-icon me-2" href="javascript:void(0);"
+                                                    data-bs-toggle="tooltip" title="Make as default"
+                                                    data-bs-placement="left"><i class="fe fe-star"></i></a>
+                                                <a class=" btn-action-icon me-2" href="javascript:void(0);"
+                                                    data-bs-toggle="modal" data-bs-target="#edit_modal"><i
+                                                        class="fe fe-edit"></i></a>
+                                                <a class=" btn-action-icon" href="javascript:void(0);"
+                                                    data-bs-toggle="modal" data-bs-target="#warning_modal"><i
+                                                        class="fe fe-trash-2"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Steven</td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <img class="img-fluid light-color-logo" width="80" height="30"
+                                                        src="assets/img/user-signature.png" alt="User Image">
+                                                    <img class="img-fluid dark-white-logo" width="80" height="30"
+                                                        src="assets/img/user-signature-white.png" alt="User Image">
+                                                </h2>
+                                            </td>
+                                            <td>
+                                                <div class="status-toggle">
+                                                    <input id="rating_5" class="check" type="checkbox" checked="">
+                                                    <label for="rating_5" class="checktoggle checkbox-bg">checkbox</label>
+                                                </div>
+                                            </td>
+                                            <td class="d-flex align-items-center">
+                                                <a class=" btn-action-icon me-2" href="javascript:void(0);"
+                                                    data-bs-toggle="tooltip" title="Make as default"
+                                                    data-bs-placement="left"><i class="fe fe-star"></i></a>
+                                                <a class=" btn-action-icon me-2" href="javascript:void(0);"
+                                                    data-bs-toggle="modal" data-bs-target="#edit_modal"><i
+                                                        class="fe fe-edit"></i></a>
+                                                <a class=" btn-action-icon" href="javascript:void(0);"
+                                                    data-bs-toggle="modal" data-bs-target="#warning_modal"><i
+                                                        class="fe fe-trash-2"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td>Earnes</td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <img class="img-fluid light-color-logo" width="80" height="30"
+                                                        src="assets/img/user-signature.png" alt="User Image">
+                                                    <img class="img-fluid dark-white-logo" width="80" height="30"
+                                                        src="assets/img/user-signature-white.png" alt="User Image">
+                                                </h2>
+                                            </td>
+                                            <td>
+                                                <div class="status-toggle">
+                                                    <input id="rating_6" class="check" type="checkbox" checked="">
+                                                    <label for="rating_6" class="checktoggle checkbox-bg">checkbox</label>
+                                                </div>
+                                            </td>
+                                            <td class="d-flex align-items-center">
+                                                <a class=" btn-action-icon me-2" href="javascript:void(0);"
+                                                    data-bs-toggle="tooltip" title="Make as default"
+                                                    data-bs-placement="left"><i class="fe fe-star"></i></a>
+                                                <a class=" btn-action-icon me-2" href="javascript:void(0);"
+                                                    data-bs-toggle="modal" data-bs-target="#edit_modal"><i
+                                                        class="fe fe-edit"></i></a>
+                                                <a class=" btn-action-icon" href="javascript:void(0);"
+                                                    data-bs-toggle="modal" data-bs-target="#warning_modal"><i
+                                                        class="fe fe-trash-2"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -577,4 +532,3 @@
     <!-- </div> -->
     <!-- /Main Wrapper -->
 @endsection
-
