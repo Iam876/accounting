@@ -1,15 +1,6 @@
 @extends('layouts.header')
 @section('content')
     <!-- <div class="main-wrapper"> -->
-
-    <!-- Header -->
-
-    <!-- /Header -->
-
-    <!-- Sidebar -->
-
-    <!-- /Sidebar -->
-
     <!-- Page Wrapper -->
     <div class="page-wrapper">
         <div class="content container-fluid">
@@ -71,10 +62,6 @@
                 style="display: none;">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        {{-- <div class="modal-header">
-                            <h4 class="modal-title">Modal Content is Responsive</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div> --}}
                         <div class="modal-body p-4 form-group-bank">
                             <div class="row">
                                 <div class="profile-picture">
@@ -85,79 +72,133 @@
                                         </div>
                                         <div class="add-profile">
                                             <h5>Upload a New Photo</h5>
-                                            <span>Profile-pic.jpg</span>
+                                            <span>School Photo</span>
                                         </div>
                                     </div>
                                     <div class="img-upload d-flex">
                                         <label class="btn btn-upload">
-                                            Upload <input type="file">
+                                            Upload <input id="schoolImage" type="file">
                                         </label>
                                         <a class="btn btn-remove">Remove</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                {{-- <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-1" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="field-1" placeholder="John">
+                                <div class="col-md-12">
+                                    <div class="input-block mb-3">
+                                        <label>School <span class="text-danger">*</span></label>
+                                        <input type="text" id="schoolName" class="form-control"
+                                            placeholder="Enter School Name">
                                     </div>
-                                </div> --}}
+                                </div>
                                 <div class="col-md-12">
-									<div class="input-block mb-3">
-										<label>School <span class="text-danger">*</span></label>
-										<input type="text" class="form-control" placeholder="Enter Email Address">
-									</div>											
-								</div>
-								<div class="col-md-12">
-									<div class="input-block mb-3">
-										<label>Phone <span class="text-danger">*</span></label>
-										<input type="text" id="" class="form-control" placeholder="Phone Number" name="name">
-									</div>
-								</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-3" class="form-label">Address <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="field-3" placeholder="Address">
+                                    <div class="input-block mb-3">
+                                        <label>Phone <span class="text-danger">*</span></label>
+                                        <input type="text" id="phone" class="form-control" placeholder="Phone Number"
+                                            name="name">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="field-4" class="form-label">Prefecture <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="field-4" placeholder="Boston">
+                                        <label for="field-3" class="form-label">Address <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="address" class="form-control" id="field-3"
+                                            placeholder="Address">
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="field-5" class="form-label">Country</label>
-                                        <input type="text" class="form-control" id="field-5"
-                                            placeholder="United States">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="field-6" class="form-label">Zip</label>
-                                        <input type="text" class="form-control" id="field-6" placeholder="123456">
-                                    </div>
-                                </div> --}}
                             </div>
-                            {{-- <div class="row">
+                            <div class="row">
                                 <div class="col-md-12">
-                                    <div class="">
-                                        <label for="field-7" class="form-label">Personal Info</label>
-                                        <textarea class="form-control" id="field-7" placeholder="Write something about yourself"></textarea>
+                                    <div class="mb-3">
+                                        <label for="field-4" class="form-label">City <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="city" class="form-control" id="field-4"
+                                            placeholder="Boston">
                                     </div>
                                 </div>
-                            </div> --}}
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-12 mt-3 add-customer-btns text-end">
                                     <button type="button" class="btn customer-btn-cancel"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn customer-btn-save">Add Schools</button>
+                                    <button type="button" class="btn customer-btn-save Edit-Update-School">Add
+                                        Schools</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="edit-school-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
+                style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body p-4 form-group-bank">
+                            <div class="row">
+                                <div class="profile-picture">
+                                    <div class="upload-profile">
+                                        <div class="profile-img">
+                                            <img id="blah" class="avatar" src=""
+                                                alt="profile-img">
+                                        </div>
+                                        <div class="add-profile">
+                                            <h5>Upload a New Photo</h5>
+                                            <span>School Photo</span>
+                                        </div>
+                                    </div>
+                                    <div class="img-upload d-flex">
+                                        <label class="btn btn-upload">
+                                            Upload <input id="editschoolImage" type="file">
+                                        </label>
+                                        <a class="btn btn-remove">Remove</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-block mb-3">
+                                        <label>School <span class="text-danger">*</span></label>
+                                        <input type="text" id="editschoolName" class="form-control"
+                                            placeholder="Enter School Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="input-block mb-3">
+                                        <label>Phone <span class="text-danger">*</span></label>
+                                        <input type="text" id="editphone" class="form-control"
+                                            placeholder="Phone Number" name="name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="field-3" class="form-label">Address <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="editaddress" class="form-control" placeholder="Address">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="field-4" class="form-label">City <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="editcity" class="form-control" placeholder="Boston">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 mt-3 add-customer-btns text-end">
+                                    <button type="button" class="btn customer-btn-cancel"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn customer-btn-save Edit-Update-School">Update
+                                        School</button>
                                 </div>
                             </div>
                         </div>
@@ -193,24 +234,6 @@
             </div>
             <!-- /Search Filter -->
 
-            <!-- All Invoice -->
-            <!-- <div class="card invoices-tabs-card">
-              <div class="invoices-main-tabs">
-               <div class="row align-items-center">
-                <div class="col-lg-12">
-                 <div class="invoices-tabs">
-                  <ul>
-                   <li><a href="product-list.html" class="active">Product</a></li>
-                   <li><a href="category.html">Category</a></li>
-                   <li><a href="units.html">Units</a></li>
-                  </ul>
-                 </div>
-                </div>
-               </div>
-              </div>
-             </div> -->
-            <!-- /All Invoice -->
-
             <!-- Table -->
             <div class="row">
                 <div class="col-sm-12">
@@ -232,43 +255,7 @@
                                                 <th class="no-sort">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            @foreach ($schoolData as $schools)
-                                                <tr>
-                                                    <td>{{ $schools->id }}</td>
-                                                    <td>
-                                                        <a href="profile.html" class="avatar avatar-md me-2 companies">
-                                                            <img class="avatar-img sales-rep" src="{{ $schools->image }}"
-                                                                alt="User Image">
-                                                    </td>
-                                                    <td>{{ $schools->school_name }}</td>
-                                                    <td>{{ $schools->contact }}</td>
-                                                    <td>{{ $schools->address }}</td>
-                                                    <td>{{ $schools->prefecture }}</td>
-                                                    <td class="d-flex align-items-center">
-                                                        <div class="dropdown dropdown-action">
-                                                            <a href="#" class=" btn-action-icon "
-                                                                data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                    class="fas fa-ellipsis-v"></i></a>
-                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                <ul>
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="edit-products.html"><i
-                                                                                class="far fa-edit me-2"></i>Edit</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#delete_modal"><i
-                                                                                class="far fa-trash-alt me-2"></i>Delete</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
+                                        <tbody id="schoolTableBody">
 
                                         </tbody>
                                     </table>
@@ -576,5 +563,6 @@
     <!-- /Add Asset -->
     <!-- </div> -->
     <!-- /Main Wrapper -->
-@endsection
 
+    <script src="{{ asset('ajax/schoolAjax.js') }}"></script>
+@endsection

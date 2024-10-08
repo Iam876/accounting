@@ -11,6 +11,7 @@
 
 <!-- select CSS -->
 <script src="{{asset('assets')}}/plugins/select2/js/select2.min.js"></script>
+<script src="{{asset('assets')}}/plugins/select2/js/custom-select.js"></script>
 
 <!-- Slimscroll JS -->
 <script src="{{asset('assets')}}/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -22,6 +23,14 @@
 <!-- Apexchart JS -->
 <script src="{{asset('assets')}}/plugins/apexchart/apexcharts.min.js"></script>
 <script src="{{asset('assets')}}/plugins/apexchart/chart-data.js"></script>
+
+<!-- Lightbox JS -->
+<script src="{{asset('assets')}}/plugins/lightbox/glightbox.min.js"></script>
+<script src="{{asset('assets')}}/plugins/lightbox/lightbox.js"></script>
+
+<!-- Toastr JS -->
+{{-- <script src="{{asset('assets')}}/plugins/toastr/toastr.min.js"></script> --}}
+{{-- <script src="{{asset('assets')}}plugins/toastr/toastr.js"></script> --}}
 
 <!-- multiselect JS -->
 <script src="{{asset('assets')}}/js/jquery-ui.min.js"></script>

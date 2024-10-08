@@ -406,7 +406,13 @@
                     <a href="{{ Route('apartment.index') }}"><i class="fe fe-users"></i> <span>Apartments</span></a>
                 </li>
                 <li>
+                    <a href="{{ Route('room.index') }}"><i class="fe fe-users"></i> <span>Rooms</span></a>
+                </li>
+                <li>
                     <a href="{{ Route('student.index') }}"><i class="fe fe-users"></i> <span>Students</span></a>
+                </li>
+                <li>
+                    <a href="{{ Route('pic.index') }}"><i class="fe fe-users"></i> <span>PIC Company</span></a>
                 </li>
 
                 <!-- Categories -->

@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('apartments', function (Blueprint $table) {
             $table->id();
             $table->string('image')->nullable(); // URL of the image
-            $table->string('mansion_name');
+            $table->string('mansion_name')->nullable();
             $table->text('mansion_address')->nullable();
-            $table->string('room_number');
-            $table->string('contact')->nullable();
-            $table->string('prefecture')->nullable();
+            $table->string('pic_id')->nullable();
+            // $table->string('contact')->nullable();
+            // $table->string('prefecture')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -31,3 +32,6 @@ return new class extends Migration
         Schema::dropIfExists('apartments');
     }
 };
+
+
+// php artisan migrate --path="database/migrations/2024_09_08_130404_create_students_table.php"

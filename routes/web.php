@@ -4,7 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\PIC_Controller;
 use App\Http\Controllers\ApartmentController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\BillingMethodController;
 use App\Http\Controllers\PackageChooseController;
@@ -52,10 +54,47 @@ Route::controller(DashboardController::class)->group(function () {
 
 Route::controller(SchoolController::class)->group(function () {
     Route::get('/school', 'index')->name('school.index');
+    Route::get('/schools/fetch', 'fetchData')->name('school.fetch');
+    Route::post('/schools/store', 'store')->name('schools.store');
+    Route::get('/schools/edit/{id}', 'edit')->name('schools.edit');
+    Route::post('/schools/update/{id}', 'update')->name('schools.update');
+    Route::delete('/schools/destroy/{id}', 'destroy')->name('schools.destroy');
 });
+
+
+Route::controller(PIC_Controller::class)->group(function () {
+    Route::get('/pic/index', 'index')->name('pic.index');
+    Route::get('/pic/fetch', 'fetchData')->name('pic.fetch');
+    Route::post('/pic/store', 'store')->name('pic.store');
+    Route::get('/pic/edit/{id}', 'edit')->name('pic.edit');
+    Route::post('/pic/update/{id}', 'update')->name('pic.update');
+    Route::delete('/pic/destroy/{id}', 'destroy')->name('pic.destroy');
+});
+
+
+
 Route::controller(ApartmentController::class)->group(function () {
     Route::get('/apartment', 'index')->name('apartment.index');
+    Route::get('/apartment/fetch', 'fetchData')->name('apartment.fetch');
+    Route::get('/pic/names', 'fetchPicNames')->name('pic.names');
+    Route::post('/apartment/store', 'store')->name('apartment.store');
+    Route::get('/apartment/edit/{id}', 'edit');
+    Route::post('/apartment/update/{id}', 'update');
+    Route::get('/path-to-fetch-pic-options', 'getAllPics');
+    Route::delete('/apartment/destroy/{id}', 'destroy')->name('apartment.destroy');
 });
+Route::controller(RoomController::class)->group(function () {
+    Route::get('/rooms', 'index')->name('room.index');
+    // Route::get('/apartment/fetch', 'fetchData')->name('apartment.fetch');
+    // Route::get('/pic/names', 'fetchPicNames')->name('pic.names');
+    // Route::post('/apartment/store', 'store')->name('apartment.store');
+    // Route::get('/apartment/edit/{id}', 'edit');
+    // Route::post('/apartment/update/{id}', 'update');
+    // Route::get('/path-to-fetch-pic-options', 'getAllPics');
+    // Route::delete('/apartment/destroy/{id}', 'destroy')->name('apartment.destroy');
+});
+
+
 Route::controller(StudentController::class)->group(function () {
     Route::get('/student', 'index')->name('student.index');
 });

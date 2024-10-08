@@ -23,7 +23,8 @@
                             <li>
                                 <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                                     data-bs-placement="bottom" data-bs-original-title="Filter"><span class="me-2"><img
-                                            src="{{asset('assets')}}/img/icons/filter-icon.svg" alt="filter"></span>Filter </a>
+                                            src="{{ asset('assets') }}/img/icons/filter-icon.svg"
+                                            alt="filter"></span>Filter </a>
                             </li>
                             <li class="">
                                 <div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -53,8 +54,8 @@
                             </li>
                             <li>
                                 <a href="#" class="btn btn-primary waves-effect waves-light mt-1"
-                                data-bs-toggle="modal" data-bs-target="#student_modal_add"><i class="fa fa-plus-circle me-2"
-                                        aria-hidden="true"></i>Add Student</a>
+                                    data-bs-toggle="modal" data-bs-target="#student_modal_add"><i
+                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Student</a>
                             </li>
                         </ul>
                     </div>
@@ -62,91 +63,96 @@
             </div>
             <!-- /Page Header -->
 
-             <!-- /Modal Start -->
-             <div id="student_modal_add" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
-             style="display: none; --bs-modal-width: 1280px;">
-             <div class="modal-dialog">
-                 <div class="modal-content">
-                     {{-- <div class="modal-header">
+            <!-- /Modal Start -->
+            <div id="student_modal_add" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
+                style="display: none; --bs-modal-width: 1280px;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        {{-- <div class="modal-header">
                          <h4 class="modal-title">Modal Content is Responsive</h4>
                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                      </div> --}}
-                     <div class="modal-body p-4">
-                         <div class="row">
-                            <div class="form-group-item">
-                                <h5 class="form-title">Basic Details</h5>
-                                <div class="profile-picture">
-                                    <div class="upload-profile">
-                                        <div class="profile-img">
-                                            <img id="blah" class="avatar" src="assets/img/profiles/avatar-14.jpg" alt="profile-img">
+                        <div class="modal-body p-4">
+                            <div class="row">
+                                <div class="form-group-item">
+                                    <h5 class="form-title">Basic Details</h5>
+                                    <div class="profile-picture">
+                                        <div class="upload-profile">
+                                            <div class="profile-img">
+                                                <img id="blah" class="avatar" src="assets/img/profiles/avatar-14.jpg"
+                                                    alt="profile-img">
+                                            </div>
+                                            <div class="add-profile">
+                                                <h5>Upload a New Photo</h5>
+                                                <span>Profile-pic.jpg</span>
+                                            </div>
                                         </div>
-                                        <div class="add-profile">
-                                            <h5>Upload a New Photo</h5>
-                                            <span>Profile-pic.jpg</span>
-                                        </div>
-                                    </div>
-                                    <div class="img-upload">
-                                        <label class="btn btn-upload">
-                                            Upload <input type="file">
-                                        </label>
-                                        <a class="btn btn-remove">Remove</a>
-                                    </div>										
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="input-block mb-3">
-                                            <label>Student Name <span class="text-danger">*</span></label> 
-                                            <input type="text" class="form-control" placeholder="Enter Student Name">
+                                        <div class="img-upload">
+                                            <label class="btn btn-upload">
+                                                Upload <input type="file">
+                                            </label>
+                                            <a class="btn btn-remove">Remove</a>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="input-block mb-3">
-                                            <label>Name Katakana<span class="text-danger">*</span></label> 
-                                            <input type="text" class="form-control" placeholder="Enter Name in Katakana">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Student Name <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="Enter Student Name">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="input-block mb-3">
-                                            <label>Email <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control" placeholder="Enter Email Address">
-                                        </div>											
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="input-block mb-3">
-                                            <label>Phone <span class="text-danger">*</span></label>
-                                            <input type="text" id="mobile_code" class="form-control" placeholder="Phone Number" name="name">
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Name Katakana<span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control"
+                                                    placeholder="Enter Name in Katakana">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="input-block mb-3">
-                                            <label>School Name <span class="text-danger">*</span></label>
-                                            <select class="select">
-                                                <option>Select Currency</option>
-                                                <option>₹</option>
-                                                <option>$</option>
-                                                <option>£</option>
-                                                <option>€</option>
-                                            </select>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Email <span class="text-danger">*</span></label>
+                                                <input type="email" class="form-control"
+                                                    placeholder="Enter Email Address">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="input-block mb-3">
-                                            <label>Country <span class="text-danger">*</span></label>
-                                            <input type="text" id="mobile_code" class="form-control" placeholder="Country" name="name">
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Phone <span class="text-danger">*</span></label>
+                                                <input type="text" id="mobile_code" class="form-control"
+                                                    placeholder="Phone Number" name="name">
+                                            </div>
                                         </div>
-                                    </div>
-                                    {{-- <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>School Name <span class="text-danger">*</span></label>
+                                                <select class="select">
+                                                    <option>Select Currency</option>
+                                                    <option>₹</option>
+                                                    <option>$</option>
+                                                    <option>£</option>
+                                                    <option>€</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Country <span class="text-danger">*</span></label>
+                                                <input type="text" id="mobile_code" class="form-control"
+                                                    placeholder="Country" name="name">
+                                            </div>
+                                        </div>
+                                        {{-- <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="input-block mb-3">
                                             <label for="notes">Notes</label>
                                             <textarea name="text" class="form-control" style="height: 45px;" id="notes" cols="80" rows="10"></textarea>
                                         </div>											
                                     </div> --}}
-                                    
-                                </div>
-                                <div class="row form-group-bank p-2" style="margin-left: 0px; margin-right:0px;">
-                                    {{-- <div class="col-xl-12 col-lg-12"> --}}
+
+                                    </div>
+                                    <div class="row form-group-bank p-2" style="margin-left: 0px; margin-right:0px;">
+                                        {{-- <div class="col-xl-12 col-lg-12"> --}}
                                         {{-- <div class=""> --}}
-                                            {{-- <div class="input-block mb-3 notes-form-group-info">
+                                        {{-- <div class="input-block mb-3 notes-form-group-info">
 												<div class="input-block mb-3">
 													<label>Contract Date</label>
 													<div class="cal-icon cal-icon-info">
@@ -154,30 +160,32 @@
 													</div>
 												</div>											
 											</div> --}}
-                                            {{-- input-block mb-3 notes-form-group-info --}}
-                                            <div class="col-md-6">
-												<div class="input-block mb-3">
-													<label>Contract Date <span class="text-danger">*</span></label>
-													<div class="cal-icon cal-icon-info">
-														<input type="text" class="datetimepicker form-control" placeholder="Select Date">
-													</div>
-												</div>											
-											</div>
-                                            <div class="col-md-6">
-												<div class="input-block mb-3">
-													<label>Terminition Date <span class="text-danger">*</span></label>
-													<div class="cal-icon cal-icon-info">
-														<input type="text" class="datetimepicker form-control" placeholder="Select Date">
-													</div>
-												</div>											
-											</div>
-                                            <div class="input-block mb-3 notes-form-group-info">
-                                                <label>Notes</label>
-                                                <textarea class="form-control" placeholder="Enter Notes"></textarea>
+                                        {{-- input-block mb-3 notes-form-group-info --}}
+                                        <div class="col-md-6">
+                                            <div class="input-block mb-3">
+                                                <label>Contract Date <span class="text-danger">*</span></label>
+                                                <div class="cal-icon cal-icon-info">
+                                                    <input type="text" class="datetimepicker form-control"
+                                                        placeholder="Select Date">
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-block mb-3">
+                                                <label>Terminition Date <span class="text-danger">*</span></label>
+                                                <div class="cal-icon cal-icon-info">
+                                                    <input type="text" class="datetimepicker form-control"
+                                                        placeholder="Select Date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="input-block mb-3 notes-form-group-info">
+                                            <label>Notes</label>
+                                            <textarea class="form-control" placeholder="Enter Notes"></textarea>
+                                        </div>
                                         {{-- </div> --}}
-                                    {{-- </div> --}}
-                                    {{-- <div class="col-xl-6 col-lg-12">
+                                        {{-- </div> --}}
+                                        {{-- <div class="col-xl-6 col-lg-12">
                                         <div class="form-group-bank">
                                             <div class="invoice-total-box">
                                                 <div class="invoice-total-inner">
@@ -211,21 +219,21 @@
                                             </div>
                                         </div>
                                     </div> --}}
+                                    </div>
                                 </div>
                             </div>
-                         </div>
-                         <div class="row">
-                             <div class="col-md-12 mt-3 add-customer-btns text-end">
-                                 <button type="button" class="btn customer-btn-cancel"
-                                     data-bs-dismiss="modal">Close</button>
-                                 <button type="button" class="btn customer-btn-save">Add Student</button>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-         <!-- /Modal End -->
+                            <div class="row">
+                                <div class="col-md-12 mt-3 add-customer-btns text-end">
+                                    <button type="button" class="btn customer-btn-cancel"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn customer-btn-save">Add Student</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Modal End -->
 
             <!-- Search Filter -->
             <div id="filter_inputs" class="card filter-card">
@@ -256,20 +264,20 @@
 
             <!-- All Invoice -->
             <!-- <div class="card invoices-tabs-card">
-          <div class="invoices-main-tabs">
-           <div class="row align-items-center">
-            <div class="col-lg-12">
-             <div class="invoices-tabs">
-              <ul>
-               <li><a href="product-list.html" class="active">Product</a></li>
-               <li><a href="category.html">Category</a></li>
-               <li><a href="units.html">Units</a></li>
-              </ul>
-             </div>
-            </div>
-           </div>
-          </div>
-         </div> -->
+              <div class="invoices-main-tabs">
+               <div class="row align-items-center">
+                <div class="col-lg-12">
+                 <div class="invoices-tabs">
+                  <ul>
+                   <li><a href="product-list.html" class="active">Product</a></li>
+                   <li><a href="category.html">Category</a></li>
+                   <li><a href="units.html">Units</a></li>
+                  </ul>
+                 </div>
+                </div>
+               </div>
+              </div>
+             </div> -->
             <!-- /All Invoice -->
 
             <!-- Table -->
@@ -299,19 +307,19 @@
                                         <tbody>
                                             @foreach ($studentData as $student)
                                                 <tr>
-                                                    <td>{{ $student->id }}</td>
+                                                    <td>{{ $student->id??"Null" }}</td>
                                                     <td>
                                                         <a href="profile.html" class="avatar avatar-md me-2 companies">
-                                                            <img class="avatar-img sales-rep" src="{{ $student->student_image }}"
-                                                                alt="User Image">
+                                                            <img class="avatar-img sales-rep"
+                                                                src="{{ $student->student_image??"Null" }}" alt="User Image">
                                                     </td>
-                                                    <td>{{ $student->student_name }}</td>
-                                                    <td>{{ $student->name_katakana }}</td>
-                                                    <td>{{ $student->school->school_name }}</td>
-                                                    <td>{{ $student->contract_date }}</td>
-                                                    <td>{{ $student->termination_date }}</td>
-                                                    <td>{{ $student->remarks }}</td>
-                                                    <td>{{ $student->remarks }}</td>
+                                                    <td>{{ $student->student_name??"Null" }}</td>
+                                                    <td>{{ $student->name_katakana??"Null" }}</td>
+                                                    <td>{{ $student->school??"Null"->school_name }}</td>
+                                                    <td>{{ $student->contract_date??"Null" }}</td>
+                                                    <td>{{ $student->termination_date??"Null" }}</td>
+                                                    <td>{{ $student->remarks??"Null" }}</td>
+                                                    <td>{{ $student->remarks??"Null" }}</td>
                                                     <td class="d-flex align-items-center">
                                                         <div class="dropdown dropdown-action">
                                                             <a href="#" class=" btn-action-icon "
@@ -381,7 +389,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
-                                                <span><img src="{{asset('assets')}}/img/icons/search.svg" alt="img"></span>
+                                                <span><img src="{{ asset('assets') }}/img/icons/search.svg"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -464,7 +473,8 @@
                                         <div class="form-custom">
                                             <input type="text" class="form-control" id="member_search2"
                                                 placeholder="Search Invoice">
-                                            <span><img src="{{asset('assets')}}/img/icons/search.svg" alt="img"></span>
+                                            <span><img src="{{ asset('assets') }}/img/icons/search.svg"
+                                                    alt="img"></span>
                                         </div>
                                         <label class="custom_check w-100">
                                             <input type="checkbox" name="product-code">

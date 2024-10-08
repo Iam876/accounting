@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::create('payment_types', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('type_name');  // Example: rent, utilities, advance, other
-        //     $table->timestamps();
-        // });
+        Schema::table('apartments', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_types');
+        Schema::table('apartments', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };
