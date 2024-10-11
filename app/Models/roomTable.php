@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class roomTable extends Model
 {
     use HasFactory;
+    // protected $table = 'room_table';
     protected $fillable = [
         'apartment_id',
         'room_number',
@@ -20,6 +21,11 @@ class roomTable extends Model
     public function apartment()
     {
         return $this->belongsTo(Apartment::class);
+    }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'room_id');
     }
 
 }

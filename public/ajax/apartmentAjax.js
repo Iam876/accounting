@@ -198,39 +198,41 @@ $(document).ready(function () {
     });
 
     // Fetch and display apartments
-function fetchApartment() {
-    const currentPage = $(".datatable").DataTable().page();
-    $.ajax({
-        url: "/apartment/fetch",
-        type: "GET",
-        success: function (response) {
-            if ($.fn.DataTable.isDataTable(".datatable")) {
-                $(".datatable").DataTable().destroy();
-            }
+    function fetchApartment() {
+        const currentPage = $(".datatable").DataTable().page();
+        $.ajax({
+            url: "/apartment/fetch",
+            type: "GET",
+            success: function (response) {
+                if ($.fn.DataTable.isDataTable(".datatable")) {
+                    $(".datatable").DataTable().destroy();
+                }
 
-            const tableBody = response.success
-                .map((apartment) => {
-                    // Extract room numbers from the `rooms` array if present
-                    const roomNumbers = apartment.rooms
-                        ? apartment.rooms.map((room) => room.room_number)
-                        : [];
+                const tableBody = response.success
+                    .map((apartment) => {
+                        // Extract room numbers from the `rooms` array if present
+                        const roomNumbers = apartment.rooms
+                            ? apartment.rooms.map((room) => room.room_number)
+                            : [];
 
-                    // Create buttons for each room number
-                    const roomButtons = roomNumbers.length
-                        ? roomNumbers
-                              .map(
-                                  (room, index) =>
-                                      `<button class="btn btn-primary m-1 room-details-btn" data-room-id="${apartment.rooms[index].id}" data-room="${encodeURIComponent(
-                                          JSON.stringify(
-                                              apartment.rooms[index]
-                                          )
-                                      )}" style="font-size:11px;">${room}</button>`
-                              )
-                              .join("")
-                        : "No Room";
+                        // Create buttons for each room number
+                        const roomButtons = roomNumbers.length
+                            ? roomNumbers
+                                  .map(
+                                      (room, index) =>
+                                          `<button class="btn btn-primary m-1 room-details-btn" data-room-id="${
+                                              apartment.rooms[index].id
+                                          }" data-room="${encodeURIComponent(
+                                              JSON.stringify(
+                                                  apartment.rooms[index]
+                                              )
+                                          )}" style="font-size:11px;">${room}</button>`
+                                  )
+                                  .join("")
+                            : "No Room";
 
-                    // Generate the table row for each apartment
-                    return `<tr>
+                        // Generate the table row for each apartment
+                        return `<tr>
                             <td>${apartment.id}</td>
                             <td>
                                 <a href="${
@@ -280,78 +282,62 @@ function fetchApartment() {
                                 </div>
                             </td>
                         </tr>`;
-                })
-                .join("");
+                    })
+                    .join("");
 
-            // Update the table body and reinitialize DataTable
-            $(".datatable tbody").html(tableBody);
-            $(".datatable")
-                .DataTable({ pageLength: 10 })
-                .page(currentPage)
-                .draw(false);
-        },
-        error: function () {
-            alert("Error fetching apartments");
-        },
-    });
-}
-
-// Event handler for showing room details
-// $(document).on("click", ".room-details-btn", function () {
-//     const roomData = JSON.parse(decodeURIComponent($(this).data("room")));
-
-//     // Populate the modal fields with room details
-//     $("#viewRoomNumber").text(roomData.room_number || "N/A");
-//     $("#viewRoomType").text(roomData.room_type || "N/A");
-//     $("#viewInitialRent").text(roomData.initial_rent || "N/A");
-//     $("#viewMaxStudent").text(roomData.max_student || "N/A");
-//     $("#viewFacilities").text(roomData.facilities || "N/A");
-
-//     // Show the modal
-//     $("#roomDetailsModal").modal("show");
-// });
-
-$(document).on("click", ".room-details-btn", function () {
-    const roomData = JSON.parse(decodeURIComponent($(this).data("room")));
-
-    // Populate the modal fields with room details
-    $("#viewRoomNumber").text(roomData.room_number || "N/A");
-    $("#viewRoomType").text(roomData.room_type || "N/A");
-    $("#viewInitialRent").text(roomData.initial_rent || "N/A");
-    $("#viewMaxStudent").text(roomData.max_student || "N/A");
-
-    // Populate facilities as tags in the select2 element
-    const facilitiesSelect = $("#viewFacilities");
-    facilitiesSelect.empty(); // Clear previous options
-
-    if (roomData.facilities) {
-        try {
-            const facilities = JSON.parse(roomData.facilities);
-            facilities.forEach((facility) => {
-                // Add each facility as a selected option
-                const option = new Option(facility, facility, true, true);
-                facilitiesSelect.append(option);
-            });
-        } catch (error) {
-            console.error("Error parsing facilities:", error);
-        }
+                // Update the table body and reinitialize DataTable
+                $(".datatable tbody").html(tableBody);
+                $(".datatable")
+                    .DataTable({ pageLength: 10 })
+                    .page(currentPage)
+                    .draw(false);
+            },
+            error: function () {
+                alert("Error fetching apartments");
+            },
+        });
     }
 
-    // Initialize select2 for the facilities select box with disabled interaction
-    facilitiesSelect.select2({
-        tags: true,
-        tokenSeparators: [",", " "],
-        placeholder: "Facilities",
+    // Event handler for showing room details
+    $(document).on("click", ".room-details-btn", function () {
+        const roomData = JSON.parse(decodeURIComponent($(this).data("room")));
+
+        // Populate the modal fields with room details
+        $("#viewRoomNumber").text(roomData.room_number || "N/A");
+        $("#viewRoomType").text(roomData.room_type || "N/A");
+        $("#viewInitialRent").text(roomData.initial_rent || "N/A");
+        $("#viewMaxStudent").text(roomData.max_student || "N/A");
+
+        // Populate facilities as tags in the select2 element
+        const facilitiesSelect = $("#viewFacilities");
+        facilitiesSelect.empty(); // Clear previous options
+
+        if (roomData.facilities) {
+            try {
+                const facilities = JSON.parse(roomData.facilities);
+                facilities.forEach((facility) => {
+                    // Add each facility as a selected option
+                    const option = new Option(facility, facility, true, true);
+                    facilitiesSelect.append(option);
+                });
+            } catch (error) {
+                console.error("Error parsing facilities:", error);
+            }
+        }
+
+        // Initialize select2 for the facilities select box with disabled interaction
+        facilitiesSelect.select2({
+            tags: true,
+            tokenSeparators: [",", " "],
+            placeholder: "Facilities",
+        });
+
+        // Disable the select2 input to make it read-only
+        facilitiesSelect.prop("disabled", true);
+
+        // Show the modal
+        $("#roomDetailsModal").modal("show");
     });
-
-    // Disable the select2 input to make it read-only
-    facilitiesSelect.prop("disabled", true);
-
-    // Show the modal
-    $("#roomDetailsModal").modal("show");
-});
-
-
 
     function fetchPicNames() {
         $.ajax({
@@ -374,45 +360,50 @@ $(document).on("click", ".room-details-btn", function () {
         });
     }
 
-// Function to populate room numbers into the edit modal
-function populateRoomNumbers(rooms) {
-    const container = $("#edit-rooms-container");
-    container.empty();
+    function populateRoomNumbers(rooms) {
+        const container = $("#edit-rooms-container");
+        container.empty();
 
-    rooms.forEach((room) => {
-        const newRoom = $("#edit-room-template").clone().removeAttr("id").show();
-        newRoom.find('[name="room_number"]').val(room.room_number);
-        newRoom.find('[name="room_type"]').val(room.room_type);
-        newRoom.find('[name="initial_rent"]').val(room.initial_rent);
-        newRoom.find('[name="max_student"]').val(room.max_student);
+        rooms.forEach((room) => {
+            const newRoom = $("#edit-room-template")
+                .clone()
+                .removeAttr("id")
+                .show();
+            newRoom.find('[name="room_number"]').val(room.room_number);
+            newRoom.find('[name="room_type"]').val(room.room_type);
+            newRoom.find('[name="initial_rent"]').val(room.initial_rent);
+            newRoom.find('[name="max_student"]').val(room.max_student);
 
-        // Populate facilities as tags using select2
-        const facilitiesSelect = newRoom.find('[name="facilities"]');
-        if (room.facilities) {
-            try {
-                const facilities = JSON.parse(room.facilities);
-                facilities.forEach((facility) => {
-                    // Add each facility as an option in the select box
-                    const option = new Option(facility, facility, true, true);
-                    facilitiesSelect.append(option);
-                });
-            } catch (error) {
-                console.error("Error parsing facilities:", error);
+            // Populate facilities as tags using select2
+            const facilitiesSelect = newRoom.find('[name="facilities"]');
+            if (room.facilities) {
+                try {
+                    const facilities = JSON.parse(room.facilities);
+                    facilities.forEach((facility) => {
+                        // Add each facility as an option in the select box
+                        const option = new Option(
+                            facility,
+                            facility,
+                            true,
+                            true
+                        );
+                        facilitiesSelect.append(option);
+                    });
+                } catch (error) {
+                    console.error("Error parsing facilities:", error);
+                }
             }
-        }
 
-        // Initialize select2 for the facilities select box
-        facilitiesSelect.select2({
-            tags: true,
-            tokenSeparators: [",", " "],
-            placeholder: "Select or add facilities",
+            // Initialize select2 for the facilities select box
+            facilitiesSelect.select2({
+                tags: true,
+                tokenSeparators: [",", " "],
+                placeholder: "Select or add facilities",
+            });
+
+            container.append(newRoom);
         });
-
-        container.append(newRoom);
-    });
-}
-
-
+    }
 
     function populatePicOptions(selectedPicId) {
         $.ajax({
@@ -448,7 +439,7 @@ function populateRoomNumbers(rooms) {
         // Use event delegation for dynamically added elements
         $(document).on("click", ".delete-apartment-btn", function () {
             let apartmentId = $(this).data("id");
-    
+
             // Trigger SweetAlert confirmation
             Swal.fire({
                 title: "Are you sure?",
@@ -471,7 +462,7 @@ function populateRoomNumbers(rooms) {
                                 text: "Your file has been deleted.",
                                 icon: "success",
                             });
-    
+
                             // Refresh the apartment list
                             fetchApartment(); // Corrected function name
                         },
@@ -489,5 +480,4 @@ function populateRoomNumbers(rooms) {
         });
     }
     attachEventHandlers();
-    
 });

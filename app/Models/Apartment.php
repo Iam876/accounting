@@ -22,7 +22,12 @@ class Apartment extends Model
 
     public function rooms()
     {
-        return $this->hasMany(roomTable::class);
+        return $this->hasMany(roomTable::class,'apartment_id');
+    }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'apartment_id');
     }
 
 

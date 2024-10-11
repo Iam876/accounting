@@ -82,27 +82,36 @@ Route::controller(ApartmentController::class)->group(function () {
     Route::post('/apartment/update/{id}', 'update');
     Route::get('/path-to-fetch-pic-options', 'getAllPics');
     Route::delete('/apartment/destroy/{id}', 'destroy')->name('apartment.destroy');
+
+    Route::get('/apartments/{id}/rooms', [ApartmentController::class, 'getRoomsByApartment']);
+
 });
+
 Route::controller(RoomController::class)->group(function () {
     Route::get('/rooms', 'index')->name('room.index');
-    // Route::get('/apartment/fetch', 'fetchData')->name('apartment.fetch');
-    // Route::get('/pic/names', 'fetchPicNames')->name('pic.names');
-    // Route::post('/apartment/store', 'store')->name('apartment.store');
-    // Route::get('/apartment/edit/{id}', 'edit');
-    // Route::post('/apartment/update/{id}', 'update');
-    // Route::get('/path-to-fetch-pic-options', 'getAllPics');
-    // Route::delete('/apartment/destroy/{id}', 'destroy')->name('apartment.destroy');
 });
 
 
 Route::controller(StudentController::class)->group(function () {
     Route::get('/student', 'index')->name('student.index');
+    Route::post('/student/store', 'store')->name('student.store');
+    Route::get('/student/fetch', 'fetchData')->name('student.fetch');
+
+    // Route::get('/student/edit/{id}', 'edit');
+    // Route::post('/student/update/{id}', 'update');
+    // Route::delete('/student/destroy/{id}', 'destroy')->name('student.destroy');
 });
 Route::controller(BillingMethodController::class)->group(function () {
     Route::get('/billing/methods', 'index')->name('billing_methods.index');
 });
 Route::controller(PackageChooseController::class)->group(function () {
     Route::get('/package', 'index')->name('package.index');
+    Route::get('/package/fetch', 'fetchData')->name('package.fetch');
+
+    Route::post('/package/store', 'store')->name('package.store');
+    Route::get('/package/edit/{id}', 'edit')->name('package.edit');
+    Route::post('/package/update/{id}', 'update')->name('package.update');
+    Route::delete('/package/destroy/{id}', 'destroy')->name('package.destroy');
 });
 Route::controller(Roles::class)->group(function () {
     Route::get('/roles', 'index')->name('role.index');

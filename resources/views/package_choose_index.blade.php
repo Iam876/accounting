@@ -17,13 +17,13 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div class="content-page-header ">
-                    <h5>Students</h5>
+                    <h5>Package Type</h5>
                     <div class="list-btn">
                         <ul class="filter-list">
                             <li>
                                 <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                                     data-bs-placement="bottom" data-bs-original-title="Filter"><span class="me-2"><img
-                                            src="{{asset('assets')}}/img/icons/filter-icon.svg" alt="filter"></span>Filter </a>
+                                            src="{{asset('assets')}}/img/icons/filter-icon.svg" alt="filter"/></span>Filter </a>
                             </li>
                             <li class="">
                                 <div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -54,7 +54,7 @@
                             <li>
                                 <a href="#" class="btn btn-primary waves-effect waves-light mt-1"
                                 data-bs-toggle="modal" data-bs-target="#package_choose_add"><i class="fa fa-plus-circle me-2"
-                                        aria-hidden="true"></i>Add Product</a>
+                                        aria-hidden="true"></i>Add Package</a>
                             </li>
                         </ul>
                     </div>
@@ -72,23 +72,55 @@
                                 <div class="col-md-12">
 									<div class="input-block mb-3">
 										<label>Package Name <span class="text-danger">*</span></label>
-										<input type="text" class="form-control" placeholder="Enter Package Name">
+										<input type="text" id="packageName" class="form-control" placeholder="Enter Package Name">
 									</div>											
 								</div>
                                 <div class="input-block mb-3">
                                     <label for="description">Description</label>
-                                    <textarea name="text" class="form-control" style="height: 45px;" id="notes" cols="80" rows="10"></textarea>
+                                    <textarea name="text" id="description" class="form-control" style="height: 45px;" id="notes" cols="80" rows="10"></textarea>
                                 </div>
                                 <div class="input-block mb-3">
                                     <label for="notes">Notes</label>
-                                    <textarea name="text" class="form-control" style="height: 80px;" id="notes" cols="80" rows="10"></textarea>
+                                    <textarea name="text" id="notes" class="form-control" style="height: 80px;" id="notes" cols="80" rows="10"></textarea>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 mt-3 add-customer-btns text-end">
                                     <button type="button" class="btn customer-btn-cancel"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn customer-btn-save">Add Apartment</button>
+                                    <button type="button" class="btn customer-btn-save">Add Package</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="edit-package-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
+                style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body p-4">
+                            <div class="row">
+                                <div class="col-md-12">
+									<div class="input-block mb-3">
+										<label>Package Name <span class="text-danger">*</span></label>
+										<input type="text" id="editpackageName" class="form-control" placeholder="Enter Package Name">
+									</div>											
+								</div>
+                                <div class="input-block mb-3">
+                                    <label for="description">Description</label>
+                                    <textarea name="text" id="editDescription" class="form-control" style="height: 45px;" id="notes" cols="80" rows="10"></textarea>
+                                </div>
+                                <div class="input-block mb-3">
+                                    <label for="notes">Notes</label>
+                                    <textarea name="text" id="editNotes" class="form-control" style="height: 80px;" id="notes" cols="80" rows="10"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 mt-3 add-customer-btns text-end">
+                                    <button type="button" class="btn customer-btn-cancel"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn customer-btn-save Edit-Update-Package">Update Package</button>
                                 </div>
                             </div>
                         </div>
@@ -122,25 +154,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /Search Filter -->
-
-            <!-- All Invoice -->
-            <!-- <div class="card invoices-tabs-card">
-          <div class="invoices-main-tabs">
-           <div class="row align-items-center">
-            <div class="col-lg-12">
-             <div class="invoices-tabs">
-              <ul>
-               <li><a href="product-list.html" class="active">Product</a></li>
-               <li><a href="category.html">Category</a></li>
-               <li><a href="units.html">Units</a></li>
-              </ul>
-             </div>
-            </div>
-           </div>
-          </div>
-         </div> -->
-            <!-- /All Invoice -->
 
             <!-- Table -->
             <div class="row">
@@ -162,37 +175,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($packageChoose as $package)
-                                                <tr>
-                                                    <td>{{ $package->id }}</td>
-                                                    <td>{{ $package->package_name }}</td>
-                                                    <td>{{ $package->description }}</td>
-                                                    <td>{{ $package->note }}</td>
-                                                    <td class="d-flex align-items-center">
-                                                        <div class="dropdown dropdown-action">
-                                                            <a href="#" class=" btn-action-icon "
-                                                                data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                    class="fas fa-ellipsis-v"></i></a>
-                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                <ul>
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="edit-products.html"><i
-                                                                                class="far fa-edit me-2"></i>Edit</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#delete_modal"><i
-                                                                                class="far fa-trash-alt me-2"></i>Delete</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -494,7 +476,7 @@
             </div>
         </div>
     </div>
-    <!-- /Add Asset -->
-    <!-- </div> -->
-    <!-- /Main Wrapper -->
+
+    <script src="{{ asset('ajax/packageAjax.js') }}"></script>
+
 @endsection

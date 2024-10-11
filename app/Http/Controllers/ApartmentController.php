@@ -18,13 +18,6 @@ class ApartmentController extends Controller
         return view('apartment_index', compact('apartmentData'));
     }
 
-//     public function fetchData()
-// {
-//     // $apartments = Apartment::all();
-//     $apartments = Apartment::with('pic')->get();
-//     return response()->json(['success' => $apartments]);
-// }
-
 public function fetchData()
 {
     $apartments = Apartment::with(['pic', 'rooms'])->get(); // Ensure roomTables is the correct relation name
@@ -262,4 +255,23 @@ public function destroy($id)
             return response()->json(['error' => 'An error occurred while deleting the apartment'], 500);
         }
     }
+
+// In your controller (e.g., ApartmentController)
+// public function getRoomsByApartment($id)
+// {
+//     $apartment = Apartment::findOrFail($id);
+//     $rooms = roomTable::where('apartment_id', $apartment->id)->get();
+
+//     return response()->json(['rooms' => $rooms]);
+// }
+
+public function getRoomsByApartment($id)
+{
+    $apartment = Apartment::with('rooms')->findOrFail($id);
+
+    return response()->json(['rooms' => $apartment->rooms]);
+}
+
+
+
 }

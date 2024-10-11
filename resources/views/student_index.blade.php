@@ -1,14 +1,15 @@
 @extends('layouts.header')
 @section('content')
     <!-- <div class="main-wrapper"> -->
+    <style>
+        .custom-file-container__image-multi-preview {
+            height: 180px !important;
+        }
 
-    <!-- Header -->
-
-    <!-- /Header -->
-
-    <!-- Sidebar -->
-
-    <!-- /Sidebar -->
+        .custom-file-container__image-preview {
+            /* height: 150px; */
+        }
+    </style>
 
     <!-- Page Wrapper -->
     <div class="page-wrapper">
@@ -89,29 +90,31 @@
                                         </div>
                                         <div class="img-upload">
                                             <label class="btn btn-upload">
-                                                Upload <input type="file">
+                                                Upload <input id="userPhoto" type="file">
                                             </label>
                                             <a class="btn btn-remove">Remove</a>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row form-group-bank mb-2" style="margin-left: 0px; margin-right:0px;">
+
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Student Name <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Enter Student Name">
+                                                <input type="text" id="studentName" class="form-control"
+                                                    placeholder="Enter Student Name">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Name Katakana<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control"
+                                                <input type="text" id="studentKatakana" class="form-control"
                                                     placeholder="Enter Name in Katakana">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Email <span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control"
+                                                <input type="email" id="email" class="form-control"
                                                     placeholder="Enter Email Address">
                                             </div>
                                         </div>
@@ -125,7 +128,47 @@
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>School Name <span class="text-danger">*</span></label>
-                                                <select class="select">
+                                                <select class="select" id="schoolName">
+                                                    <option disabled>Select School</option>
+                                                    @foreach ($schools as $school)
+                                                        <option value="{{ $school->id }}">{{ ucwords($school->school_name) }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Country <span class="text-danger">*</span></label>
+                                                <input type="text" id="country" class="form-control"
+                                                    placeholder="Country" name="name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Package Type <span class="text-danger">*</span></label>
+                                                <select class="select" id="packageType">
+                                                    <option>Select Currency</option>
+                                                    @foreach ($packageChoose as $packageChoose)
+                                                        <option value="{{ $packageChoose->id }}">{{ ucwords($packageChoose->package_name) }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Choose Apartment <span class="text-danger">*</span></label>
+                                                <select class="select" id="selectApartment">
+                                                    <option>Select Currency</option>
+                                                    @foreach ($apartments as $apartment)
+                                                        <option value="{{ $apartment->id }}">{{ ucwords($apartment->mansion_name) }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Select Room <span class="text-danger">*</span></label>
+                                                <select class="select" id="selectRoom">
                                                     <option>Select Currency</option>
                                                     <option>₹</option>
                                                     <option>$</option>
@@ -134,91 +177,113 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
-                                            <div class="input-block mb-3">
-                                                <label>Country <span class="text-danger">*</span></label>
-                                                <input type="text" id="mobile_code" class="form-control"
-                                                    placeholder="Country" name="name">
-                                            </div>
-                                        </div>
+
                                         {{-- <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="input-block mb-3">
-                                            <label for="notes">Notes</label>
-                                            <textarea name="text" class="form-control" style="height: 45px;" id="notes" cols="80" rows="10"></textarea>
-                                        </div>											
-                                    </div> --}}
+                                            <div class="input-block mb-3">
+                                                <label for="notes">Notes</label>
+                                                <textarea name="text" class="form-control" style="height: 45px;" id="notes" cols="80" rows="10"></textarea>
+                                            </div>											
+                                            </div> --}}
+
+                                        {{-- </div> --}}
+
 
                                     </div>
-                                    <div class="row form-group-bank p-2" style="margin-left: 0px; margin-right:0px;">
-                                        {{-- <div class="col-xl-12 col-lg-12"> --}}
-                                        {{-- <div class=""> --}}
-                                        {{-- <div class="input-block mb-3 notes-form-group-info">
-												<div class="input-block mb-3">
-													<label>Contract Date</label>
-													<div class="cal-icon cal-icon-info">
-														<input type="text" class="datetimepicker form-control" placeholder="Select Date">
-													</div>
-												</div>											
-											</div> --}}
-                                        {{-- input-block mb-3 notes-form-group-info --}}
-                                        <div class="col-md-6">
+                                    <div class="row form-group-bank p-2 mb-2" style="margin-left: 0px; margin-right:0px;">
+                                        <div class="col-md-4">
                                             <div class="input-block mb-3">
                                                 <label>Contract Date <span class="text-danger">*</span></label>
                                                 <div class="cal-icon cal-icon-info">
-                                                    <input type="text" class="datetimepicker form-control"
-                                                        placeholder="Select Date">
+                                                    <input type="text" id="contractDate"
+                                                        class="datetimepicker form-control" placeholder="Select Date">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="input-block mb-3">
                                                 <label>Terminition Date <span class="text-danger">*</span></label>
                                                 <div class="cal-icon cal-icon-info">
-                                                    <input type="text" class="datetimepicker form-control"
-                                                        placeholder="Select Date">
+                                                    <input type="text" id="terminitionDate"
+                                                        class="datetimepicker form-control" placeholder="Select Date">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="input-block mb-3 notes-form-group-info">
+                                        <div class="col-md-4">
+                                            <div class="input-block mb-3">
+                                                <label>Billing Date <span class="text-danger">*</span></label>
+                                                <div class="cal-icon cal-icon-info">
+                                                    <input type="text" id="billingDate"
+                                                        class="datetimepicker form-control" placeholder="Select Billing Date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{-- <div class="input-block mb-3 notes-form-group-info">
                                             <label>Notes</label>
                                             <textarea class="form-control" placeholder="Enter Notes"></textarea>
-                                        </div>
-                                        {{-- </div> --}}
-                                        {{-- </div> --}}
-                                        {{-- <div class="col-xl-6 col-lg-12">
-                                        <div class="form-group-bank">
-                                            <div class="invoice-total-box">
-                                                <div class="invoice-total-inner">
-                                                    <p>Taxable Amount <span>$1360.00</span></p>
-                                                    <p>Discount <span>$136.00</span></p>
-                                                    <p>Vat <span>$0.00</span></p>
-                                                    <div class="status-toggle justify-content-between">
-                                                        <div class="d-flex align-center">
-                                                            <p>Round Off </p>
-                                                            <input id="rating_1" class="check" type="checkbox" checked="">
-                                                            <label for="rating_1" class="checktoggle checkbox-bg">checkbox</label>
-                                                        </div>
-                                                        <span>$0.00</span>
-                                                    </div>																
-                                                </div>
-                                                <div class="invoice-total-footer">
-                                                    <h4>Total Amount <span>$1224.00</span></h4>
-                                                </div>
-                                            </div>
+                                        </div> --}}
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Signature Name</label>
-                                                <input type="text" class="form-control" placeholder="Enter Signature Name">
+                                                <label>Initial/Advance <span class="text-danger">*</span></label>
+                                                <input type="number" id="initialFees" class="form-control"
+                                                    placeholder="Initial Fees in Number" name="name">
                                             </div>
-                                            <div class="input-block mb-0">
-                                                <label>Signature Image</label>
-                                                <div class="input-block mb-3 service-upload service-upload-info mb-0">
-                                                    <span><i class="fe fe-upload-cloud me-1"></i>Upload Signature</span>
-                                                    <input type="file" multiple="" id="image_sign">
-                                                    <div id="frames"></div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>House Rent <span class="text-danger">*</span></label>
+                                                <input type="number" id="houseRent" class="form-control"
+                                                    placeholder="Rent Fees in Number" name="name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Utility Fees <span class="text-danger">*</span></label>
+                                                <input type="number" id="utilityFees" class="form-control"
+                                                    placeholder="Utility Fees in Number" name="name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group-bank p-2 mb-2" style="margin-left: 0px; margin-right:0px;">
+                                       
+
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="card-header">
+                                                <h5 class="card-title">Zyro (Front - Back) & Passport</h5>
+                                            </div> 
+                                            {{-- zyroPassportImages --}}
+                                            <div class="card-body">
+                                                <div class="custom-file-container" data-upload-id="myFirstImage">
+                                                    <label>Upload Images (Front, Back, Passport) 
+                                                        <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a>
+                                                    </label>
+                                                    <label class="custom-file-container__custom-file">
+                                                        <input id="myFirstImage" type="file" 
+                                                               class="custom-file-container__custom-file__custom-file-input" 
+                                                               accept="image/*" multiple>
+                                                        <input type="hidden" name="MAX_FILE_SIZE" value="10485760">
+                                                        <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                                    </label>
+                                                    <div class="custom-file-container__image-preview"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> --}}
+
+                                        {{-- <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-title">Multiple File Upload</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="custom-file-container" data-upload-id="mySecondImage">
+                                                    <label>Upload (Allow Multiple) <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
+                                                    <label class="custom-file-container__custom-file" >
+                                                        <input type="file" class="custom-file-container__custom-file__custom-file-input" multiple>
+                                                        <input type="hidden" name="MAX_FILE_SIZE" value="10485760">
+                                                        <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                                    </label>
+                                                    <div class="custom-file-container__image-preview"></div>
+                                                </div>
+                                            </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -262,24 +327,6 @@
             </div>
             <!-- /Search Filter -->
 
-            <!-- All Invoice -->
-            <!-- <div class="card invoices-tabs-card">
-              <div class="invoices-main-tabs">
-               <div class="row align-items-center">
-                <div class="col-lg-12">
-                 <div class="invoices-tabs">
-                  <ul>
-                   <li><a href="product-list.html" class="active">Product</a></li>
-                   <li><a href="category.html">Category</a></li>
-                   <li><a href="units.html">Units</a></li>
-                  </ul>
-                 </div>
-                </div>
-               </div>
-              </div>
-             </div> -->
-            <!-- /All Invoice -->
-
             <!-- Table -->
             <div class="row">
                 <div class="col-sm-12">
@@ -293,33 +340,36 @@
                                                 <th>#</th>
                                                 <th>Student Image</th>
                                                 <th>Student Name</th>
-                                                <th>Katakana Name</th>
                                                 <th>School Name</th>
-                                                <th>Contract Data</th>
-                                                <th>Terminition Data</th>
-                                                <th>Nationality</th>
-                                                <th>Notes</th>
+                                                <th>Phone</th>
+                                                <th>Apartment</th>
+                                                <th>Room</th>
+                                                <th>Initial Fees</th>
+                                                <th>House Rent</th>
+                                                <th>Utility</th>
+                                                {{-- <th>Notes</th> --}}
                                                 <!-- <th>Selling Price</th> -->
                                                 <!-- <th>Purchase Price</th> -->
                                                 <th class="no-sort">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($studentData as $student)
+                                            {{-- @foreach ($studentData as $student)
                                                 <tr>
-                                                    <td>{{ $student->id??"Null" }}</td>
+                                                    <td>{{ $student->id ?? 'Null' }}</td>
                                                     <td>
                                                         <a href="profile.html" class="avatar avatar-md me-2 companies">
                                                             <img class="avatar-img sales-rep"
-                                                                src="{{ $student->student_image??"Null" }}" alt="User Image">
+                                                                src="{{ $student->student_image ?? 'Null' }}"
+                                                                alt="User Image">
                                                     </td>
-                                                    <td>{{ $student->student_name??"Null" }}</td>
-                                                    <td>{{ $student->name_katakana??"Null" }}</td>
-                                                    <td>{{ $student->school??"Null"->school_name }}</td>
-                                                    <td>{{ $student->contract_date??"Null" }}</td>
-                                                    <td>{{ $student->termination_date??"Null" }}</td>
-                                                    <td>{{ $student->remarks??"Null" }}</td>
-                                                    <td>{{ $student->remarks??"Null" }}</td>
+                                                    <td>{{ $student->student_name ?? 'Null' }}</td>
+                                                    <td>{{ $student->name_katakana ?? 'Null' }}</td>
+                                                    <td>{{ $student->school ?? ('Null')->school_name }}</td>
+                                                    <td>{{ $student->contract_date ?? 'Null' }}</td>
+                                                    <td>{{ $student->termination_date ?? 'Null' }}</td>
+                                                    <td>{{ $student->remarks ?? 'Null' }}</td>
+                                                    <td>{{ $student->remarks ?? 'Null' }}</td>
                                                     <td class="d-flex align-items-center">
                                                         <div class="dropdown dropdown-action">
                                                             <a href="#" class=" btn-action-icon "
@@ -343,7 +393,7 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                            @endforeach --}}
 
                                         </tbody>
                                     </table>
@@ -651,4 +701,6 @@
     <!-- /Add Asset -->
     <!-- </div> -->
     <!-- /Main Wrapper -->
+
+    <script src="{{ asset('ajax/studentAjax.js') }}"></script>
 @endsection
