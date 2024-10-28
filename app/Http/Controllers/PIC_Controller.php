@@ -9,8 +9,8 @@ class PIC_Controller extends Controller
 {
     public function index()
     {
-        $picCompanyData = picCompany::all();
-        return view('pic_company', compact('picCompanyData'));
+
+        return view('pic_company');
     }
 
     public function store(Request $request)

@@ -9,8 +9,8 @@ class RoomController extends Controller
 {
    
     public function index(){
-        $roomData = roomTable::all();
-        // $apartmentData = Apartment::with('pic')->get();
+        // $roomData = roomTable::all();
+        // // $apartmentData = Apartment::with('pic')->get();
         return view('room_index');
     }
 

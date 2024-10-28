@@ -208,7 +208,7 @@ $(document).ready(function () {
                     $(".datatable").DataTable().destroy();
                 }
 
-                const tableBody = response.success
+                const tableBody = response.apartments
                     .map((apartment) => {
                         // Extract room numbers from the `rooms` array if present
                         const roomNumbers = apartment.rooms

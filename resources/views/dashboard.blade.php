@@ -13,7 +13,7 @@
             </div>
         </div>
         <!-- /Page Header -->
-        <div class="super-admin-dashboard">
+        <div class="super-admin-dashboard">Search Filter
             <div class="row">
                 <div class="col-xl-5 d-flex">
                     <div class="dash-user-card w-100">
@@ -827,7 +827,5 @@
         </div>
     </div>
 </div>
-
-
 
 @endsection

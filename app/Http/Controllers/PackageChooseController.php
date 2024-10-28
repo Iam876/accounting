@@ -9,14 +9,13 @@ class PackageChooseController extends Controller
 {
     public function index()
     {
-        $packageChoose = PackageChoose::all();
-        return view('package_choose_index', compact('packageChoose'));
+        return view('package_choose_index');
     }
 
     public function fetchData()
     {
         $packageChoose = PackageChoose::all(); // Ensure roomTables is the correct relation name
-        return response()->json(['success' => $packageChoose]);
+        return response()->json(['packages' => $packageChoose]);
     }
 
     public function store(Request $request)

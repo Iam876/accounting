@@ -17,10 +17,6 @@ class Payment extends Model
         'payment_date',
     ];
 
-    // public function billing()
-    // {
-    //     return $this->belongsTo(Billings::class);
-    // }
     public function paymentType()
     {
         return $this->belongsTo(PaymentType::class);

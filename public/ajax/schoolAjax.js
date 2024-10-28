@@ -118,8 +118,9 @@ $(document).ready(function () {
                 if ($.fn.DataTable.isDataTable(".datatable")) {
                     $(".datatable").DataTable().destroy(); 
                 }
+                
                 let tableBody = "";
-                response.success.forEach(function (school) {
+                response.schools.forEach(function (school) {
                     tableBody += `<tr>
                         <td>${school.id}</td>
                         <td><a href="${school.image || '{{ asset("default-image-path.jpg") }}'}" class="image-popup avatar avatar-md me-2 companies">

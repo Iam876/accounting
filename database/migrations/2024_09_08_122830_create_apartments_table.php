@@ -34,5 +34,7 @@ return new class extends Migration
 };
 
 
-// php artisan migrate --path="database/migrations/2024_09_08_130404_create_students_table.php"
-// php artisan migrate:rollback --path="database/migrations/2024_09_08_113147_create_schools_table.php"
+// php artisan migrate --path="database/migrations/2024_09_08_122830_create_apartments_table.php"
+// php artisan migrate:rollback --path="database/migrations/2024_09_08_122830_create_apartments_table.php"
+// php artisan migrate:rollback --path="2024_09_08_130404_create_students_table.php"
+

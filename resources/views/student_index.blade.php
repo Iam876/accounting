@@ -1,13 +1,26 @@
 @extends('layouts.header')
 @section('content')
+    {{-- <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}"> --}}
     <!-- <div class="main-wrapper"> -->
     <style>
         .custom-file-container__image-multi-preview {
             height: 180px !important;
         }
 
-        .custom-file-container__image-preview {
-            /* height: 150px; */
+        .select2-container {
+            z-index: 9999 !important;
+            /* Ensure select2 dropdown is on top */
+        }
+
+        .select2-dropdown {
+            z-index: 99999 !important;
+            /* Dropdown itself should have a high z-index */
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
         }
     </style>
 
@@ -63,16 +76,11 @@
                 </div>
             </div>
             <!-- /Page Header -->
-
             <!-- /Modal Start -->
             <div id="student_modal_add" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
                 style="display: none; --bs-modal-width: 1280px;">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        {{-- <div class="modal-header">
-                         <h4 class="modal-title">Modal Content is Responsive</h4>
-                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                     </div> --}}
                         <div class="modal-body p-4">
                             <div class="row">
                                 <div class="form-group-item">
@@ -86,11 +94,13 @@
                                             <div class="add-profile">
                                                 <h5>Upload a New Photo</h5>
                                                 <span>Profile-pic.jpg</span>
+
                                             </div>
                                         </div>
                                         <div class="img-upload">
                                             <label class="btn btn-upload">
                                                 Upload <input id="userPhoto" type="file">
+                                                <div class="invalid-feedback"></div>
                                             </label>
                                             <a class="btn btn-remove">Remove</a>
                                         </div>
@@ -102,8 +112,11 @@
                                                 <label>Student Name <span class="text-danger">*</span></label>
                                                 <input type="text" id="studentName" class="form-control"
                                                     placeholder="Enter Student Name">
+                                                <div class="invalid-feedback"></div>
+                                                <div class="valid-feedback">Looks good!</div>
                                             </div>
                                         </div>
+
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Name Katakana<span class="text-danger">*</span></label>
@@ -116,6 +129,7 @@
                                                 <label>Email <span class="text-danger">*</span></label>
                                                 <input type="email" id="email" class="form-control"
                                                     placeholder="Enter Email Address">
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -123,58 +137,61 @@
                                                 <label>Phone <span class="text-danger">*</span></label>
                                                 <input type="text" id="mobile_code" class="form-control"
                                                     placeholder="Phone Number" name="name">
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>School Name <span class="text-danger">*</span></label>
-                                                <select class="select" id="schoolName">
+                                                <select class="form-control" id="schoolName">
                                                     <option disabled>Select School</option>
-                                                    @foreach ($schools as $school)
-                                                        <option value="{{ $school->id }}">{{ ucwords($school->school_name) }}</option>
-                                                    @endforeach
+
                                                 </select>
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Country <span class="text-danger">*</span></label>
-                                                <input type="text" id="country" class="form-control"
-                                                    placeholder="Country" name="name">
+                                                <select class="js-example-basic-single" id="country">
+                                                    {{-- @foreach ($country as $name)
+                                                        <option value="{{ $name }}">{{ $name }}</option>
+                                                    @endforeach --}}
+                                                </select>
+
                                             </div>
+
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Package Type <span class="text-danger">*</span></label>
                                                 <select class="select" id="packageType">
                                                     <option>Select Currency</option>
-                                                    @foreach ($packageChoose as $packageChoose)
-                                                        <option value="{{ $packageChoose->id }}">{{ ucwords($packageChoose->package_name) }}</option>
-                                                    @endforeach
+
                                                 </select>
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Choose Apartment <span class="text-danger">*</span></label>
                                                 <select class="select" id="selectApartment">
-                                                    <option>Select Currency</option>
-                                                    @foreach ($apartments as $apartment)
-                                                        <option value="{{ $apartment->id }}">{{ ucwords($apartment->mansion_name) }}</option>
-                                                    @endforeach
+
                                                 </select>
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Select Room <span class="text-danger">*</span></label>
                                                 <select class="select" id="selectRoom">
-                                                    <option>Select Currency</option>
+                                                    {{-- <option>Select Currency</option>
                                                     <option>₹</option>
                                                     <option>$</option>
                                                     <option>£</option>
-                                                    <option>€</option>
+                                                    <option>€</option> --}}
                                                 </select>
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
 
@@ -197,6 +214,7 @@
                                                     <input type="text" id="contractDate"
                                                         class="datetimepicker form-control" placeholder="Select Date">
                                                 </div>
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -206,6 +224,7 @@
                                                     <input type="text" id="terminitionDate"
                                                         class="datetimepicker form-control" placeholder="Select Date">
                                                 </div>
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -213,8 +232,10 @@
                                                 <label>Billing Date <span class="text-danger">*</span></label>
                                                 <div class="cal-icon cal-icon-info">
                                                     <input type="text" id="billingDate"
-                                                        class="datetimepicker form-control" placeholder="Select Billing Date">
+                                                        class="datetimepicker form-control"
+                                                        placeholder="Select Billing Date">
                                                 </div>
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         {{-- <div class="input-block mb-3 notes-form-group-info">
@@ -226,6 +247,7 @@
                                                 <label>Initial/Advance <span class="text-danger">*</span></label>
                                                 <input type="number" id="initialFees" class="form-control"
                                                     placeholder="Initial Fees in Number" name="name">
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -233,6 +255,7 @@
                                                 <label>House Rent <span class="text-danger">*</span></label>
                                                 <input type="number" id="houseRent" class="form-control"
                                                     placeholder="Rent Fees in Number" name="name">
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -240,50 +263,38 @@
                                                 <label>Utility Fees <span class="text-danger">*</span></label>
                                                 <input type="number" id="utilityFees" class="form-control"
                                                     placeholder="Utility Fees in Number" name="name">
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row form-group-bank p-2 mb-2" style="margin-left: 0px; margin-right:0px;">
-                                       
+
 
                                         <div class="col-md-12 col-sm-12">
                                             <div class="card-header">
                                                 <h5 class="card-title">Zyro (Front - Back) & Passport</h5>
-                                            </div> 
+                                            </div>
                                             {{-- zyroPassportImages --}}
                                             <div class="card-body">
-                                                <div class="custom-file-container" data-upload-id="myFirstImage">
-                                                    <label>Upload Images (Front, Back, Passport) 
-                                                        <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a>
+                                                <div class="custom-file-container" data-upload-id="myFirstImage2">
+                                                    <label>Upload Images (Front, Back, Passport)
+                                                        <a href="javascript:void(0)"
+                                                            class="custom-file-container__image-clear"
+                                                            title="Clear Image">x</a>
                                                     </label>
                                                     <label class="custom-file-container__custom-file">
-                                                        <input id="myFirstImage" type="file" 
-                                                               class="custom-file-container__custom-file__custom-file-input" 
-                                                               accept="image/*" multiple>
+                                                        <input id="myFirstImage2" type="file"
+                                                            class="custom-file-container__custom-file__custom-file-input"
+                                                            accept="image/*" multiple>
                                                         <input type="hidden" name="MAX_FILE_SIZE" value="10485760">
-                                                        <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                                        <span
+                                                            class="custom-file-container__custom-file__custom-file-control"></span>
                                                     </label>
                                                     <div class="custom-file-container__image-preview"></div>
                                                 </div>
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
-
-                                        {{-- <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="card-title">Multiple File Upload</h5>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="custom-file-container" data-upload-id="mySecondImage">
-                                                    <label>Upload (Allow Multiple) <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
-                                                    <label class="custom-file-container__custom-file" >
-                                                        <input type="file" class="custom-file-container__custom-file__custom-file-input" multiple>
-                                                        <input type="hidden" name="MAX_FILE_SIZE" value="10485760">
-                                                        <span class="custom-file-container__custom-file__custom-file-control"></span>
-                                                    </label>
-                                                    <div class="custom-file-container__image-preview"></div>
-                                                </div>
-                                            </div>
-                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -298,34 +309,216 @@
                     </div>
                 </div>
             </div>
-            <!-- /Modal End -->
 
-            <!-- Search Filter -->
-            <div id="filter_inputs" class="card filter-card">
-                <div class="card-body pb-0">
-                    <div class="row">
-                        <div class="col-sm-6 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Name</label>
-                                <input type="text" class="form-control">
+            <div id="student_modal_edit" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
+                style="display: none; --bs-modal-width: 1280px;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body p-4">
+                            <div class="row">
+                                <div class="form-group-item">
+                                    <h5 class="form-title">Basic Details</h5>
+                                    <div class="profile-picture">
+                                        <div class="upload-profile">
+                                            <div class="profile-img">
+                                                <img id="editblah" class="avatar"
+                                                    src="assets/img/profiles/avatar-14.jpg" alt="profile-img">
+                                            </div>
+                                            <div class="add-profile">
+                                                <h5>Upload a New Photo</h5>
+                                                <span>Profile-pic.jpg</span>
+                                            </div>
+                                        </div>
+                                        <div class="img-upload">
+                                            <label class="btn btn-upload">
+                                                Upload <input id="edituserPhoto" type="file">
+                                            </label>
+                                            <div class="invalid-feedback"></div>
+                                            <a class="btn btn-remove">Remove</a>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group-bank mb-2" style="margin-left: 0px; margin-right:0px;">
+
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Student Name <span class="text-danger">*</span></label>
+                                                <input type="text" id="editstudentName" class="form-control"
+                                                    placeholder="Enter Student Name">
+                                                <div class="invalid-feedback"></div>
+                                                <div class="valid-feedback">Looks good!</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Name Katakana<span class="text-danger">*</span></label>
+                                                <input type="text" id="editstudentKatakana" class="form-control"
+                                                    placeholder="Enter Name in Katakana">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Email <span class="text-danger">*</span></label>
+                                                <input type="email" id="editemail" class="form-control"
+                                                    placeholder="Enter Email Address">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Phone <span class="text-danger">*</span></label>
+                                                <input type="text" id="editmobile_code" class="form-control"
+                                                    placeholder="Phone Number" name="name">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>School Name <span class="text-danger">*</span></label>
+                                                <select class="form-control" id="editschoolName">
+                                                    <option disabled>Select School</option>
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Country <span class="text-danger">*</span></label>
+                                                <select class="js-example-basic-single" id="editcountry">
+
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Package Type <span class="text-danger">*</span></label>
+                                                <select class="select" id="editpackageType">
+                                                    <option>Select Currency</option>
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Choose Apartment <span class="text-danger">*</span></label>
+                                                <select class="select" id="editselectApartment">
+                                                    <option>Select Apartment</option>
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Select Room <span class="text-danger">*</span></label>
+                                                <select class="select" id="editselectRoom">
+                                                    <option>Select Room</option>
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row form-group-bank p-2 mb-2" style="margin-left: 0px; margin-right:0px;">
+                                        <div class="col-md-4">
+                                            <div class="input-block mb-3">
+                                                <label>Contract Date <span class="text-danger">*</span></label>
+                                                <div class="cal-icon cal-icon-info">
+                                                    <input type="text" id="editcontractDate"
+                                                        class="datetimepicker form-control" placeholder="Select Date">
+                                                </div>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-block mb-3">
+                                                <label>Termination Date <span class="text-danger">*</span></label>
+                                                <div class="cal-icon cal-icon-info">
+                                                    <input type="text" id="editterminitionDate"
+                                                        class="datetimepicker form-control" placeholder="Select Date">
+                                                </div>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-block mb-3">
+                                                <label>Billing Date <span class="text-danger">*</span></label>
+                                                <div class="cal-icon cal-icon-info">
+                                                    <input type="text" id="editbillingDate"
+                                                        class="datetimepicker form-control"
+                                                        placeholder="Select Billing Date">
+                                                </div>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Initial/Advance <span class="text-danger">*</span></label>
+                                                <input type="number" id="editinitialFees" class="form-control"
+                                                    placeholder="Initial Fees in Number">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>House Rent <span class="text-danger">*</span></label>
+                                                <input type="number" id="edithouseRent" class="form-control"
+                                                    placeholder="Rent Fees in Number">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Utility Fees <span class="text-danger">*</span></label>
+                                                <input type="number" id="editutilityFees" class="form-control"
+                                                    placeholder="Utility Fees in Number">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group-bank p-2 mb-2" style="margin-left: 0px; margin-right:0px;">
+
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="card-header">
+                                                <h5 class="card-title">Zyro (Front - Back) & Passport</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="custom-file-container" data-upload-id="myFirstImage">
+                                                    <label>Upload Images (Front, Back, Passport)
+                                                        <a href="javascript:void(0)"
+                                                            class="custom-file-container__image-clear"
+                                                            title="Clear Image">x</a>
+                                                    </label>
+                                                    <label class="custom-file-container__custom-file">
+                                                        <input id="myFirstImage" type="file"
+                                                            class="custom-file-container__custom-file__custom-file-input"
+                                                            accept="image/*" multiple>
+                                                        <span
+                                                            class="custom-file-container__custom-file__custom-file-control"></span>
+                                                    </label>
+                                                    <div class="custom-file-container__image-preview"></div>
+                                                    <div class="invalid-feedback"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Email</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Phone</label>
-                                <input type="text" class="form-control">
+                            <div class="row">
+                                <div class="col-md-12 mt-3 add-customer-btns text-end">
+                                    <button type="button" class="btn customer-btn-cancel"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn customer-btn-save update-student">Update
+                                        Student</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /Search Filter -->
+
+            <!-- /Modal End -->
 
             <!-- Table -->
             <div class="row">
@@ -354,46 +547,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- @foreach ($studentData as $student)
-                                                <tr>
-                                                    <td>{{ $student->id ?? 'Null' }}</td>
-                                                    <td>
-                                                        <a href="profile.html" class="avatar avatar-md me-2 companies">
-                                                            <img class="avatar-img sales-rep"
-                                                                src="{{ $student->student_image ?? 'Null' }}"
-                                                                alt="User Image">
-                                                    </td>
-                                                    <td>{{ $student->student_name ?? 'Null' }}</td>
-                                                    <td>{{ $student->name_katakana ?? 'Null' }}</td>
-                                                    <td>{{ $student->school ?? ('Null')->school_name }}</td>
-                                                    <td>{{ $student->contract_date ?? 'Null' }}</td>
-                                                    <td>{{ $student->termination_date ?? 'Null' }}</td>
-                                                    <td>{{ $student->remarks ?? 'Null' }}</td>
-                                                    <td>{{ $student->remarks ?? 'Null' }}</td>
-                                                    <td class="d-flex align-items-center">
-                                                        <div class="dropdown dropdown-action">
-                                                            <a href="#" class=" btn-action-icon "
-                                                                data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                    class="fas fa-ellipsis-v"></i></a>
-                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                <ul>
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="edit-products.html"><i
-                                                                                class="far fa-edit me-2"></i>Edit</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#delete_modal"><i
-                                                                                class="far fa-trash-alt me-2"></i>Delete</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach --}}
 
                                         </tbody>
                                     </table>
@@ -408,298 +561,7 @@
         </div>
     </div>
     <!-- /Page Wrapper -->
-
-    <!-- Add Asset -->
-    <div class="toggle-sidebar">
-        <div class="sidebar-layout-filter">
-            <div class="sidebar-header">
-                <h5>Filter</h5>
-                <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
-            </div>
-            <div class="sidebar-body">
-                <form action="#" autocomplete="off">
-                    <!-- Product -->
-                    <div class="accordion" id="accordionMain1">
-                        <div class="card-header-new" id="headingOne">
-                            <h6 class="filter-title">
-                                <a href="javascript:void(0);" class="w-100" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Product Name
-                                    <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
-                                </a>
-                            </h6>
-                        </div>
-
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                            data-bs-parent="#accordionExample1">
-                            <div class="card-body-chat">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div id="checkBoxes1">
-                                            <div class="form-custom">
-                                                <input type="text" class="form-control" id="member_search1"
-                                                    placeholder="Search Product">
-                                                <span><img src="{{ asset('assets') }}/img/icons/search.svg"
-                                                        alt="img"></span>
-                                            </div>
-                                            <div class="selectBox-cont">
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> Lenovo 3rd Generation
-                                                </label>
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> Nike Jordan
-                                                </label>
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> Apple Series 5 Watch
-                                                </label>
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> Amazon Echo Dot
-                                                </label>
-                                                <!-- View All -->
-                                                <div class="view-content">
-                                                    <div class="viewall-One">
-                                                        <label class="custom_check w-100">
-                                                            <input type="checkbox" name="username">
-                                                            <span class="checkmark"></span> Lobar Handy
-                                                        </label>
-                                                        <label class="custom_check w-100">
-                                                            <input type="checkbox" name="username">
-                                                            <span class="checkmark"></span> Woodcraft Sandal
-                                                        </label>
-                                                        <label class="custom_check w-100">
-                                                            <input type="checkbox" name="username">
-                                                            <span class="checkmark"></span> Black Slim 200
-                                                        </label>
-                                                        <label class="custom_check w-100">
-                                                            <input type="checkbox" name="username">
-                                                            <span class="checkmark"></span> Red Premium Handy
-                                                        </label>
-                                                        <label class="custom_check w-100">
-                                                            <input type="checkbox" name="username">
-                                                            <span class="checkmark"></span> Bold V3.2
-                                                        </label>
-                                                        <label class="custom_check w-100">
-                                                            <input type="checkbox" name="username">
-                                                            <span class="checkmark"></span> Iphone 14 Pro
-                                                        </label>
-                                                    </div>
-                                                    <div class="view-all">
-                                                        <a href="javascript:void(0);" class="viewall-button-One"><span
-                                                                class="me-2">View All</span><span><i
-                                                                    class="fa fa-circle-chevron-down"></i></span></a>
-                                                    </div>
-                                                </div>
-                                                <!-- /View All -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /Product -->
-
-                    <!-- Product Code -->
-                    <div class="accordion" id="accordionMain2">
-                        <div class="card-header-new" id="headingTwo">
-                            <h6 class="filter-title">
-                                <a href="javascript:void(0);" class="w-100 collapsed" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                    Product Code
-                                    <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
-                                </a>
-                            </h6>
-                        </div>
-
-                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                            data-bs-parent="#accordionExample2">
-                            <div class="card-body-chat">
-                                <div id="checkBoxes3">
-                                    <div class="selectBox-cont">
-                                        <div class="form-custom">
-                                            <input type="text" class="form-control" id="member_search2"
-                                                placeholder="Search Invoice">
-                                            <span><img src="{{ asset('assets') }}/img/icons/search.svg"
-                                                    alt="img"></span>
-                                        </div>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="product-code">
-                                            <span class="checkmark"></span> P125389
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="product-code">
-                                            <span class="checkmark"></span> P125390
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="product-code">
-                                            <span class="checkmark"></span> P125391
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="product-code">
-                                            <span class="checkmark"></span> P125392
-                                        </label>
-                                        <!-- View All -->
-                                        <div class="view-content">
-                                            <div class="viewall-Two">
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="product-code">
-                                                    <span class="checkmark"></span> P125393
-                                                </label>
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="product-code">
-                                                    <span class="checkmark"></span> P125394
-                                                </label>
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="product-code">
-                                                    <span class="checkmark"></span> P125395
-                                                </label>
-                                            </div>
-                                            <div class="view-all">
-                                                <a href="javascript:void(0);" class="viewall-button-Two"><span
-                                                        class="me-2">View All</span><span><i
-                                                            class="fa fa-circle-chevron-down"></i></span></a>
-                                            </div>
-                                        </div>
-                                        <!-- /View All -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /Product Code -->
-
-                    <!-- Unts -->
-                    <div class="accordion" id="accordionMain3">
-                        <div class="card-header-new" id="headingThree">
-                            <h6 class="filter-title">
-                                <a href="javascript:void(0);" class="w-100 collapsed" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                                    Units
-                                    <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
-                                </a>
-                            </h6>
-                        </div>
-
-                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                            data-bs-parent="#accordionExample3">
-                            <div class="card-body-chat">
-                                <div id="checkBoxes2">
-                                    <div class="selectBox-cont">
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="units">
-                                            <span class="checkmark"></span> Inches
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="units">
-                                            <span class="checkmark"></span> Pieces
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="units">
-                                            <span class="checkmark"></span> Hours
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="units">
-                                            <span class="checkmark"></span> Box
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="units">
-                                            <span class="checkmark"></span> Kilograms
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="units">
-                                            <span class="checkmark"></span> Meter
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /Units -->
-
-                    <!-- Category -->
-                    <div class="accordion accordion-last" id="accordionMain4">
-                        <div class="card-header-new" id="headingFour">
-                            <h6 class="filter-title">
-                                <a href="javascript:void(0);" class="w-100 collapsed" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                    Category
-                                    <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
-                                </a>
-                            </h6>
-                        </div>
-
-                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
-                            data-bs-parent="#accordionExample4">
-                            <div class="card-body-chat">
-                                <div id="checkBoxes4">
-                                    <div class="selectBox-cont">
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="category">
-                                            <span class="checkmark"></span> Laptop
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="category">
-                                            <span class="checkmark"></span> Shoes
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="category">
-                                            <span class="checkmark"></span> Accessories
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="category">
-                                            <span class="checkmark"></span> Electronics
-                                        </label>
-                                        <!-- View All -->
-                                        <div class="view-content">
-                                            <div class="viewall-Two">
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> Furnitures
-                                                </label>
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> Bags
-                                                </label>
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> Phone
-                                                </label>
-                                            </div>
-                                            <div class="view-all">
-                                                <a href="javascript:void(0);" class="viewall-button-Two"><span
-                                                        class="me-2">View All</span><span><i
-                                                            class="fa fa-circle-chevron-down"></i></span></a>
-                                            </div>
-                                        </div>
-                                        <!-- /View All -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /Category -->
-
-                    <div class="filter-buttons">
-                        <button type="submit"
-                            class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                            Apply
-                        </button>
-                        <button type="submit"
-                            class="d-inline-flex align-items-center justify-content-center btn w-100 btn-secondary">
-                            Reset
-                        </button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-    <!-- /Add Asset -->
-    <!-- </div> -->
+ 
     <!-- /Main Wrapper -->
 
     <script src="{{ asset('ajax/studentAjax.js') }}"></script>

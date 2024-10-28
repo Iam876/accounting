@@ -13,15 +13,14 @@ use Intervention\Image\Laravel\Facades\Image;
 class ApartmentController extends Controller
 {
     public function index(){
-        $apartmentData = Apartment::all();
-        // $apartmentData = Apartment::with('pic')->get();
-        return view('apartment_index', compact('apartmentData'));
+
+        return view('apartment_index');
     }
 
 public function fetchData()
 {
     $apartments = Apartment::with(['pic', 'rooms'])->get(); // Ensure roomTables is the correct relation name
-    return response()->json(['success' => $apartments]);
+    return response()->json(['apartments' => $apartments]);
 }
 
 

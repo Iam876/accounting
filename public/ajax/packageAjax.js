@@ -102,7 +102,7 @@ $(document).ready(function () {
                     $(".datatable").DataTable().destroy(); 
                 }
                 let tableBody = "";
-                response.success.forEach(function (package) {
+                response.packages.forEach(function (package) {
                     tableBody += `<tr>
                         <td>${package.id}</td>
                         <td>${package.package_name}</td>

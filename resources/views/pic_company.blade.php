@@ -144,33 +144,7 @@
                 </div>
             </div>
             <!-- /Modal End -->
-
-            <!-- Search Filter -->
-            <div id="filter_inputs" class="card filter-card">
-                <div class="card-body pb-0">
-                    <div class="row">
-                        <div class="col-sm-6 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Name</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Email</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Phone</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Search Filter -->
+ 
 
             <!-- Table -->
             <div class="row">
@@ -190,37 +164,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
-                                            {{-- @foreach ($picCompanyData as $pic_company_data)
-                                                <tr>
-                                                    <td>{{ $pic_company_data->id }}</td>
-                                                    <td>{{ $pic_company_data->pic_company_name }}</td>
-                                                    <td>{{ $pic_company_data->pic_company_contact}}</td>
-                                                    <td>{{ $pic_company_data->pic_company_address}}</td>
-                                                    <td class="d-flex align-items-center">
-                                                        <div class="dropdown dropdown-action">
-                                                            <a href="#" class=" btn-action-icon "
-                                                                data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                    class="fas fa-ellipsis-v"></i></a>
-                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                <ul>
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="edit-products.html"><i
-                                                                                class="far fa-edit me-2"></i>Edit</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#delete_modal"><i
-                                                                                class="far fa-trash-alt me-2"></i>Delete</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach --}}
 
                                         </tbody>
                                     </table>

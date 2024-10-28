@@ -16,6 +16,7 @@ use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SettingsController;
+use App\Helpers\CountryHelper;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,12 @@ use App\Http\Controllers\SettingsController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/get-countries',function(){
+    $countries = CountryHelper::getCountries();
+    return response()->json(['countries' => $countries]);
+
 });
 
 Route::get('/dashboard', function () {
@@ -93,16 +100,28 @@ Route::controller(RoomController::class)->group(function () {
 
 
 Route::controller(StudentController::class)->group(function () {
+
+    Route::get('/get-schools',  'getSchools');
+    Route::get('/get-apartments',  'getApartments');
+    Route::get('/get-rooms/{apartment_id}',  'getRooms');
+    Route::get('/get-packages',  'getPackages');
+
+
     Route::get('/student', 'index')->name('student.index');
     Route::post('/student/store', 'store')->name('student.store');
     Route::get('/student/fetch', 'fetchData')->name('student.fetch');
 
-    // Route::get('/student/edit/{id}', 'edit');
-    // Route::post('/student/update/{id}', 'update');
-    // Route::delete('/student/destroy/{id}', 'destroy')->name('student.destroy');
+    Route::get('/students/edit/{id}', 'edit');
+    Route::post('/students/update/{id}', 'update');
+    Route::delete('/student/destroy/{id}', 'destroy')->name('student.destroy');
 });
 Route::controller(BillingMethodController::class)->group(function () {
     Route::get('/billing/methods', 'index')->name('billing_methods.index');
+    Route::get('/fetch/billing/method', 'fetchBillingMethod');
+    Route::post('/billing/method/create', 'store');
+    Route::get('/billing/method/edit/{id}', 'edit');
+    Route::post('/billing/method/update/{id}', 'update');
+    Route::delete('/billing/method/destroy/{id}', 'destroy');
 });
 Route::controller(PackageChooseController::class)->group(function () {
     Route::get('/package', 'index')->name('package.index');
@@ -115,6 +134,11 @@ Route::controller(PackageChooseController::class)->group(function () {
 });
 Route::controller(Roles::class)->group(function () {
     Route::get('/roles', 'index')->name('role.index');
+    Route::get('/fetch/roles', 'fetchRole');
+    Route::post('/roles/create', 'store');
+    Route::get('/roles/edit/{id}', 'edit');
+    Route::post('/roles/update/{id}', 'update');
+    Route::delete('/roles/destroy/{id}', 'destroy');
 });
 Route::controller(BillingController::class)->group(function () {
     Route::get('/billing', 'index')->name('billings.index');

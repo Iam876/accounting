@@ -401,9 +401,10 @@ Version      : 1.0
 	
 	if($('.custom-file-container').length > 0) {
         //First upload
-        var firstUpload = new FileUploadWithPreview('myFirstImage')
+        var firstUpload = new FileUploadWithPreview('myFirstImage');
+        var firstUpload2 = new FileUploadWithPreview('myFirstImage2');
         //Second upload
-        var secondUpload = new FileUploadWithPreview('mySecondImage')
+        // var secondUpload = new FileUploadWithPreview('mySecondImage')
 	}
     
 	// Clipboard 
@@ -688,12 +689,12 @@ Version      : 1.0
 	});
 
 	// Country Code Selection
-	if($('#mobile_code').length > 0) {
-		$( '#mobile_code' ).intlTelInput( {
-			initialCountry: "in",
-			separateDialCode: true,	
-		});
-	}
+	// if($('#mobile_code').length > 0) {
+	// 	$( '#mobile_code' ).intlTelInput( {
+	// 		initialCountry: "in",
+	// 		separateDialCode: true,	
+	// 	});
+	// }
 
 	// Summernote
 	if($('.summernote').length > 0) {

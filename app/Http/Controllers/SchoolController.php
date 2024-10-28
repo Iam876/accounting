@@ -15,14 +15,13 @@ class SchoolController extends Controller
 {
     public function index()
     {
-        $schoolData = Schools::all();
-        return view('school_index', compact('schoolData'));
+        return view('school_index');
     }
 
     public function fetchData()
     {
         $schoolData = Schools::all();
-        return response()->json(['success' => $schoolData]);
+        return response()->json(['schools' => $schoolData]);
     }
 
     public function store(Request $request)

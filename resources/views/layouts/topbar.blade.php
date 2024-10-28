@@ -188,7 +188,7 @@
                     <span class="animate-circle"></span>
                 </span>
                 <span class="user-content">
-                    <span class="user-details">{{ Auth::user()->name }}</span>
+                    <span class="user-details">{{ Auth::user()->name ?? "No Name" }}</span>
                     <span class="user-name">{{ Auth::user()->roles->first()->roles_name ?? 'No role assigned' }}</span>
                 </span>
             </a>

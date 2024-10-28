@@ -11,21 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::create('payments', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->foreignId('billing_id')->constrained('billings')->onDelete('cascade');
-        //     $table->decimal('amount', 10, 2);
-        //     $table->date('billing_month');
-        //     $table->foreignId('payment_method_id')->constrained('billing_methods')->onDelete('cascade');
-        
-        //     // Ensuring the foreign key column matches the primary key type in the referenced table
-        //     $table->unsignedBigInteger('payment_type_id');  // Match the type of payment_types.id
-        //     $table->foreign('payment_type_id')->references('id')->on('payment_types')->onDelete('restrict');
-        
-        //     $table->string('payment_id')->nullable();
-        //     $table->date('payment_date');
-        //     $table->timestamps();
-        // });
+        Schema::create('payments', function (Blueprint $table) {
+            $table->id();
+    
+            // Foreign keys
+            $table->foreignId('billing_id')->constrained('billings')->onDelete('cascade'); // Links to the billing table
+            $table->foreignId('student_id')->constrained('students')->onDelete('cascade'); // Links to the student table
+    
+            // Payment details
+            $table->decimal('amount_paid', 10, 2); // The amount paid by the student
+            $table->date('payment_date'); // Date of payment
+    
+            // Payment method and transaction tracking
+            $table->foreignId('payment_method_id')->constrained('billing_methods')->onDelete('cascade'); // Payment method used
+            $table->string('transaction_id')->nullable(); // Optional transaction ID for tracking
+    
+            $table->timestamps();
+        });
         
     }
 
