@@ -232,19 +232,21 @@ $(document).ready(function () {
                 if (xhr.status === 422) {
                     // Laravel validation errors
                     let errors = xhr.responseJSON.errors;
-
+                    console.log(errors); // Log errors to inspect them
+            
                     // Map validation fields to match form IDs
                     for (let field in errors) {
                         let mappedField = mapFieldToInputId(field); // Use the mapping function
                         let inputField = $("#" + mappedField); // Find the input field by mapped ID
-
+            
                         inputField.addClass('is-invalid'); // Add Bootstrap's invalid class
                         inputField.siblings('.invalid-feedback').text(errors[field][0]); // Show error message
                     }
                 } else {
                     alert("Error adding student. Please check the form and try again.");
                 }
-            },
+            }
+            
         });
     });
 
@@ -283,6 +285,7 @@ $(document).ready(function () {
                     $(".datatable").DataTable().destroy();
                 }
                 let tableBody = "";
+                console.log(response);
                 response.success.forEach(function (student) {
                     var url = window.location.protocol + '//' + window.location.host + '/'; // Make sure to include the protocol
                     tableBody += `<tr>

@@ -267,14 +267,14 @@ $(document).ready(function () {
                                                 <a class="dropdown-item apartment_edit_btn" data-id="${
                                                     apartment.id
                                                 }">
-                                                    <i class="far fa-edit me-2"></i>Edit
+                                                    <i class="far fa-edit me-2"></i>${translations.edit}
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item delete-apartment-btn" data-id="${
                                                     apartment.id
                                                 }">
-                                                    <i class="far fa-trash-alt me-2"></i>Delete
+                                                    <i class="far fa-trash-alt me-2"></i>${translations.delete}
                                                 </a>
                                             </li>
                                         </ul>

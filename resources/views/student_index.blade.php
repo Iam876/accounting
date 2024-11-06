@@ -31,7 +31,7 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div class="content-page-header ">
-                    <h5>Students</h5>
+                    <h5>{{ __('student.title') }}</h5>
                     <div class="list-btn">
                         <ul class="filter-list">
                             <li>
@@ -69,7 +69,7 @@
                             <li>
                                 <a href="#" class="btn btn-primary waves-effect waves-light mt-1"
                                     data-bs-toggle="modal" data-bs-target="#student_modal_add"><i
-                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Student</a>
+                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>{{ __('student.modal.add_student') }}</a>
                             </li>
                         </ul>
                     </div>
@@ -84,7 +84,7 @@
                         <div class="modal-body p-4">
                             <div class="row">
                                 <div class="form-group-item">
-                                    <h5 class="form-title">Basic Details</h5>
+                                    <h5 class="form-title">{{ __('student.modal.basic_details') }}</h5>
                                     <div class="profile-picture">
                                         <div class="upload-profile">
                                             <div class="profile-img">
@@ -92,26 +92,26 @@
                                                     alt="profile-img">
                                             </div>
                                             <div class="add-profile">
-                                                <h5>Upload a New Photo</h5>
-                                                <span>Profile-pic.jpg</span>
+                                                <h5>{{ __('student.modal.upload_new_photo') }}</h5>
+                                                <span>{{ __('student.modal.profile_pic') }}</span>
 
                                             </div>
                                         </div>
                                         <div class="img-upload">
                                             <label class="btn btn-upload">
-                                                Upload <input id="userPhoto" type="file">
+                                                {{ __('student.modal.upload_new_photo') }} <input id="userPhoto" type="file">
                                                 <div class="invalid-feedback"></div>
                                             </label>
-                                            <a class="btn btn-remove">Remove</a>
+                                            <a class="btn btn-remove">{{ __('student.modal.clear_image') }}</a>
                                         </div>
                                     </div>
                                     <div class="row form-group-bank mb-2" style="margin-left: 0px; margin-right:0px;">
 
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Student Name <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.student_name') }} <span class="text-danger">*</span></label>
                                                 <input type="text" id="studentName" class="form-control"
-                                                    placeholder="Enter Student Name">
+                                                    placeholder="{{ __('student.placeholder.student_name') }}">
                                                 <div class="invalid-feedback"></div>
                                                 <div class="valid-feedback">Looks good!</div>
                                             </div>
@@ -119,32 +119,32 @@
 
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Name Katakana<span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.name_katakana') }}<span class="text-danger">*</span></label>
                                                 <input type="text" id="studentKatakana" class="form-control"
-                                                    placeholder="Enter Name in Katakana">
+                                                    placeholder="{{ __('student.placeholder.name_katakana') }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Email <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.email') }} <span class="text-danger">*</span></label>
                                                 <input type="email" id="email" class="form-control"
-                                                    placeholder="Enter Email Address">
+                                                    placeholder="{{ __('student.placeholder.email') }}">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Phone <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.phone') }} <span class="text-danger">*</span></label>
                                                 <input type="text" id="mobile_code" class="form-control"
-                                                    placeholder="Phone Number" name="name">
+                                                    placeholder="{{ __('student.placeholder.phone') }}" name="name">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>School Name <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.school_name') }} <span class="text-danger">*</span></label>
                                                 <select class="form-control" id="schoolName">
-                                                    <option disabled>Select School</option>
+                                                    <option disabled>{{ __('student.placeholder.school_name') }}</option>
 
                                                 </select>
                                                 <div class="invalid-feedback"></div>
@@ -152,7 +152,7 @@
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Country <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.country') }} <span class="text-danger">*</span></label>
                                                 <select class="js-example-basic-single" id="country">
                                                     {{-- @foreach ($country as $name)
                                                         <option value="{{ $name }}">{{ $name }}</option>
@@ -164,9 +164,9 @@
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Package Type <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.package_type') }} <span class="text-danger">*</span></label>
                                                 <select class="select" id="packageType">
-                                                    <option>Select Currency</option>
+                                                    <option>{{ __('student.placeholder.package_type') }}</option>
 
                                                 </select>
                                                 <div class="invalid-feedback"></div>
@@ -174,7 +174,7 @@
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Choose Apartment <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.apartment') }} <span class="text-danger">*</span></label>
                                                 <select class="select" id="selectApartment">
 
                                                 </select>
@@ -183,7 +183,7 @@
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Select Room <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.room') }} <span class="text-danger">*</span></label>
                                                 <select class="select" id="selectRoom">
                                                     {{-- <option>Select Currency</option>
                                                     <option>₹</option>
@@ -209,31 +209,31 @@
                                     <div class="row form-group-bank p-2 mb-2" style="margin-left: 0px; margin-right:0px;">
                                         <div class="col-md-4">
                                             <div class="input-block mb-3">
-                                                <label>Contract Date <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.contract_date') }} <span class="text-danger">*</span></label>
                                                 <div class="cal-icon cal-icon-info">
                                                     <input type="text" id="contractDate"
-                                                        class="datetimepicker form-control" placeholder="Select Date">
+                                                        class="datetimepicker form-control" placeholder="{{ __('student.placeholder.contract_date') }}">
                                                 </div>
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="input-block mb-3">
-                                                <label>Terminition Date <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.termination_date') }} <span class="text-danger">*</span></label>
                                                 <div class="cal-icon cal-icon-info">
                                                     <input type="text" id="terminitionDate"
-                                                        class="datetimepicker form-control" placeholder="Select Date">
+                                                        class="datetimepicker form-control" placeholder="{{ __('student.placeholder.termination_date') }}">
                                                 </div>
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="input-block mb-3">
-                                                <label>Billing Date <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.billing_date') }} <span class="text-danger">*</span></label>
                                                 <div class="cal-icon cal-icon-info">
                                                     <input type="text" id="billingDate"
                                                         class="datetimepicker form-control"
-                                                        placeholder="Select Billing Date">
+                                                        placeholder="{{ __('student.placeholder.billing_date') }}">
                                                 </div>
                                                 <div class="invalid-feedback"></div>
                                             </div>
@@ -244,25 +244,25 @@
                                         </div> --}}
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Initial/Advance <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.initial_advance') }} <span class="text-danger">*</span></label>
                                                 <input type="number" id="initialFees" class="form-control"
-                                                    placeholder="Initial Fees in Number" name="name">
+                                                    placeholder="{{ __('student.placeholder.initial_fees') }}" name="name">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>House Rent <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.house_rent') }} <span class="text-danger">*</span></label>
                                                 <input type="number" id="houseRent" class="form-control"
-                                                    placeholder="Rent Fees in Number" name="name">
+                                                    placeholder="{{ __('student.placeholder.house_rent') }}" name="name">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Utility Fees <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.utility_fees') }} <span class="text-danger">*</span></label>
                                                 <input type="number" id="utilityFees" class="form-control"
-                                                    placeholder="Utility Fees in Number" name="name">
+                                                    placeholder="{{ __('student.placeholder.utility_fees') }}" name="name">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
@@ -272,12 +272,12 @@
 
                                         <div class="col-md-12 col-sm-12">
                                             <div class="card-header">
-                                                <h5 class="card-title">Zyro (Front - Back) & Passport</h5>
+                                                <h5 class="card-title">{{ __('student.modal.zyro_passport') }}</h5>
                                             </div>
                                             {{-- zyroPassportImages --}}
                                             <div class="card-body">
                                                 <div class="custom-file-container" data-upload-id="myFirstImage2">
-                                                    <label>Upload Images (Front, Back, Passport)
+                                                    <label>{{ __('student.modal.upload_images') }}
                                                         <a href="javascript:void(0)"
                                                             class="custom-file-container__image-clear"
                                                             title="Clear Image">x</a>
@@ -301,8 +301,8 @@
                             <div class="row">
                                 <div class="col-md-12 mt-3 add-customer-btns text-end">
                                     <button type="button" class="btn customer-btn-cancel"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn customer-btn-save">Add Student</button>
+                                        data-bs-dismiss="modal">{{ __('student.modal.close') }}</button>
+                                    <button type="button" class="btn customer-btn-save">{{ __('student.modal.add_student') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -317,7 +317,7 @@
                         <div class="modal-body p-4">
                             <div class="row">
                                 <div class="form-group-item">
-                                    <h5 class="form-title">Basic Details</h5>
+                                    <h5 class="form-title">{{ __('student.modal.basic_details') }}</h5>
                                     <div class="profile-picture">
                                         <div class="upload-profile">
                                             <div class="profile-img">
@@ -325,25 +325,25 @@
                                                     src="assets/img/profiles/avatar-14.jpg" alt="profile-img">
                                             </div>
                                             <div class="add-profile">
-                                                <h5>Upload a New Photo</h5>
-                                                <span>Profile-pic.jpg</span>
+                                                <h5>{{ __('student.modal.upload_new_photo') }}</h5>
+                                                <span>{{ __('student.modal.profile_pic') }}</span>
                                             </div>
                                         </div>
                                         <div class="img-upload">
                                             <label class="btn btn-upload">
-                                                Upload <input id="edituserPhoto" type="file">
+                                                {{ __('student.modal.upload_new_photo') }} <input id="edituserPhoto" type="file">
                                             </label>
                                             <div class="invalid-feedback"></div>
-                                            <a class="btn btn-remove">Remove</a>
+                                            <a class="btn btn-remove">{{ __('student.modal.clear_image') }}</a>
                                         </div>
                                     </div>
                                     <div class="row form-group-bank mb-2" style="margin-left: 0px; margin-right:0px;">
 
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Student Name <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.student_name') }} <span class="text-danger">*</span></label>
                                                 <input type="text" id="editstudentName" class="form-control"
-                                                    placeholder="Enter Student Name">
+                                                    placeholder="{{ __('student.placeholder.student_name') }}">
                                                 <div class="invalid-feedback"></div>
                                                 <div class="valid-feedback">Looks good!</div>
                                             </div>
@@ -351,40 +351,40 @@
 
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Name Katakana<span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.name_katakana') }}<span class="text-danger">*</span></label>
                                                 <input type="text" id="editstudentKatakana" class="form-control"
-                                                    placeholder="Enter Name in Katakana">
+                                                    placeholder="{{ __('student.placeholder.name_katakana') }}">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Email <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.email') }} <span class="text-danger">*</span></label>
                                                 <input type="email" id="editemail" class="form-control"
-                                                    placeholder="Enter Email Address">
+                                                    placeholder="{{ __('student.placeholder.email') }}">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Phone <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.phone') }} <span class="text-danger">*</span></label>
                                                 <input type="text" id="editmobile_code" class="form-control"
-                                                    placeholder="Phone Number" name="name">
+                                                    placeholder="{{ __('student.placeholder.phone') }}" name="name">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>School Name <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.school_name') }} <span class="text-danger">*</span></label>
                                                 <select class="form-control" id="editschoolName">
-                                                    <option disabled>Select School</option>
+                                                    <option disabled>{{ __('student.placeholder.school_name') }}</option>
                                                 </select>
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Country <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.country') }} <span class="text-danger">*</span></label>
                                                 <select class="js-example-basic-single" id="editcountry">
 
                                                 </select>
@@ -393,16 +393,16 @@
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Package Type <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.package_type') }} <span class="text-danger">*</span></label>
                                                 <select class="select" id="editpackageType">
-                                                    <option>Select Currency</option>
+                                                    <option>{{ __('student.placeholder.package_type') }}</option>
                                                 </select>
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Choose Apartment <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.apartment') }} <span class="text-danger">*</span></label>
                                                 <select class="select" id="editselectApartment">
                                                     <option>Select Apartment</option>
                                                 </select>
@@ -411,7 +411,7 @@
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Select Room <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.room') }} <span class="text-danger">*</span></label>
                                                 <select class="select" id="editselectRoom">
                                                     <option>Select Room</option>
                                                 </select>
@@ -423,56 +423,56 @@
                                     <div class="row form-group-bank p-2 mb-2" style="margin-left: 0px; margin-right:0px;">
                                         <div class="col-md-4">
                                             <div class="input-block mb-3">
-                                                <label>Contract Date <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.contract_date') }} <span class="text-danger">*</span></label>
                                                 <div class="cal-icon cal-icon-info">
                                                     <input type="text" id="editcontractDate"
-                                                        class="datetimepicker form-control" placeholder="Select Date">
+                                                        class="datetimepicker form-control" placeholder="{{ __('student.placeholder.contract_date') }}">
                                                 </div>
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="input-block mb-3">
-                                                <label>Termination Date <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.termination_date') }} <span class="text-danger">*</span></label>
                                                 <div class="cal-icon cal-icon-info">
                                                     <input type="text" id="editterminitionDate"
-                                                        class="datetimepicker form-control" placeholder="Select Date">
+                                                        class="datetimepicker form-control" placeholder="{{ __('student.placeholder.termination_date') }}">
                                                 </div>
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="input-block mb-3">
-                                                <label>Billing Date <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.billing_date') }} <span class="text-danger">*</span></label>
                                                 <div class="cal-icon cal-icon-info">
                                                     <input type="text" id="editbillingDate"
                                                         class="datetimepicker form-control"
-                                                        placeholder="Select Billing Date">
+                                                        placeholder="{{ __('student.placeholder.billing_date') }}">
                                                 </div>
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Initial/Advance <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.initial_advance') }} <span class="text-danger">*</span></label>
                                                 <input type="number" id="editinitialFees" class="form-control"
-                                                    placeholder="Initial Fees in Number">
+                                                    placeholder="{{ __('student.placeholder.initial_fees') }}">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>House Rent <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.house_rent') }} <span class="text-danger">*</span></label>
                                                 <input type="number" id="edithouseRent" class="form-control"
-                                                    placeholder="Rent Fees in Number">
+                                                    placeholder="{{ __('student.placeholder.house_rent') }}">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Utility Fees <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.utility_fees') }} <span class="text-danger">*</span></label>
                                                 <input type="number" id="editutilityFees" class="form-control"
-                                                    placeholder="Utility Fees in Number">
+                                                    placeholder="{{ __('student.placeholder.utility_fees') }}">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
@@ -481,11 +481,11 @@
 
                                         <div class="col-md-12 col-sm-12">
                                             <div class="card-header">
-                                                <h5 class="card-title">Zyro (Front - Back) & Passport</h5>
+                                                <h5 class="card-title">{{ __('student.modal.zyro_passport') }}</h5>
                                             </div>
                                             <div class="card-body">
                                                 <div class="custom-file-container" data-upload-id="myFirstImage">
-                                                    <label>Upload Images (Front, Back, Passport)
+                                                    <label>{{ __('student.modal.upload_images') }}
                                                         <a href="javascript:void(0)"
                                                             class="custom-file-container__image-clear"
                                                             title="Clear Image">x</a>
@@ -508,9 +508,8 @@
                             <div class="row">
                                 <div class="col-md-12 mt-3 add-customer-btns text-end">
                                     <button type="button" class="btn customer-btn-cancel"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn customer-btn-save update-student">Update
-                                        Student</button>
+                                        data-bs-dismiss="modal">{{ __('student.modal.close') }}</button>
+                                    <button type="button" class="btn customer-btn-save update-student">{{ __('student.modal.update_student') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -531,19 +530,16 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>#</th>
-                                                <th>Student Image</th>
-                                                <th>Student Name</th>
-                                                <th>School Name</th>
-                                                <th>Phone</th>
-                                                <th>Apartment</th>
-                                                <th>Room</th>
-                                                <th>Initial Fees</th>
-                                                <th>House Rent</th>
-                                                <th>Utility</th>
-                                                {{-- <th>Notes</th> --}}
-                                                <!-- <th>Selling Price</th> -->
-                                                <!-- <th>Purchase Price</th> -->
-                                                <th class="no-sort">Action</th>
+                                                <th>{{ __('student.table.student_image') }}</th>
+                                                <th>{{ __('student.table.student_name') }}</th>
+                                                <th>{{ __('student.table.school_name') }}</th>
+                                                <th>{{ __('student.table.phone') }}</th>
+                                                <th>{{ __('student.table.apartment') }}</th>
+                                                <th>{{ __('student.table.room') }}</th>
+                                                <th>{{ __('student.table.initial_fees') }}</th>
+                                                <th>{{ __('student.table.house_rent') }}</th>
+                                                <th>{{ __('student.table.utility_fees') }}</th>
+                                                <th class="no-sort">{{ __('student.table.action') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>

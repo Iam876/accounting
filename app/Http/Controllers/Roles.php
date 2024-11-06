@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Role;
+use Spatie\Permission\Models\Role;
 
 class Roles extends Controller
 {
@@ -12,23 +12,22 @@ class Roles extends Controller
     }
 
     public function fetchRole(){
-        $RoleAll = Role::all();
-        return response()->json($RoleAll);
+        $roles = Role::all(); // Fetch all roles
+        return response()->json($roles);
     }
     
     public function store(Request $request){
         $request->validate([
             'roles_name' => 'required',
-            'status' => 'required',
+            'guard_name' => 'nullable',
         ]);
 
-       Role::create([
-        'roles_name'=>$request->input('roles_name'),
-         'status'=>$request->input('status')
-       ]);
+        Role::create([
+            'name' => $request->input('roles_name'),
+            'guard_name' => 'web',
+        ]);
 
-       return response()->json(['status'=>"Data Created Successfully"]);
-        
+        return response()->json(['status' => "Data Created Successfully"]);
     }
 
     public function edit($id){
@@ -39,19 +38,19 @@ class Roles extends Controller
     public function update(Request $request, $id){
         $request->validate([
             'roles_name' => 'required',
-            'status' => 'required',
+            'guard_name' => 'nullable',
         ]);
 
         Role::find($id)->update([
-            'roles_name'=>$request->input('roles_name'),
-             'status'=>$request->input('status'),
+            'name' => $request->input('roles_name'),
+            'guard_name' => 'web',
         ]);
 
-        return response()->json(['status'=> 'Data Updated Successfully']);
+        return response()->json(['status' => 'Data Updated Successfully']);
     }
 
     public function destroy($id){
         Role::find($id)->delete();
-        return response()->json(['status'=> 'Deleted Successfully']);
+        return response()->json(['status' => 'Deleted Successfully']);
     }
 }

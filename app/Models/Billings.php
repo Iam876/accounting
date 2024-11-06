@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,32 +17,53 @@ class Billings extends Model
     const STATUS_SETTLED = 'settled';
 
     protected $fillable = [
-        'student_id', 'billing_month', 'total_amount', 'amount_paid', 'balance_due', 'payment_status', 'completed_billing', 'payment_method_id'
+        'student_id', 'billing_month', 'total_amount', 'payment_status', 'completed_billing', 'payment_method_id'
     ];
 
+    // Relationship to Student
     public function student()
     {
         return $this->belongsTo(Student::class);
     }
+    
 
+    // Relationship to Payments
     public function payments()
     {
         return $this->hasMany(Payment::class);
     }
 
-    public function updateBillingStatus($amountPaid)
+    // Calculate the total amount paid based on the related payments
+    public function getTotalPaidAttribute()
     {
-        $this->amount_paid += $amountPaid;
-        $this->balance_due -= $amountPaid;
+        return $this->payments->sum('amount_paid');
+    }
 
-        if ($this->balance_due <= 0) {
+    // Calculate the balance due dynamically by subtracting total paid from total amount
+    public function getBalanceDueAttribute()
+    {
+        return max(0, $this->total_amount - $this->total_paid);
+    }
+
+    // Check and update the payment status based on payments
+    public function updateBillingStatus()
+    {
+        $totalPaid = $this->total_paid;
+
+        if ($totalPaid >= $this->total_amount) {
             $this->payment_status = self::STATUS_PAID;
             $this->completed_billing = true;
-        } elseif ($this->amount_paid > 0 && $this->balance_due > 0) {
+        } elseif ($totalPaid > 0 && $totalPaid < $this->total_amount) {
             $this->payment_status = self::STATUS_PARTIALLY_PAID;
+        } else {
+            $this->payment_status = self::STATUS_UNPAID;
+        }
+
+        // Check if the billing is overdue
+        if ($this->payment_status !== self::STATUS_PAID && $this->billing_month->lt(Carbon::now())) {
+            $this->payment_status = self::STATUS_OVERDUE;
         }
 
         $this->save();
     }
-
 }

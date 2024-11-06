@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Log;
 class Student extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+protected $guarded = [];
     public function school()
     {
         return $this->belongsTo(Schools::class);
@@ -27,4 +27,13 @@ class Student extends Model
     {
         return $this->belongsTo(Apartment::class, 'apartment_id');
     }
+    public function billings()
+    {
+        return $this->hasMany(Billings::class, 'student_id');
+    }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'student_id');
+    }
+
 }

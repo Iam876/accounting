@@ -10,6 +10,8 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Student;
+use Illuminate\Support\Facades\Log;
+
 
 class StudentAdded
 {
@@ -21,7 +23,10 @@ class StudentAdded
 
     public function __construct(Student $student)
     {
+        Log::info('StudentAdded event fired for student ID: ' . $student->id);
         $this->student = $student;
+        \Log::info('StudentAdded event dispatched for student ID: ' . $student->id);
+
     }
 
     /**

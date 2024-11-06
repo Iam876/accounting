@@ -11,10 +11,11 @@ class Payment extends Model
 
     protected $fillable = [
         'billing_id',
-        'amount',
-        'payment_method_id',
-        'payment_id',
+        'student_id',  // Ensure this is fillable
+        'amount_paid',
         'payment_date',
+        'payment_method_id',
+        'transaction_id'
     ];
 
     public function paymentType()

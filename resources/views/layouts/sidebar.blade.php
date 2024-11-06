@@ -2,7 +2,7 @@
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
-            <nav class="greedys sidebar-horizantal">
+            {{-- <nav class="greedys sidebar-horizantal">
                 <ul class="list-inline-item list-unstyled links">
                     <li class="menu-title"><span>Main</span></li>
                     <li class="submenu">
@@ -382,14 +382,13 @@
 
                 </ul>
                 <!-- /Settings -->
-            </nav>
+            </nav> --}}
             <ul class="sidebar-vertical">
                 <!-- Main -->
                 <li class="menu-title"><span>Main</span></li>
                 <!-- /Main -->
-
                 <li class="submenu">
-                    <a href="#" class=""><i class="fe fe-user"></i> <span> Dashboard</span></a>
+                    <a href="#" class=""><i class="fe fe-user"></i> <span> {{ __('menu.dashboard') }}</span></a>
                     <!-- <ul>
                         <li><a href="dashboard.html" class="active">Dashboard</a></li>
                         <li><a href="companies.html">Companies</a></li>
@@ -400,41 +399,39 @@
                     </ul> -->
                 </li>
                 <li>
-                    <a href="{{ Route('school.index') }}"><i class="fe fe-users"></i> <span>Schools</span></a>
+                    <a href="{{ Route('school.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.schools') }}</span></a>
                 </li>
                 <li>
-                    <a href="{{ Route('apartment.index') }}"><i class="fe fe-users"></i> <span>Apartments</span></a>
+                    <a href="{{ Route('apartment.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.apartment') }}</span></a>
                 </li>
                 {{-- <li>
                     <a href="{{ Route('room.index') }}"><i class="fe fe-users"></i> <span>Rooms</span></a>
                 </li> --}}
                 <li>
-                    <a href="{{ Route('student.index') }}"><i class="fe fe-users"></i> <span>Students</span></a>
+                    <a href="{{ Route('student.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.students') }}</span></a>
                 </li>
                 <li>
-                    <a href="{{ Route('pic.index') }}"><i class="fe fe-users"></i> <span>PIC Company</span></a>
+                    <a href="{{ Route('pic.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.pic_company') }}</span></a>
                 </li>
 
                 <!-- Categories -->
                 <li class="menu-title"><span>Categories</span></li>
                 <li>
-                    <a href="{{ Route('billing_methods.index') }}"><i class="fe fe-users"></i> <span>Billing
-                            Methods</span></a>
+                    <a href="{{ Route('billing_methods.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.billing_methods') }}</span></a>
                 </li>
 
                 <li>
-                    <a href="{{ Route('package.index') }}"><i class="fe fe-users"></i> <span>Package
-                            Chooses</span></a>
+                    <a href="{{ Route('package.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.package_chooses') }}</span></a>
                 </li>
                 <li>
-                    <a href="{{ Route('role.index') }}"><i class="fe fe-users"></i> <span>Roles</span></a>
+                    <a href="{{ Route('role.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.roles') }}</span></a>
                 </li>
                 <!-- /Customers -->
 
                 <!-- Inventory -->
                 <li class="menu-title"><span>Billings</span></li>
                 <li>
-                    <a href="{{ route('billings.index') }}"><i class="fe fe-users"></i> <span>Billings</span></a>
+                    <a href="{{ route('billings.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.billings') }}</span></a>
                 </li>
                 {{-- <li>
                     <a href="inventory.html"><i class="fe fe-user"></i> <span>Inventory</span></a>

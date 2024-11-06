@@ -8,7 +8,7 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div class="content-page-header ">
-                    <h5>Schools</h5>
+                    <h5>{{ __('school.title') }}</h5>
                     <div class="list-btn">
                         <ul class="filter-list">
                             <li>
@@ -49,7 +49,7 @@
                             <li>
                                 <a href="#" class="btn btn-primary waves-effect waves-light mt-1"
                                     data-bs-toggle="modal" data-bs-target="#school_modal_add"><i
-                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Schools</a>
+                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>{{ __('school.add_school') }}</a>
                             </li>
                         </ul>
                     </div>
@@ -71,30 +71,30 @@
                                                 alt="profile-img">
                                         </div>
                                         <div class="add-profile">
-                                            <h5>Upload a New Photo</h5>
-                                            <span>School Photo</span>
+                                            <h5>{{ __('school.modal.title') }}</h5>
+                                            <span>{{ __('school.modal.subtitle') }}</span>
                                         </div>
                                     </div>
                                     <div class="img-upload d-flex">
                                         <label class="btn btn-upload">
-                                            Upload <input id="schoolImage" type="file">
+                                            {{ __('school.modal.upload_button') }} <input id="schoolImage" type="file">
                                         </label>
-                                        <a class="btn btn-remove">Remove</a>
+                                        <a class="btn btn-remove">{{ __('school.modal.remove_button') }}</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="input-block mb-3">
-                                        <label>School <span class="text-danger">*</span></label>
+                                        <label>{{ __('school.modal.school_name') }} <span class="text-danger">*</span></label>
                                         <input type="text" id="schoolName" class="form-control"
-                                            placeholder="Enter School Name">
+                                            placeholder="{{ __('school.placeholder.school_name') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="input-block mb-3">
-                                        <label>Phone <span class="text-danger">*</span></label>
-                                        <input type="text" id="phone" class="form-control" placeholder="Phone Number"
+                                        <label>{{ __('school.modal.phone') }} <span class="text-danger">*</span></label>
+                                        <input type="text" id="phone" class="form-control" placeholder="{{ __('school.placeholder.phone') }}"
                                             name="name">
                                     </div>
                                 </div>
@@ -102,20 +102,20 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="field-3" class="form-label">Address <span
+                                        <label for="field-3" class="form-label">{{ __('school.modal.address') }} <span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="address" class="form-control" id="field-3"
-                                            placeholder="Address">
+                                            placeholder="{{ __('school.placeholder.address') }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="field-4" class="form-label">City <span
+                                        <label for="field-4" class="form-label">{{ __('school.modal.city') }} <span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="city" class="form-control" id="field-4"
-                                            placeholder="Boston">
+                                            placeholder="{{ __('school.placeholder.city') }}">
                                     </div>
                                 </div>
                             </div>
@@ -123,9 +123,8 @@
                             <div class="row">
                                 <div class="col-md-12 mt-3 add-customer-btns text-end">
                                     <button type="button" class="btn customer-btn-cancel"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn customer-btn-save">Add
-                                        Schools</button>
+                                        data-bs-dismiss="modal">{{ __('school.modal.close') }}</button>
+                                    <button type="button" class="btn customer-btn-save">{{ __('school.modal.add_school') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -146,49 +145,49 @@
                                                 alt="profile-img">
                                         </div>
                                         <div class="add-profile">
-                                            <h5>Upload a New Photo</h5>
-                                            <span>School Photo</span>
+                                            <h5>{{ __('school.modal.title') }}</h5>
+                                            <span>{{ __('school.modal.subtitle') }}</span>
                                         </div>
                                     </div>
                                     <div class="img-upload d-flex">
                                         <label class="btn btn-upload">
-                                            Upload <input id="editschoolImage" type="file">
+                                            {{ __('school.modal.upload_button') }} <input id="editschoolImage" type="file">
                                         </label>
-                                        <a class="btn btn-remove">Remove</a>
+                                        <a class="btn btn-remove">{{ __('school.modal.remove_button') }}</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="input-block mb-3">
-                                        <label>School <span class="text-danger">*</span></label>
+                                        <label>{{ __('school.modal.school_name') }} <span class="text-danger">*</span></label>
                                         <input type="text" id="editschoolName" class="form-control"
-                                            placeholder="Enter School Name">
+                                            placeholder="{{ __('school.placeholder.school_name') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="input-block mb-3">
-                                        <label>Phone <span class="text-danger">*</span></label>
+                                        <label>{{ __('school.modal.phone') }} <span class="text-danger">*</span></label>
                                         <input type="text" id="editphone" class="form-control"
-                                            placeholder="Phone Number" name="name">
+                                            placeholder="{{ __('school.placeholder.phone') }}" name="name">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="field-3" class="form-label">Address <span
+                                        <label for="field-3" class="form-label">{{ __('school.modal.address') }} <span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" id="editaddress" class="form-control" placeholder="Address">
+                                        <input type="text" id="editaddress" class="form-control" placeholder="{{ __('school.placeholder.address') }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="field-4" class="form-label">City <span
+                                        <label for="field-4" class="form-label">{{ __('school.modal.city') }} <span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" id="editcity" class="form-control" placeholder="Boston">
+                                        <input type="text" id="editcity" class="form-control" placeholder="{{ __('school.placeholder.city') }}">
                                     </div>
                                 </div>
                             </div>
@@ -196,8 +195,8 @@
                             <div class="row">
                                 <div class="col-md-12 mt-3 add-customer-btns text-end">
                                     <button type="button" class="btn customer-btn-cancel"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn customer-btn-save Edit-Update-School">Update
+                                        data-bs-dismiss="modal">{{ __('school.modal.close') }}</button>
+                                    <button type="button" class="btn customer-btn-save Edit-Update-School">{{ __('school.modal.update') }}
                                         School</button>
                                 </div>
                             </div>
@@ -218,14 +217,14 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>#</th>
-                                                <th>School Image</th>
-                                                <th>School Name</th>
-                                                <th>Contact</th>
-                                                <th>Address</th>
-                                                <th>Prefecture</th>
+                                                <th>{{ __('school.table.school_image') }}</th>
+                                                <th>{{ __('school.table.school_name') }}</th>
+                                                <th>{{ __('school.table.contact') }}</th>
+                                                <th>{{ __('school.table.address') }}</th>
+                                                <th>{{ __('school.table.prefecture') }}</th>
                                                 <!-- <th>Selling Price</th> -->
                                                 <!-- <th>Purchase Price</th> -->
-                                                <th class="no-sort">Action</th>
+                                                <th class="no-sort">{{ __('school.table.action') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody id="schoolTableBody">
@@ -245,6 +244,12 @@
     <!-- /Page Wrapper -->
 
     <!-- /Main Wrapper -->
-
+    <script>
+        var translations = {
+            edit: "{{ __('school.table.edit') }}",
+            delete: "{{ __('school.table.delete') }}"
+        };
+    </script>
+    
     <script src="{{ asset('ajax/schoolAjax.js') }}"></script>
 @endsection

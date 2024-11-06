@@ -55,23 +55,22 @@
         <!-- Flag -->
         <li class="nav-item dropdown has-arrow flag-nav">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
-                <img src="{{asset('assets')}}/img/flags/us1.png" alt="flag"><span>English</span>
+                @if(app()->getLocale() == 'en')
+                    <img src="{{ asset('assets/img/flags/us1.png') }}" alt="flag"><span>English</span>
+                @else
+                    <img src="{{ asset('assets/img/flags/japan.png') }}" alt="flag"><span>日本語</span>
+                @endif
             </a>
             <div class="dropdown-menu dropdown-menu-end">
-                <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="{{asset('assets')}}/img/flags/us.png" alt="flag"><span>English</span>
+                <a href="{{ route('changeLanguage', 'en') }}" class="dropdown-item">
+                    <img src="{{ asset('assets/img/flags/us.png') }}" alt="flag"><span>English</span>
                 </a>
-                <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="{{asset('assets')}}/img/flags/fr.png" alt="flag"><span>French</span>
-                </a>
-                <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="{{asset('assets')}}/img/flags/es.png" alt="flag"><span>Spanish</span>
-                </a>
-                <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="{{asset('assets')}}/img/flags/de.png" alt="flag"><span>German</span>
+                <a href="{{ route('changeLanguage', 'ja') }}" class="dropdown-item">
+                    <img src="{{ asset('assets/img/flags/japan.png') }}" alt="flag"><span>日本語</span>
                 </a>
             </div>
         </li>
+        
         <!-- /Flag -->
 
         <li class="nav-item  has-arrow dropdown-heads ">
@@ -189,7 +188,7 @@
                 </span>
                 <span class="user-content">
                     <span class="user-details">{{ Auth::user()->name ?? "No Name" }}</span>
-                    <span class="user-name">{{ Auth::user()->roles->first()->roles_name ?? 'No role assigned' }}</span>
+                    {{-- <span class="user-name">{{ Auth::user()->roles->first()->roles_name ?? 'No role assigned' }}</span> --}}
                 </span>
             </a>
             <div class="dropdown-menu menu-drop-user">

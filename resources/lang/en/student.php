@@ -1,0 +1,67 @@
+<?php 
+return [
+    'title' => 'Students',
+    'add_student' => 'Add Student',
+    'edit_student' => 'Edit Student',
+
+    // Table headers
+    'table' => [
+        'student_image' => 'Student Image',
+        'student_name' => 'Student Name',
+        'school_name' => 'School Name',
+        'phone' => 'Phone',
+        'apartment' => 'Apartment',
+        'room' => 'Room',
+        'initial_fees' => 'Initial Fees',
+        'house_rent' => 'House Rent',
+        'utility_fees' => 'Utility',
+        'action' => 'Action',
+    ],
+
+    // Modal content for Add and Edit Student
+    'modal' => [
+        'basic_details' => 'Basic Details',
+        'upload_new_photo' => 'Upload a New Photo',
+        'profile_pic' => 'Profile-pic.jpg',
+        'student_name' => 'Student Name',
+        'name_katakana' => 'Name Katakana',
+        'email' => 'Email',
+        'phone' => 'Phone',
+        'school_name' => 'School Name',
+        'country' => 'Country',
+        'package_type' => 'Package Type',
+        'apartment' => 'Choose Apartment',
+        'room' => 'Select Room',
+        'contract_date' => 'Contract Date',
+        'termination_date' => 'Termination Date',
+        'billing_date' => 'Billing Date',
+        'initial_advance' => 'Initial/Advance',
+        'house_rent' => 'House Rent',
+        'utility_fees' => 'Utility Fees',
+        'zyro_passport' => 'Zyro (Front - Back) & Passport',
+        'upload_images' => 'Upload Images (Front, Back, Passport)',
+        'clear_image' => 'Clear Image',
+        'close' => 'Close',
+        'add_student' => 'Add Student',
+        'update_student' => 'Update Student',
+    ],
+
+    // Placeholder text
+    'placeholder' => [
+        'student_name' => 'Enter Student Name',
+        'name_katakana' => 'Enter Name in Katakana',
+        'email' => 'Enter Email Address',
+        'phone' => 'Phone Number',
+        'school_name' => 'Select School',
+        'country' => 'Select Country',
+        'package_type' => 'Select Package Type',
+        'apartment' => 'Select Apartment',
+        'room' => 'Select Room',
+        'contract_date' => 'Select Date',
+        'termination_date' => 'Select Date',
+        'billing_date' => 'Select Billing Date',
+        'initial_fees' => 'Initial Fees in Number',
+        'house_rent' => 'Rent Fees in Number',
+        'utility_fees' => 'Utility Fees in Number',
+    ],
+];

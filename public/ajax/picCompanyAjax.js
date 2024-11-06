@@ -59,8 +59,8 @@ $(document).ready(function () {
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <ul>
-                                        <li><a class="dropdown-item edit-pic-btn" data-id="${pic.id}"><i class="far fa-edit me-2"></i>Edit</a></li>
-                                        <li><a class="dropdown-item delete-pic-btn" data-id="${pic.id}"><i class="far fa-trash-alt me-2"></i>Delete</a></li>
+                                        <li><a class="dropdown-item edit-pic-btn" data-id="${pic.id}"><i class="far fa-edit me-2"></i>${translations.edit}</a></li>
+                                        <li><a class="dropdown-item delete-pic-btn" data-id="${pic.id}"><i class="far fa-trash-alt me-2"></i>${translations.delete}</a></li>
                                     </ul>
                                 </div>
                             </div>

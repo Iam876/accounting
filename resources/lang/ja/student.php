@@ -1,0 +1,67 @@
+<?php 
+return [
+    'title' => '学生',
+    'add_student' => '学生を追加',
+    'edit_student' => '学生を編集',
+
+    // Table headers
+    'table' => [
+        'student_image' => '学生の写真',
+        'student_name' => '学生名',
+        'school_name' => '学校名',
+        'phone' => '電話',
+        'apartment' => 'アパート',
+        'room' => '部屋',
+        'initial_fees' => '初期費用',
+        'house_rent' => '家賃',
+        'utility_fees' => '公共料金',
+        'action' => 'アクション',
+    ],
+
+    // Modal content for Add and Edit Student
+    'modal' => [
+        'basic_details' => '基本情報',
+        'upload_new_photo' => '新しい写真をアップロード',
+        'profile_pic' => 'プロフィール写真.jpg',
+        'student_name' => '学生名',
+        'name_katakana' => '名前（カタカナ）',
+        'email' => 'メール',
+        'phone' => '電話番号',
+        'school_name' => '学校名',
+        'country' => '国',
+        'package_type' => 'パッケージタイプ',
+        'apartment' => 'アパートを選択',
+        'room' => '部屋を選択',
+        'contract_date' => '契約日',
+        'termination_date' => '終了日',
+        'billing_date' => '請求日',
+        'initial_advance' => '初期/前払い',
+        'house_rent' => '家賃',
+        'utility_fees' => '公共料金',
+        'zyro_passport' => 'Zyro（表 - 裏）＆パスポート',
+        'upload_images' => '画像をアップロード（表、裏、パスポート）',
+        'clear_image' => '画像をクリア',
+        'close' => '閉じる',
+        'add_student' => '学生を追加',
+        'update_student' => '学生を更新',
+    ],
+
+    // Placeholder text
+    'placeholder' => [
+        'student_name' => '学生名を入力',
+        'name_katakana' => '名前をカタカナで入力',
+        'email' => 'メールアドレスを入力',
+        'phone' => '電話番号',
+        'school_name' => '学校を選択',
+        'country' => '国を選択',
+        'package_type' => 'パッケージタイプを選択',
+        'apartment' => 'アパートを選択',
+        'room' => '部屋を選択',
+        'contract_date' => '日付を選択',
+        'termination_date' => '日付を選択',
+        'billing_date' => '請求日を選択',
+        'initial_fees' => '初期費用を数字で入力',
+        'house_rent' => '家賃を数字で入力',
+        'utility_fees' => '公共料金を数字で入力',
+    ],
+];

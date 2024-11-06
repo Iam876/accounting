@@ -5,7 +5,7 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div class="content-page-header ">
-                    <h5>Apartments</h5>
+                    <h5>{{ __('apartment.title') }}</h5>
                     <div class="list-btn">
                         <ul class="filter-list">
                             <li>
@@ -43,7 +43,7 @@
                             <li>
                                 <a href="#" class="btn btn-primary waves-effect waves-light mt-1"
                                     data-bs-toggle="modal" data-bs-target="#apartment_modal_add"><i
-                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Apartments</a>
+                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>{{ __('apartment.add_apartment') }}</a>
                             </li>
 
                         </ul>
@@ -59,7 +59,7 @@
                         <div class="modal-body p-4">
                             <div class="row">
                                 <div class="form-group-item">
-                                    <h5 class="form-title">Basic Details</h5>
+                                    <h5 class="form-title">{{ __('apartment.modal.title_add') }}</h5>
                                     <div class="profile-picture">
                                         <div class="upload-profile">
                                             <div class="profile-img">
@@ -67,76 +67,80 @@
                                                     alt="profile-img">
                                             </div>
                                             <div class="add-profile">
-                                                <h5>Upload Apartment Photo</h5>
+                                                <h5>{{ __('apartment.modal.upload_button') }}</h5>
                                                 <span></span>
                                             </div>
                                         </div>
                                         <div class="img-upload d-flex">
                                             <label class="btn btn-upload">
-                                                Upload <input id="apartmentImage" type="file">
+                                                {{ __('apartment.modal.upload_button') }} <input id="apartmentImage"
+                                                    type="file">
                                             </label>
-                                            <a class="btn btn-remove">Remove</a>
+                                            <a class="btn btn-remove">{{ __('apartment.modal.remove_button') }}</a>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-4 col-md-12">
                                             <div class="input-block mb-3">
-                                                <label>Mansion Name <span class="text-danger">*</span></label>
+                                                <label>{{ __('apartment.modal.mansion_name') }} <span
+                                                        class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="mansionName"
-                                                    placeholder="Enter Mansion Name">
+                                                    placeholder="{{ __('apartment.placeholder.mansion_name') }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-12">
                                             <div class="input-block mb-3">
-                                                <label>Address <span class="text-danger">*</span></label>
+                                                <label>{{ __('apartment.modal.address') }} <span
+                                                        class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="address"
-                                                    placeholder="Enter Mansion Address">
+                                                    placeholder="{{ __('apartment.placeholder.address') }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-12">
                                             <div class="input-block mb-3">
-                                                <label>PIC Name <span class="text-danger">*</span></label>
+                                                <label>{{ __('apartment.modal.pic_name') }} <span
+                                                        class="text-danger">*</span></label>
                                                 <select class="form-control" id="pic_name">
-                                                    <option selected="selected">orange</option>
+                                                    <option selected="selected"></option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <label>Rooms</label>
+                                            <label>{{ __('apartment.modal.rooms') }}</label>
                                             {{-- <button type="button" id="add-room-btn" class="btn btn-primary mb-2">Add Room</button> --}}
                                             <button id="add-room-btn" class="btn btn-primary mb-2"
                                                 data-target-template="#room-template"
-                                                data-target-container="#rooms-container">Add Room</button>
+                                                data-target-container="#rooms-container">{{ __('apartment.modal.rooms') }}</button>
                                             <div id="rooms-container"></div>
                                             <!-- Room Template (hidden) -->
                                             <div id="room-template" class="room-item mb-3" style="display: none;">
                                                 <div class="row">
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
                                                         <input type="text" class="form-control" name="room_number"
-                                                            placeholder="Room Number">
+                                                            placeholder="{{ __('apartment.placeholder.room_number') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
                                                         <input type="text" class="form-control" name="room_type"
-                                                            placeholder="Room Type">
+                                                            placeholder="{{ __('apartment.placeholder.room_type') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
                                                         <input type="text" class="form-control" name="initial_rent"
-                                                            placeholder="Initial Rent">
+                                                            placeholder="{{ __('apartment.placeholder.initial_rent') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
                                                         <input type="text" class="form-control" name="facilities"
-                                                            placeholder="Facilities">
+                                                            placeholder="{{ __('apartment.placeholder.facilities') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
                                                         <input type="number" class="form-control" name="max_student"
-                                                            placeholder="Max Students">
+                                                            placeholder="{{ __('apartment.placeholder.max_students') }}">
                                                     </div>
                                                     <div
                                                         class="col-lg-6 col-md-6 col-sm-12 mb-2 d-flex align-items-center">
                                                         <button type="button"
-                                                            class="btn btn-danger remove-room-btn">Remove</button>
+                                                            class="btn btn-danger remove-room-btn">{{ __('apartment.modal.remove_button') }}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -147,8 +151,9 @@
                             <div class="row">
                                 <div class="col-md-12 mt-3 add-customer-btns text-end">
                                     <button type="button" class="btn customer-btn-cancel"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn customer-btn-save">Add Apartment</button>
+                                        data-bs-dismiss="modal">{{ __('apartment.modal.close') }}</button>
+                                    <button type="button"
+                                        class="btn customer-btn-save">{{ __('apartment.modal.add_apartment') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -162,7 +167,7 @@
                         <div class="modal-body p-4">
                             <div class="row">
                                 <div class="form-group-item">
-                                    <h5 class="form-title">Edit Apartment Details</h5>
+                                    <h5 class="form-title">{{ __('apartment.modal.title_edit') }}</h5>
                                     <div class="profile-picture">
                                         <div class="upload-profile">
                                             <div class="profile-img">
@@ -170,71 +175,76 @@
                                                     src="assets/img/profiles/avatar-14.jpg" alt="profile-img">
                                             </div>
                                             <div class="add-profile">
-                                                <h5>Upload Apartment Photo</h5>
+                                                <h5>{{ __('apartment.modal.upload_button') }}</h5>
                                                 <span></span>
                                             </div>
                                         </div>
                                         <div class="img-upload d-flex">
                                             <label class="btn btn-upload">
-                                                Upload <input id="editapartmentImage" type="file">
+                                                {{ __('apartment.modal.upload_button') }} <input id="editapartmentImage"
+                                                    type="file">
                                             </label>
-                                            <a class="btn btn-remove">Remove</a>
+                                            <a class="btn btn-remove">{{ __('apartment.modal.remove_button') }}</a>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-12">
                                             <div class="input-block mb-3">
-                                                <label>Mansion Name <span class="text-danger">*</span></label>
+                                                <label>{{ __('apartment.modal.mansion_name') }} <span
+                                                        class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="editmansionName"
-                                                    placeholder="Enter Mansion Name">
+                                                    placeholder="{{ __('apartment.placeholder.mansion_name') }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-12">
                                             <div class="input-block mb-3">
-                                                <label>Address <span class="text-danger">*</span></label>
+                                                <label>{{ __('apartment.modal.address') }} <span
+                                                        class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="editaddress"
-                                                    placeholder="Enter Mansion Address">
+                                                    placeholder="{{ __('apartment.placeholder.address') }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-12">
                                             <div class="input-block mb-3">
-                                                <label>PIC Name <span class="text-danger">*</span></label>
+                                                <label>{{ __('apartment.modal.pic_name') }} <span
+                                                        class="text-danger">*</span></label>
                                                 <select class="form-control" id="editpic_name"></select>
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
-                                            <label>Rooms</label>
+                                            <label>{{ __('apartment.modal.rooms') }}</label>
                                             {{-- <button type="button" id="add-edit-room-btn" class="btn btn-primary mb-2">Add Room</button> --}}
                                             <button id="add-edit-room-btn" class="btn btn-primary mb-2"
                                                 data-target-template="#edit-room-template"
-                                                data-target-container="#edit-rooms-container">Add Room</button>
+                                                data-target-container="#edit-rooms-container">{{ __('apartment.modal.rooms') }}</button>
                                             <div id="edit-rooms-container"></div>
                                             <!-- Room Template (hidden) -->
                                             <div id="edit-room-template" class="room-item mb-3" style="display: none;">
                                                 <div class="row">
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
                                                         <input type="text" class="form-control" name="room_number"
-                                                            placeholder="Room Number">
+                                                            placeholder="{{ __('apartment.placeholder.room_number') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
                                                         <input type="text" class="form-control" name="room_type"
-                                                            placeholder="Room Type">
+                                                            placeholder="{{ __('apartment.placeholder.room_type') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
                                                         <input type="text" class="form-control" name="initial_rent"
-                                                            placeholder="Initial Rent">
+                                                            placeholder="{{ __('apartment.placeholder.initial_rent') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <select class="form-control tagging" name="facilities" multiple="multiple"></select>
+                                                        <select class="form-control tagging" name="facilities"
+                                                            multiple="multiple"></select>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
                                                         <input type="number" class="form-control" name="max_student"
-                                                            placeholder="Max Students">
+                                                            placeholder="{{ __('apartment.placeholder.max_students') }}">
                                                     </div>
                                                     <div
                                                         class="col-lg-6 col-md-6 col-sm-12 mb-2 d-flex align-items-center">
                                                         <button type="button"
-                                                            class="btn btn-danger remove-room-btn">Remove</button>
+                                                            class="btn btn-danger remove-room-btn">{{ __('apartment.modal.remove_button') }}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -245,9 +255,9 @@
                             <div class="row">
                                 <div class="col-md-12 mt-3 add-customer-btns text-end">
                                     <button type="button" class="btn customer-btn-cancel"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn customer-btn-save apartment_edit_update">Update
-                                        Apartment</button>
+                                        data-bs-dismiss="modal">{{ __('apartment.modal.close') }}</button>
+                                    <button type="button"
+                                        class="btn customer-btn-save apartment_edit_update">{{ __('apartment.modal.update_apartment') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -260,36 +270,37 @@
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Room Details</h5>
+                            <h5 class="modal-title">{{ __('apartment.modal.room_details_title') }}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-lg-6 mb-3 fs-5">
-                                    <label>Room Number: </label><span style="color:#7539FF;" id="viewRoomNumber"></span>
-                                    
+                                    <label>{{ __('apartment.modal.room_number') }}: </label><span style="color:#7539FF;" id="viewRoomNumber"></span>
+
                                 </div>
                                 <div class="col-lg-6 mb-3 fs-5">
-                                    <label>Room Type: </label><span style="color:#7539FF;" id="viewRoomType"></span>
-                                    
+                                    <label>{{ __('apartment.modal.room_type') }}: </label><span style="color:#7539FF;" id="viewRoomType"></span>
+
                                 </div>
                                 <div class="col-lg-6 mb-3 fs-5">
-                                    <label>Initial Rent: </label><span style="color:#7539FF;" id="viewInitialRent"></span>
-                                    
+                                    <label>{{ __('apartment.modal.initial_rent') }}: </label><span style="color:#7539FF;" id="viewInitialRent"></span>
+
                                 </div>
                                 <div class="col-lg-6 mb-3 fs-5">
-                                    <label>Max Students: </label><span style="color:#7539FF;" id="viewMaxStudent"></span>
-                                    
+                                    <label>{{ __('apartment.modal.max_students') }}: </label><span style="color:#7539FF;" id="viewMaxStudent"></span>
+
                                 </div>
                                 <div class="col-lg-12 mb-3 fs-5">
-                                    <label>Facilities: </label>
-                                    <select  class="form-control tagging" id="viewFacilities" name="facilities" multiple="multiple" disabled></select>
+                                    <label>{{ __('apartment.modal.facilities') }}: </label>
+                                    <select class="form-control tagging" id="viewFacilities" name="facilities"
+                                        multiple="multiple" disabled></select>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('apartment.modal.close') }}</button>
                         </div>
                     </div>
                 </div>
@@ -309,13 +320,13 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>#</th>
-                                                <th>Image</th>
-                                                <th>Mansion Name</th>
-                                                <th>Address</th>
-                                                <th>Room Number</th>
-                                                <th>PIC Name</th>
-                                                <th>PIC Contact</th>
-                                                <th class="no-sort">Action</th>
+                                                <th>{{ __('apartment.table.image') }}</th>
+                                                <th>{{ __('apartment.table.mansion_name') }}</th>
+                                                <th>{{ __('apartment.table.address') }}</th>
+                                                <th>{{ __('apartment.table.room_number') }}</th>
+                                                <th>{{ __('apartment.table.pic_name') }}</th>
+                                                <th>{{ __('apartment.table.pic_contact') }}</th>
+                                                <th class="no-sort">{{ __('apartment.table.action') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -333,8 +344,12 @@
         </div>
     </div>
     <!-- /Page Wrapper -->
-
-
     <!-- /Main Wrapper -->
+    <script>
+        var translations = {
+            edit: "{{ __('school.table.edit') }}",
+            delete: "{{ __('school.table.delete') }}"
+        };
+    </script>
     <script src="{{ asset('ajax/apartmentAjax.js') }}"></script>
 @endsection

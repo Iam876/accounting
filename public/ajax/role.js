@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     // AJAX CSRF TOKEN
     $.ajaxSetup({
         headers: {
@@ -7,12 +6,11 @@ $(document).ready(function () {
         },
     });
 
-    // Add Billing Methods
+    // Add Role
     $("#role_modal_add .customer-btn-save").click(function () {
         let formData = new FormData();
-
         formData.append("roles_name", $("#roleName").val());
-        formData.append("status", $("#roleStatus").val());
+        // formData.append("guard_name", $("#guardName").val());
 
         $.ajax({
             url: "/roles/create",
@@ -32,12 +30,12 @@ $(document).ready(function () {
                 fetchRoles();
             },
             error: function () {
-                alert("Error adding billing");
+                alert("Error adding role");
             },
         });
     });
 
-    // Edit billing Method
+    // Edit Role
     $(document).on("click", ".edit-roles-btn", function () {
         let roles = $(this).data("id");
 
@@ -45,28 +43,23 @@ $(document).ready(function () {
             url: `/roles/edit/${roles}`,
             type: "GET",
             success: function (response) {
-                $("#editRoleName").val(response.roles_name);
-
-                // Set the selected value for the status field
-                $("#editRoleStatus").val(response.status).change();
-
+                $("#editRoleName").val(response.name);
+                // $("#editGuardName").val(response.guard_name);
                 $("#role_modal_edit").modal("show");
                 $(".Edit-Update").data("id", roles);
             },
             error: function () {
-                alert("Error fetching Roles data");
+                alert("Error fetching role data");
             },
         });
     });
 
-
-    // Update Billing Method
+    // Update Role
     $(".Edit-Update").click(function () {
         let roles_id = $(this).data("id");
         let formData = new FormData();
-
         formData.append("roles_name", $("#editRoleName").val());
-        formData.append("status", $("#editRoleStatus").val());
+        // formData.append("guard_name", $("#editGuardName").val());
 
         $.ajax({
             url: `/roles/update/${roles_id}`,
@@ -86,16 +79,15 @@ $(document).ready(function () {
                 fetchRoles();
             },
             error: function () {
-                alert("Error updating BIlling Modal");
+                alert("Error updating role");
             },
         });
     });
 
-
+    // Delete Role
     $(document).on('click', '.delete-roles-btn', function () {
         let delete_id = $(this).data("id");
 
-        // Trigger SweetAlert confirmation
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -105,38 +97,32 @@ $(document).ready(function () {
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
-            // If confirmed, proceed with the deletion
             if (result.isConfirmed) {
                 $.ajax({
                     url: `/roles/destroy/${delete_id}`,
                     type: "DELETE",
                     success: function (response) {
-                        // After successful deletion, show the success message
                         Swal.fire({
                             title: "Deleted!",
                             text: response.status,
                             icon: "success"
                         });
-
-                        // Refresh the school list
                         fetchRoles();
                     },
                     error: function () {
-                        alert("Error deleting Data");
+                        alert("Error deleting role");
                     },
                 });
             }
         });
     });
 
-    // Fetch Billing Methods
+    // Fetch Roles
     function fetchRoles() {
         let currentPage = $(".datatable").DataTable().page();
         $.ajax({
             url: "/fetch/roles",
-            type: "get",
-            processData: false,
-            contentType: false,
+            type: "GET",
             success: function (response) {
                 if ($.fn.DataTable.isDataTable(".datatable")) {
                     $(".datatable").DataTable().destroy();
@@ -144,17 +130,12 @@ $(document).ready(function () {
 
                 let tableBody = "";
                 response.forEach(function (RoleAll) {
-                    // console.log(response);
-                    let statusButtonClass = RoleAll.status === "active" ? "btn-success" : "btn-danger";
-                    let statusButtonText = RoleAll.status === "active" ? "Active" : "Inactive";
+                    let statusButtonClass = RoleAll.guard_name === "web" ? "btn-success" : "btn-info";
                     tableBody += `<tr>
                         <td>${RoleAll.id}</td>
-                        <td>${RoleAll.roles_name}</td>
-                        <td>
-                        <button type="button" class="btn ${statusButtonClass}">
-                            ${statusButtonText}
-                        </button>
-                        </td>
+                        <td>${RoleAll.name}</td>
+                  
+                      
                         <td class="d-flex align-items-center">
                             <div class="dropdown dropdown-action">
                                 <a href="#" class="btn-action-icon" data-bs-toggle="dropdown">
@@ -173,16 +154,14 @@ $(document).ready(function () {
 
                 $(".datatable tbody").html(tableBody);
                 $(".datatable").DataTable({
-                    "pageLength": 10 // Ensure this matches the number of rows per page you want
+                    "pageLength": 10
                 }).page(currentPage).draw(false);
-                // attachEventHandlers();
             },
             error: function () {
-                alert("Error adding billing");
+                alert("Error fetching roles");
             },
         });
     }
 
     fetchRoles();
-
 });
