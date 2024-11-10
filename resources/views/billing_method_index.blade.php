@@ -10,7 +10,7 @@
                     <h5>{{ __('billing_methods.title') }}</h5>
                     <div class="list-btn">
                         <ul class="filter-list">
-                            <li>
+                            {{-- <li>
                                 <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                                     data-bs-placement="bottom" data-bs-original-title="Filter">
                                     <span class="me-2"><img src="{{ asset('assets') }}/img/icons/filter-icon.svg" alt="filter"></span>Filter
@@ -43,7 +43,7 @@
                                     data-bs-placement="bottom" data-bs-original-title="Print">
                                     <span><i class="fe fe-printer"></i></span> 
                                 </a>
-                            </li>
+                            </li> --}}
                             <li>
                                 <a href="#" class="btn btn-primary waves-effect waves-light mt-1"
                                     data-bs-toggle="modal" data-bs-target="#billing_methods_add">
@@ -131,6 +131,18 @@
 
         </div>
     </div>
-
+    <script>
+        var translations = {
+            edit: "{{ __('billing_methods.table.edit') }}",
+            delete: "{{ __('billing_methods.table.delete') }}",
+            paginate: {
+                previous: "{{ __('datatable.paginate.previous') }}",
+                next: "{{ __('datatable.paginate.next') }}"
+            },
+            search: "{{ __('datatable.search') }}",
+            lengthMenu: "{{ __('datatable.lengthMenu') }}"
+        };
+        const defaultImagePath = "{{ asset('/assets/img/no-image.png') }}";
+    </script>
     <script src="{{ asset('ajax/billingMethod.js') }}"></script>
 @endsection

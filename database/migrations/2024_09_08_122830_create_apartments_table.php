@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('image')->nullable(); // URL of the image
             $table->string('mansion_name')->nullable();
+            $table->string('mansion_structure')->nullable();
             $table->text('mansion_address')->nullable();
             $table->string('pic_id')->nullable();
             // $table->string('contact')->nullable();

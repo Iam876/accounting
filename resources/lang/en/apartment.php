@@ -25,6 +25,7 @@ return [
         'remove_button' => 'Remove',
         'mansion_name' => 'Mansion Name',
         'address' => 'Address',
+        'structure' => 'Apartment Structure',
         'pic_name' => 'PIC Name',
         'rooms' => 'Rooms',
         'close' => 'Close',
@@ -44,6 +45,7 @@ return [
     'placeholder' => [
         'mansion_name' => 'Enter Mansion Name',
         'address' => 'Enter Mansion Address',
+        'structure' => 'Enter Apartment Structures',
         'room_number' => 'Room Number',
         'room_type' => 'Room Type',
         'initial_rent' => 'Initial Rent',

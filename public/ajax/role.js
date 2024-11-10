@@ -143,8 +143,8 @@ $(document).ready(function () {
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <ul>
-                                        <li><a class="dropdown-item edit-roles-btn" data-id="${RoleAll.id}"><i class="far fa-edit me-2"></i>Edit</a></li>
-                                        <li><a class="dropdown-item delete-roles-btn" data-id="${RoleAll.id}"><i class="far fa-trash-alt me-2"></i>Delete</a></li>
+                                        <li><a class="dropdown-item edit-roles-btn" data-id="${RoleAll.id}"><i class="far fa-edit me-2"></i>${translations.edit}</a></li>
+                                        <li><a class="dropdown-item delete-roles-btn" data-id="${RoleAll.id}"><i class="far fa-trash-alt me-2"></i>${translations.delete}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -154,7 +154,15 @@ $(document).ready(function () {
 
                 $(".datatable tbody").html(tableBody);
                 $(".datatable").DataTable({
-                    "pageLength": 10
+                    pageLength: 10,
+                    language: {
+                        paginate: {
+                            previous: translations.paginate.previous,
+                            next: translations.paginate.next
+                        },
+                        search: translations.search,
+                        lengthMenu: translations.lengthMenu
+                    }
                 }).page(currentPage).draw(false);
             },
             error: function () {

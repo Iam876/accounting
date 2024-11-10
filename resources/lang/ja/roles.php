@@ -10,6 +10,8 @@ return [
         'role_name' => '役割名',
         'status' => 'ステータス',
         'action' => 'アクション',
+        'edit' => '編集',
+        'delete' => '消去',
     ],
 
     // Modal content for Add and Edit Role

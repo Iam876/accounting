@@ -70,9 +70,16 @@ $(document).ready(function () {
 
                 $(".datatable tbody").html(tableBody);
                 $(".datatable").DataTable({
-                    "pageLength": 10 // Ensure this matches the number of rows per page you want
+                    pageLength: 10,
+                    language: {
+                        paginate: {
+                            previous: translations.paginate.previous,
+                            next: translations.paginate.next
+                        },
+                        search: translations.search,
+                        lengthMenu: translations.lengthMenu
+                    }
                 }).page(currentPage).draw(false);
-                // attachEventHandlers();
             },
             error: function () {
                 alert("Error fetching pic data");

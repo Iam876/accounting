@@ -10,6 +10,8 @@ return [
         'role_name' => 'Role Name',
         'status' => 'Status',
         'action' => 'Action',
+        'edit' => 'Edit',
+        'delete' => 'Delete',
     ],
 
     // Modal content for Add and Edit Role

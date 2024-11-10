@@ -7,82 +7,85 @@ $(document).ready(function () {
         },
     });
 
+    // Initialize Select2 when either modal is opened
     $("#student_modal_add, #student_modal_edit").on("shown.bs.modal", function () {
-        let modal = $(this); // Identify which modal is being opened
+        let modal = $(this);
 
-        // Initialize Select2 for School
+        // Initialize Select2 for each select element
         modal.find('#schoolName, #editschoolName').select2({
-            placeholder: "Select School",
+            placeholder: `${translations.school_select}`,
             width: "100%",
             allowClear: true,
-            dropdownParent: modal // Ensure the dropdown stays inside the modal
+            dropdownParent: modal
         });
 
-        // Initialize Select2 for Apartment
         modal.find('#selectApartment, #editselectApartment').select2({
-            placeholder: "Select an Apartment",
+            placeholder: `${translations.apartment_select}`,
             width: "100%",
             allowClear: true,
             dropdownParent: modal
         });
 
-        // Initialize Select2 for Package Type
         modal.find('#packageType, #editpackageType').select2({
-            placeholder: "Select Package Type",
+            placeholder: `${translations.package_select}`,
             width: "100%",
             allowClear: true,
             dropdownParent: modal
         });
 
-        // Initialize Select2 for Country
         modal.find('#country, #editcountry').select2({
-            placeholder: "Select Country",
-            width: "100%",
-            allowClear: true,
-            dropdownParent: modal
-        });
-        // Initialize Select2 for Room
-        modal.find('#selectRoom, #editselectRoom').select2({
-            placeholder: "Select Room",
+            placeholder: `${translations.country_select}`,
             width: "100%",
             allowClear: true,
             dropdownParent: modal
         });
 
-        // Fetch necessary data
-        fetchSchools(); // Fetch school options
-        fetchApartments(); // Fetch apartment options
-        fetchPackageTypes(); // Fetch package type options
-        fetchCountries();
-        fetchRooms();
-        // loadRooms();
+        modal.find('#selectRoom, #editselectRoom').select2({
+            placeholder: `${translations.room_select}`,
+            width: "100%",
+            allowClear: true,
+            dropdownParent: modal
+        });
     });
+
+    // Reset form fields and fetch data each time the "Add" modal is opened
+    $("#student_modal_add").on("show.bs.modal", function () {
+        // Clear all input fields
+        $(this).find("input[type='text'], input[type='email'], input[type='number']").val("");
+        $(this).find("select").val(null).trigger("change"); // Reset all select fields
+
+        // Fetch fresh options for each dropdown
+        fetchSchools();
+        fetchCountries();
+        fetchPackageTypes();
+        fetchApartments();
+    });
+
 
     $(document).on('change', '#selectApartment, #editselectApartment', function () {
         console.log("Dropdown value: ", $(this).val()); // Log the value directly
-        
+
         let apartmentId = $(this).val();
         console.log("Apartment ID inside event listener: ", apartmentId); // Log after assigning it to the variable
-        
+
         if (apartmentId) {
             fetchRooms(apartmentId); // Fetch and load rooms based on apartment ID
         }
     });
-    
-    
 
-    function fetchSchools(selectedSchoolId = null) {
+
+    // Function to fetch and populate Schools
+    function fetchSchools(selectedValue = null) {
         $.ajax({
-            url: `/get-schools`, // Correct URL for fetching schools
+            url: `/get-schools`,
             type: "GET",
             success: function (data) {
                 let options = '<option value="">Select school</option>';
-                options += data.map(school => `<option value="${school.id}">${school.school_name}</option>`);
+                options += data.map(school => `<option value="${school.id}">${school.school_name}</option>`).join('');
                 $("#schoolName, #editschoolName").html(options);
 
-                // Set the selected school for edit modal
-                if (selectedSchoolId) {
-                    $("#editschoolName").val(selectedSchoolId).trigger('change');
+                if (selectedValue) {
+                    $("#editschoolName").val(selectedValue).trigger('change');
                 }
             },
             error: function (error) {
@@ -91,23 +94,38 @@ $(document).ready(function () {
         });
     }
 
-    // Fetch Apartments Data
-    function fetchApartments(selectedApartmentId = null, selectedRoomId = null) {
+    // Function to fetch and populate Countries
+    function fetchCountries(selectedValue = null) {
         $.ajax({
-            url: `/get-apartments`, // Correct URL for fetching apartments
+            url: `/get-countries`,
             type: "GET",
             success: function (data) {
-                // Add the placeholder as the first option
-                let options = '<option value="">Select an Apartment</option>';
+                let options = '<option value="">Select Country</option>';
+                options += Object.entries(data.countries).map(([code, name]) => `<option value="${name}">${name}</option>`).join('');
+                $("#country, #editcountry").html(options);
+
+                if (selectedValue) {
+                    $("#editcountry").val(selectedValue).trigger('change');
+                }
+            },
+            error: function (error) {
+                console.log("Error fetching countries: ", error);
+            }
+        });
+    }
+
+    // Function to fetch and populate Apartments
+    function fetchApartments(selectedApartmentId = null, selectedRoomId = null) {
+        $.ajax({
+            url: `/get-apartments`,
+            type: "GET",
+            success: function (data) {
+                let options = '<option value="">Select Apartment</option>';
                 options += data.map(apartment => `<option value="${apartment.id}">${apartment.mansion_name}</option>`).join('');
-    
-                // Update the dropdown with the options
                 $("#selectApartment, #editselectApartment").html(options);
-    
-                // If editing, set the selected apartment but don't trigger the change event initially
+
                 if (selectedApartmentId) {
-                    $("#editselectApartment").val(selectedApartmentId);
-                    // Manually call fetchRooms only if the dropdown value is already set
+                    $("#editselectApartment").val(selectedApartmentId).trigger('change');
                     fetchRooms(selectedApartmentId, selectedRoomId);
                 }
             },
@@ -116,21 +134,19 @@ $(document).ready(function () {
             }
         });
     }
-    
 
-    // Fetch Package Types Data
-    function fetchPackageTypes(selectedPackageId = null) {
+    // Function to fetch and populate Package Types
+    function fetchPackageTypes(selectedValue = null) {
         $.ajax({
-            url: `/get-packages`, // Correct URL for fetching package types
+            url: `/get-packages`,
             type: "GET",
             success: function (data) {
-                let options = '<option value="">Select packages</option>';
-                options += data.map(package => `<option value="${package.id}">${package.package_name}</option>`);
+                let options = '<option value="">Select Package</option>';
+                options += data.map(package => `<option value="${package.id}">${package.package_name}</option>`).join('');
                 $("#packageType, #editpackageType").html(options);
 
-                // Set the selected package for edit modal
-                if (selectedPackageId) {
-                    $("#editpackageType").val(selectedPackageId).trigger('change');
+                if (selectedValue) {
+                    $("#editpackageType").val(selectedValue).trigger('change');
                 }
             },
             error: function (error) {
@@ -139,29 +155,26 @@ $(document).ready(function () {
         });
     }
 
-    // Fetch Rooms Based on Apartment ID
+    // Function to fetch and populate Rooms based on Apartment ID
     function fetchRooms(apartmentId, selectedRoomId = null) {
         $.ajax({
-            url: `/get-rooms/${apartmentId}`, // Correct URL for fetching rooms
+            url: `/get-rooms/${apartmentId}`,
             type: "GET",
             success: function (data) {
-                console.log('Rooms Data:', data); // Log the received data
-                console.log(apartmentId); // Log the received data
-    
-                let options = data.map(room => `<option value="${room.id}">${room.room_number}</option>`);
+                let options = '<option value="">Select Room</option>';
+                options += data.map(room => `<option value="${room.id}">${room.room_number}</option>`).join('');
                 $("#selectRoom, #editselectRoom").html(options);
-    
-                // Set the selected room for edit modal
+
                 if (selectedRoomId) {
                     $("#editselectRoom").val(selectedRoomId).trigger('change');
                 }
             },
             error: function (error) {
-                console.log("Error fetching rooms: ", error); // Log the error
+                console.log("Error fetching rooms: ", error);
             }
         });
     }
-    
+
     // Add Student Data
     $("#student_modal_add .customer-btn-save").click(function () {
         let formData = new FormData();
@@ -198,7 +211,7 @@ $(document).ready(function () {
         formData.append("room_id", $("#selectRoom").val());
         formData.append("contract_date", $("#contractDate").val());
         formData.append("termination_date", $("#terminitionDate").val());
-        formData.append("billing_date", $("#billingDate").val());
+        formData.append("futon", $("#futon").val());
         formData.append("initial_fees", $("#initialFees").val());
         formData.append("house_rent", $("#houseRent").val());
         formData.append("utility_fees", $("#utilityFees").val());
@@ -233,12 +246,12 @@ $(document).ready(function () {
                     // Laravel validation errors
                     let errors = xhr.responseJSON.errors;
                     console.log(errors); // Log errors to inspect them
-            
+
                     // Map validation fields to match form IDs
                     for (let field in errors) {
                         let mappedField = mapFieldToInputId(field); // Use the mapping function
                         let inputField = $("#" + mappedField); // Find the input field by mapped ID
-            
+
                         inputField.addClass('is-invalid'); // Add Bootstrap's invalid class
                         inputField.siblings('.invalid-feedback').text(errors[field][0]); // Show error message
                     }
@@ -246,7 +259,7 @@ $(document).ready(function () {
                     alert("Error adding student. Please check the form and try again.");
                 }
             }
-            
+
         });
     });
 
@@ -263,7 +276,7 @@ $(document).ready(function () {
             'room_id': 'selectRoom',
             'contract_date': 'contractDate',
             'termination_date': 'terminitionDate',
-            'billing_date': 'billingDate',
+            'futon': 'futon',
             'initial_fees': 'initialFees',
             'house_rent': 'houseRent',
             'utility_fees': 'utilityFees',
@@ -291,10 +304,9 @@ $(document).ready(function () {
                     tableBody += `<tr>
                         <td>${student.id}</td>
                        <td>
-                            <a href="${student.student_image ? student.student_image : '{{ asset("default-image-path.jpg") }}'}" 
-                            class="image-popup avatar avatar-md me-2 companies">
+                            <a href="${student.student_image ? student.student_image : defaultImagePath}" class="image-popup avatar avatar-md me-2 companies">
                                 <img class="img-fluid avatar-img sales-rep" 
-                                    src="${student.student_image ? url + student.student_image : '{{ asset("default-image-path.jpg") }}'}" 
+                                    src="${student.student_image ? student.student_image : defaultImagePath}" 
                                     alt="School Image" />
                             </a>
                         </td>
@@ -316,8 +328,9 @@ $(document).ready(function () {
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <ul>
-                                        <li><a class="dropdown-item edit-student-btn" data-id="${student.id}"><i class="far fa-edit me-2"></i>Edit</a></li>
-                                        <li><a class="dropdown-item delete-student-btn" data-id="${student.id}"><i class="far fa-trash-alt me-2"></i>Delete</a></li>
+                                        <li><a class="dropdown-item edit-student-btn" data-id="${student.id}"><i class="far fa-edit me-2"></i>${translations.edit}</a></li>
+                                        <li><a class="dropdown-item delete-student-btn" data-id="${student.id}"><i class="far fa-trash-alt me-2"></i>${translations.delete}</a></li>
+                                        <li><a href="/export-student/${student.id}" class="dropdown-item"><i class="far fa-file-excel me-2"></i>${translations.student_contract}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -327,7 +340,15 @@ $(document).ready(function () {
 
                 $(".datatable tbody").html(tableBody);
                 $(".datatable").DataTable({
-                    "pageLength": 10 // Ensure this matches the number of rows per page you want
+                    pageLength: 10,
+                    language: {
+                        paginate: {
+                            previous: translations.paginate.previous,
+                            next: translations.paginate.next
+                        },
+                        search: translations.search,
+                        lengthMenu: translations.lengthMenu
+                    }
                 }).page(currentPage).draw(false);
                 attachEventHandlers();
             },
@@ -337,80 +358,76 @@ $(document).ready(function () {
         });
     }
 
+    // Handle Edit Button Click to Populate Modal with Existing Data
     $(document).on("click", ".edit-student-btn", function () {
         let studentId = $(this).data("id");
 
-        // Fetch the student data for editing
         $.ajax({
             url: `/students/edit/${studentId}`,
             type: "GET",
             success: function (response) {
-                // console.log(response);
-                let host = window.location.origin;
-                let imageContainer = $('.custom-file-container__image-preview');
-                imageContainer.empty();
-
-                // Populate image and fields
-                $("#editblah").attr("src", host + "/" + response.student_image);
+                // Populate fields with student data
                 $("#editstudentName").val(response.student_name);
                 $("#editstudentKatakana").val(response.name_katakana);
                 $("#editemail").val(response.email);
                 $("#editmobile_code").val(response.phone);
-                $("#editcountry").val(response.country);
+
+                // Fetch options and set selected values
+                fetchSchools(response.school_id);
+                fetchCountries(response.country);
+                fetchPackageTypes(response.package_id);
+                fetchApartments(response.apartment_id, response.room_id);
+
+                // Populate other fields
                 $("#editcontractDate").val(response.contract_date);
                 $("#editterminitionDate").val(response.termination_date);
-                $("#editbillingDate").val(response.billing_date);
+                $("#editfuton").val(response.futon);
                 $("#editinitialFees").val(response.initial_fees);
                 $("#edithouseRent").val(response.house_rent);
                 $("#editutilityFees").val(response.utility_fees);
 
-                // Load school, apartment, and room data and set the selected values
-                fetchSchools(response.school_id);
-                fetchApartments(response.apartment_id, response.room_id);
-                fetchPackageTypes(response.package_id);
-                console.log(response.zyro_front);
-                $('.custom-file-container__image-preview').html('');
+                // Handle Images
+                let imageContainer = $('.custom-file-container__image-preview');
+                imageContainer.empty(); // Clear any existing images
 
                 // Display zyro_front image
                 if (response.zyro_front) {
                     let zyroFrontHtml = `
-                        <div class="custom-file-container__image-multi-preview" id="zyro_front" style="background-image: url('${response.zyro_front}');">
-                            <span class="custom-file-container__image-multi-preview__single-image-clear">
-                                <span class="custom-file-container__image-multi-preview__single-image-clear__icon">×</span>
-                            </span>
-                        </div>
-                    `;
-                    $('.custom-file-container__image-preview').append(zyroFrontHtml);
+                    <div class="custom-file-container__image-multi-preview" id="zyro_front" style="background-image: url('${response.zyro_front}');">
+                        <span class="custom-file-container__image-multi-preview__single-image-clear">
+                            <span class="custom-file-container__image-multi-preview__single-image-clear__icon">×</span>
+                        </span>
+                    </div>
+                `;
+                    imageContainer.append(zyroFrontHtml);
                 }
 
                 // Display zyro_back image
                 if (response.zyro_back) {
                     let zyroBackHtml = `
-                        <div class="custom-file-container__image-multi-preview" id="zyro_back" style="background-image: url('${response.zyro_back}');">
-                            <span class="custom-file-container__image-multi-preview__single-image-clear">
-                                <span class="custom-file-container__image-multi-preview__single-image-clear__icon">×</span>
-                            </span>
-                        </div>
-                    `;
-                    $('.custom-file-container__image-preview').append(zyroBackHtml);
+                    <div class="custom-file-container__image-multi-preview" id="zyro_back" style="background-image: url('${response.zyro_back}');">
+                        <span class="custom-file-container__image-multi-preview__single-image-clear">
+                            <span class="custom-file-container__image-multi-preview__single-image-clear__icon">×</span>
+                        </span>
+                    </div>
+                `;
+                    imageContainer.append(zyroBackHtml);
                 }
 
                 // Display passport_photo image
                 if (response.passport_photo) {
                     let passportHtml = `
-                        <div class="custom-file-container__image-multi-preview" id="passport_photo" style="background-image: url('${response.passport_photo}');">
-                            <span class="custom-file-container__image-multi-preview__single-image-clear">
-                                <span class="custom-file-container__image-multi-preview__single-image-clear__icon">×</span>
-                            </span>
-                        </div>
-                    `;
-                    $('.custom-file-container__image-preview').append(passportHtml);
+                    <div class="custom-file-container__image-multi-preview" id="passport_photo" style="background-image: url('${response.passport_photo}');">
+                        <span class="custom-file-container__image-multi-preview__single-image-clear">
+                            <span class="custom-file-container__image-multi-preview__single-image-clear__icon">×</span>
+                        </span>
+                    </div>
+                `;
+                    imageContainer.append(passportHtml);
                 }
 
                 // Show the modal
                 $("#student_modal_edit").modal("show");
-
-                // Store the student ID in the save button for future reference
                 $(".update-student").data("id", studentId);
             },
             error: function (xhr) {
@@ -419,7 +436,7 @@ $(document).ready(function () {
             }
         });
     });
-    
+
     function fetchCountries(selectedCountry = null) {
         $.ajax({
             url: `/get-countries`,
@@ -429,7 +446,7 @@ $(document).ready(function () {
                 let options = '<option value="">Select an Apartment</option>';
                 options += Object.entries(data.countries).map(([code, name]) => `<option value="${name}">${name}</option>`);
                 $("#country, #editcountry").html(options);
-    
+
                 // Set the selected country for edit modal
                 if (selectedCountry) {
                     $("#editcountry").val(selectedCountry).trigger('change');
@@ -440,7 +457,7 @@ $(document).ready(function () {
             }
         });
     }
-    
+
     // Update Student
     $(document).on("click", ".update-student", function () {
         let studentId = $(this).data("id");
@@ -478,7 +495,7 @@ $(document).ready(function () {
         formData.append("room_id", $("#editselectRoom").val());
         formData.append("contract_date", $("#editcontractDate").val());
         formData.append("termination_date", $("#editterminitionDate").val());
-        formData.append("billing_date", $("#editbillingDate").val());
+        formData.append("futon", $("#editfuton").val());
         formData.append("initial_fees", $("#editinitialFees").val());
         formData.append("house_rent", $("#edithouseRent").val());
         formData.append("utility_fees", $("#editutilityFees").val());
@@ -506,80 +523,6 @@ $(document).ready(function () {
             },
         });
     });
-
-
-    // Function to load room data based on the selected apartment
-    // function loadRooms(apartmentId, selectedRoomId = null) {
-    //     $.ajax({
-    //         url: `/get-rooms/${apartmentId}`, // Correct URL for fetching rooms
-    //         type: 'GET',
-    //         success: function (rooms) {
-    //             console.log(rooms);
-    //             let roomSelect = $("#selectRoom, #editselectRoom");
-    //             roomSelect.empty();
-    //             roomSelect.append('<option disabled selected>Select Room</option>');
-
-    //             $.each(rooms, function (key, room) {
-    //                 roomSelect.append(
-    //                     `<option value="${room.id}" ${room.id == selectedRoomId ? 'selected' : ''}>${room.room_number}</option>`
-    //                 );
-    //             });
-    //         },
-    //         error: function () {
-    //             alert("Error loading rooms");
-    //         }
-    //     });
-    // }
-    // loadRooms();
-
-    // $(".update-student").click(function () {
-    //     let studentId = $(this).data("id");
-    //     let formData = new FormData();
-    //     let fileInput = $("#userPhoto")[0].files;
-
-    //     if (fileInput.length > 0) {
-    //         formData.append("student_image", fileInput[0]);
-    //     }
-
-    //     formData.append("student_name", $("#studentName").val());
-    //     formData.append("name_katakana", $("#studentKatakana").val());
-    //     formData.append("email", $("#email").val());
-    //     formData.append("phone", $("#mobile_code").val());
-    //     formData.append("school_id", $("#schoolName").val());
-    //     formData.append("country", $("#country").val());
-    //     formData.append("package_id", $("#packageType").val());
-    //     formData.append("apartment_id", $("#selectApartment").val());
-    //     formData.append("room_id", $("#selectRoom").val());
-    //     formData.append("contract_date", $("#contractDate").val());
-    //     formData.append("termination_date", $("#terminitionDate").val());
-    //     formData.append("billing_date", $("#billingDate").val());
-    //     formData.append("initial_fees", $("#initialFees").val());
-    //     formData.append("house_rent", $("#houseRent").val());
-    //     formData.append("utility_fees", $("#utilityFees").val());
-
-    //     $.ajax({
-    //         url: `/students/update/${studentId}`,
-    //         type: "POST",
-    //         data: formData,
-    //         processData: false,
-    //         contentType: false,
-    //         success: function () {
-    //             Swal.fire({
-    //                 position: "top-end",
-    //                 icon: "success",
-    //                 title: "Student updated successfully!",
-    //                 showConfirmButton: false,
-    //                 timer: 3000,
-    //             });
-    //             $("#student_modal_edit").modal("hide");
-    //             fetchStudents();
-    //         },
-    //         error: function () {
-    //             alert("Error updating student");
-    //         },
-    //     });
-    // });
-
 
     // Attach dynamic event handlers
     function attachEventHandlers() {

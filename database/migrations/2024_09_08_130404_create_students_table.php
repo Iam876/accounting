@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedBigInteger('room_id')->nullable(); // Selected room
             $table->date('contract_date')->nullable();
             $table->date('termination_date')->nullable();
-            $table->date('billing_date')->nullable();
+            $table->decimal('futon',10, 2)->nullable();
             $table->longText('remarks')->nullable(); // Remarks field
             $table->decimal('initial_fees', 10, 2)->nullable(); // Initial fees field
             $table->decimal('house_rent', 10, 2)->nullable(); // House rent field
@@ -39,8 +39,7 @@ return new class extends Migration
         
             $table->timestamps();
             $table->softDeletes();
-        
-            // Foreign key constraints
+
             // $table->foreign('school_id')->references('id')->on('schools')->onDelete('set null');
             $table->foreign('package_id')->references('id')->on('package_chooses')->onDelete('set null');
             $table->foreign('apartment_id')->references('id')->on('apartments')->onDelete('set null');

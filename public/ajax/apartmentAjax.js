@@ -1,12 +1,12 @@
 $(document).ready(function () {
-    // Initialize select2 with tagging options
-    $(".tagging, #editroom").select2({
-        tags: true,
-        tokenSeparators: [",", " "],
-        placeholder: function () {
-            return $(this).data("placeholder");
-        },
-    });
+    // // Initialize select2 with tagging options
+    // $(".tagging, #editroom,.edit-tagging").select2({
+    //     tags: true,
+    //     tokenSeparators: [",", " "],
+    //     placeholder: function () {
+    //         return $(this).data("placeholder");
+    //     },
+    // });
 
     // Add and remove room functionality
     $(document).on("click", "#add-room-btn, #add-edit-room-btn", function () {
@@ -44,6 +44,7 @@ $(document).ready(function () {
 
         formData.append("mansion_name", $("#mansionName").val());
         formData.append("address", $("#address").val());
+        formData.append("mansion_structure", $("#mansion_structure").val());
         formData.append("pic_value", $("#pic_name").val());
 
         // Gather room data
@@ -110,6 +111,7 @@ $(document).ready(function () {
                 // Populate form fields with response data
                 $("#editmansionName").val(response.mansion_name);
                 $("#editaddress").val(response.mansion_address);
+                $("#edit_mansion_structure").val(response.mansion_structure);
                 $("#editpic_name").val(response.pic_id);
                 populatePicOptions(response.pic_id);
                 // Populate room data
@@ -138,41 +140,33 @@ $(document).ready(function () {
         const formData = new FormData();
         const fileInput = $("#editapartmentImage")[0].files;
 
-        // Include the image if a new one was selected
         if (fileInput.length > 0) {
             formData.append("image", fileInput[0]);
         }
 
-        // Add other apartment details to formData
         formData.append("mansion_name", $("#editmansionName").val());
         formData.append("mansion_address", $("#editaddress").val());
+        formData.append("mansion_structure", $("#edit_mansion_structure").val());
         formData.append("pic_id", $("#editpic_name").val());
 
-        // Gather room data from the edit form
+        // Update to use `id` instead of `room_id`
         $("#edit-rooms-container .room-item").each(function (index) {
-            formData.append(
-                `rooms[${index}][room_number]`,
-                $(this).find('[name="room_number"]').val()
-            );
-            formData.append(
-                `rooms[${index}][room_type]`,
-                $(this).find('[name="room_type"]').val()
-            );
-            formData.append(
-                `rooms[${index}][initial_rent]`,
-                $(this).find('[name="initial_rent"]').val()
-            );
-            formData.append(
-                `rooms[${index}][facilities]`,
-                $(this).find('[name="facilities"]').val()
-            );
-            formData.append(
-                `rooms[${index}][max_student]`,
-                $(this).find('[name="max_student"]').val()
-            );
+            const roomIdValue = $(this).find('[name="id"]').val(); // Change here
+            const roomId = roomIdValue ? parseInt(roomIdValue, 10) : null;
+
+            console.log("Room ID:", roomId); // Verify this is correct
+
+            if (roomId !== null && !isNaN(roomId)) {
+                formData.append(`rooms[${index}][id]`, roomId); // Update here
+            }
+
+            formData.append(`rooms[${index}][room_number]`, $(this).find('[name="room_number"]').val());
+            formData.append(`rooms[${index}][room_type]`, $(this).find('[name="room_type"]').val());
+            formData.append(`rooms[${index}][initial_rent]`, $(this).find('[name="initial_rent"]').val());
+            formData.append(`rooms[${index}][facilities]`, $(this).find('[name="facilities"]').val());
+            formData.append(`rooms[${index}][max_student]`, $(this).find('[name="max_student"]').val());
         });
 
-        // Send the updated data through AJAX
         $.ajax({
             url: `/apartment/update/${apartmentId}`,
             type: "POST",
@@ -188,7 +182,7 @@ $(document).ready(function () {
                     timer: 3000,
                 });
                 $("#apartment_modal_edit").modal("hide");
-                fetchApartment(); // Refresh the apartment list or data
+                fetchApartment();
             },
             error: function (xhr) {
                 console.log(xhr.responseText);
@@ -218,43 +212,36 @@ $(document).ready(function () {
                         // Create buttons for each room number
                         const roomButtons = roomNumbers.length
                             ? roomNumbers
-                                  .map(
-                                      (room, index) =>
-                                          `<button class="btn btn-primary m-1 room-details-btn" data-room-id="${
-                                              apartment.rooms[index].id
-                                          }" data-room="${encodeURIComponent(
-                                              JSON.stringify(
-                                                  apartment.rooms[index]
-                                              )
-                                          )}" style="font-size:11px;">${room}</button>`
-                                  )
-                                  .join("")
+                                .map(
+                                    (room, index) =>
+                                        `<button class="btn btn-primary m-1 room-details-btn" data-room-id="${apartment.rooms[index].id
+                                        }" data-room="${encodeURIComponent(
+                                            JSON.stringify(
+                                                apartment.rooms[index]
+                                            )
+                                        )}" style="font-size:11px;">${room}</button>`
+                                )
+                                .join("")
                             : "No Room";
 
                         // Generate the table row for each apartment
                         return `<tr>
                             <td>${apartment.id}</td>
                             <td>
-                                <a href="${
-                                    apartment.image ||
-                                    '{{ asset("default-image-path.jpg") }}'
-                                }" class="image-popup avatar avatar-md me-2 companies">
-                                    <img class="img-fluid avatar-img sales-rep" src="${
-                                        apartment.image ||
-                                        '{{ asset("default-image-path.jpg") }}'
-                                    }" alt="Apartment Image" />
-                                </a>
+                                <a href="${apartment.image ? apartment.image : defaultImagePath}" class="image-popup avatar avatar-md me-2 companies">
+                                <img class="img-fluid avatar-img sales-rep" 
+                                    src="${apartment.image ? apartment.image : defaultImagePath}" 
+                                    alt="School Image" />
+                            </a>
                             </td>
                             <td>${apartment.mansion_name}</td>
                             <td>${apartment.mansion_address}</td>
                             <td>${roomButtons}</td>
-                            <td>${
-                                apartment.pic?.pic_company_name ||
-                                "Not Available"
+                            <td>${apartment.pic?.pic_company_name ||
+                            "Not Available"
                             }</td>
-                            <td>${
-                                apartment.pic?.pic_company_contact ||
-                                "Not Available"
+                            <td>${apartment.pic?.pic_company_contact ||
+                            "Not Available"
                             }</td>
                             <td class="d-flex align-items-center">
                                 <div class="dropdown dropdown-action">
@@ -264,16 +251,14 @@ $(document).ready(function () {
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <ul>
                                             <li>
-                                                <a class="dropdown-item apartment_edit_btn" data-id="${
-                                                    apartment.id
-                                                }">
+                                                <a class="dropdown-item apartment_edit_btn" data-id="${apartment.id
+                            }">
                                                     <i class="far fa-edit me-2"></i>${translations.edit}
                                                 </a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item delete-apartment-btn" data-id="${
-                                                    apartment.id
-                                                }">
+                                                <a class="dropdown-item delete-apartment-btn" data-id="${apartment.id
+                            }">
                                                     <i class="far fa-trash-alt me-2"></i>${translations.delete}
                                                 </a>
                                             </li>
@@ -287,10 +272,17 @@ $(document).ready(function () {
 
                 // Update the table body and reinitialize DataTable
                 $(".datatable tbody").html(tableBody);
-                $(".datatable")
-                    .DataTable({ pageLength: 10 })
-                    .page(currentPage)
-                    .draw(false);
+                $(".datatable").DataTable({
+                    pageLength: 10,
+                    language: {
+                        paginate: {
+                            previous: translations.paginate.previous,
+                            next: translations.paginate.next
+                        },
+                        search: translations.search,
+                        lengthMenu: translations.lengthMenu
+                    }
+                }).page(currentPage).draw(false);
             },
             error: function () {
                 alert("Error fetching apartments");
@@ -360,50 +352,71 @@ $(document).ready(function () {
         });
     }
 
+    // function populateRoomNumbers(rooms) {
+    //     const container = $("#edit-rooms-container");
+    //     container.empty();
+    //     console.log(rooms);
+    //     rooms.forEach((room) => {
+    //         const newRoom = $("#edit-room-template")
+    //             .clone()
+    //             .removeAttr("id")
+    //             .show();
+
+    //         newRoom.find('[name="room_number"]').val(room.room_number);
+    //         newRoom.find('[name="room_type"]').val(room.room_type);
+    //         newRoom.find('[name="initial_rent"]').val(room.initial_rent);
+    //         newRoom.find('[name="max_student"]').val(room.max_student);
+
+    //         // Populate the facilities field as a comma-separated string if it exists
+    //         if (room.facilities) {
+    //             try {
+    //                 const facilitiesArray = JSON.parse(room.facilities);
+    //                 newRoom.find('[name="facilities"]').val(facilitiesArray.join(", "));
+    //             } catch (error) {
+    //                 console.error("Error parsing facilities:", error);
+    //                 newRoom.find('[name="facilities"]').val(room.facilities);
+    //             }
+    //         }
+
+    //         container.append(newRoom);
+    //     });
+    // }
+
     function populateRoomNumbers(rooms) {
         const container = $("#edit-rooms-container");
         container.empty();
+        console.log(rooms);
 
         rooms.forEach((room) => {
             const newRoom = $("#edit-room-template")
                 .clone()
                 .removeAttr("id")
                 .show();
+
+            // Set the room data
             newRoom.find('[name="room_number"]').val(room.room_number);
             newRoom.find('[name="room_type"]').val(room.room_type);
             newRoom.find('[name="initial_rent"]').val(room.initial_rent);
             newRoom.find('[name="max_student"]').val(room.max_student);
 
-            // Populate facilities as tags using select2
-            const facilitiesSelect = newRoom.find('[name="facilities"]');
+            // Update to use `id`
+            newRoom.find('[name="id"]').val(room.id);
+
             if (room.facilities) {
                 try {
-                    const facilities = JSON.parse(room.facilities);
-                    facilities.forEach((facility) => {
-                        // Add each facility as an option in the select box
-                        const option = new Option(
-                            facility,
-                            facility,
-                            true,
-                            true
-                        );
-                        facilitiesSelect.append(option);
-                    });
+                    const facilitiesArray = JSON.parse(room.facilities);
+                    newRoom.find('[name="facilities"]').val(facilitiesArray.join(", "));
                 } catch (error) {
                     console.error("Error parsing facilities:", error);
+                    newRoom.find('[name="facilities"]').val(room.facilities);
                 }
             }
-
-            // Initialize select2 for the facilities select box
-            facilitiesSelect.select2({
-                tags: true,
-                tokenSeparators: [",", " "],
-                placeholder: "Select or add facilities",
-            });
 
             container.append(newRoom);
         });
     }
+
+
 
     function populatePicOptions(selectedPicId) {
         $.ajax({

@@ -34,7 +34,7 @@
                     <h5>{{ __('student.title') }}</h5>
                     <div class="list-btn">
                         <ul class="filter-list">
-                            <li>
+                            {{-- <li>
                                 <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                                     data-bs-placement="bottom" data-bs-original-title="Filter"><span class="me-2"><img
                                             src="{{ asset('assets') }}/img/icons/filter-icon.svg"
@@ -65,7 +65,7 @@
                                 <a class="btn-filters" href="javascript:void(0);" data-bs-toggle="tooltip"
                                     data-bs-placement="bottom" data-bs-original-title="Print"><span><i
                                             class="fe fe-printer"></i></span> </a>
-                            </li>
+                            </li> --}}
                             <li>
                                 <a href="#" class="btn btn-primary waves-effect waves-light mt-1"
                                     data-bs-toggle="modal" data-bs-target="#student_modal_add"><i
@@ -229,11 +229,11 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="input-block mb-3">
-                                                <label>{{ __('student.modal.billing_date') }} <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.futon') }} <span class="text-danger">*</span></label>
                                                 <div class="cal-icon cal-icon-info">
-                                                    <input type="text" id="billingDate"
-                                                        class="datetimepicker form-control"
-                                                        placeholder="{{ __('student.placeholder.billing_date') }}">
+                                                    <input type="number" id="futon"
+                                                        class=" form-control"
+                                                        placeholder="{{ __('student.placeholder.futon') }}">
                                                 </div>
                                                 <div class="invalid-feedback"></div>
                                             </div>
@@ -322,7 +322,7 @@
                                         <div class="upload-profile">
                                             <div class="profile-img">
                                                 <img id="editblah" class="avatar"
-                                                    src="assets/img/profiles/avatar-14.jpg" alt="profile-img">
+                                                    src="{{asset("assets/img/profiles/avatar-14.jpg")}}" alt="profile-img">
                                             </div>
                                             <div class="add-profile">
                                                 <h5>{{ __('student.modal.upload_new_photo') }}</h5>
@@ -443,11 +443,11 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="input-block mb-3">
-                                                <label>{{ __('student.modal.billing_date') }} <span class="text-danger">*</span></label>
+                                                <label>{{ __('student.modal.futon') }}<span class="text-danger">*</span></label>
                                                 <div class="cal-icon cal-icon-info">
-                                                    <input type="text" id="editbillingDate"
-                                                        class="datetimepicker form-control"
-                                                        placeholder="{{ __('student.placeholder.billing_date') }}">
+                                                    <input type="number" id="editfuton"
+                                                        class=" form-control"
+                                                        placeholder="{{ __('student.placeholder.futon') }}">
                                                 </div>
                                                 <div class="invalid-feedback"></div>
                                             </div>
@@ -516,9 +516,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- /Modal End -->
-
             <!-- Table -->
             <div class="row">
                 <div class="col-sm-12">
@@ -559,6 +556,28 @@
     <!-- /Page Wrapper -->
  
     <!-- /Main Wrapper -->
+    <script>
+        var translations = {
+            edit: "{{ __('student.table.edit') }}",
+            delete: "{{ __('student.table.delete') }}",
+            student_contract: "{{ __('student.table.contract') }}",
 
+            apartment_select: "{{ __('student.placeholder.apartment') }}",
+            school_select: "{{ __('student.placeholder.school_name') }}",
+            room_select: "{{ __('student.placeholder.room') }}",
+            country_select: "{{ __('student.placeholder.country') }}",
+            package_select: "{{ __('student.placeholder.package_type') }}",
+            contract_select: "{{ __('student.placeholder.contract_date') }}",
+            termination_select: "{{ __('student.placeholder.termination_date') }}",
+            
+            paginate: {
+                previous: "{{ __('datatable.paginate.previous') }}",
+                next: "{{ __('datatable.paginate.next') }}"
+            },
+            search: "{{ __('datatable.search') }}",
+            lengthMenu: "{{ __('datatable.lengthMenu') }}"
+        };
+        const defaultImagePath = "{{ asset('/assets/img/no-image.png') }}";
+    </script>
     <script src="{{ asset('ajax/studentAjax.js') }}"></script>
 @endsection

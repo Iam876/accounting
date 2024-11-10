@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
+
 
 class Billings extends Model
 {
@@ -15,10 +17,16 @@ class Billings extends Model
     const STATUS_PARTIALLY_PAID = 'partially_paid';
     const STATUS_OVERDUE = 'overdue';
     const STATUS_SETTLED = 'settled';
-
+    // protected $connection = 'yearly_database';
     protected $fillable = [
         'student_id', 'billing_month', 'total_amount', 'payment_status', 'completed_billing', 'payment_method_id'
     ];
+
+    public function getConnectionName()
+    {
+        // Check if a yearly database is selected in the session
+        return Session::has('database_year') ? 'yearly_database' : $this->connection;
+    }
 
     // Relationship to Student
     public function student()

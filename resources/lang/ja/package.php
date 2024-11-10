@@ -11,6 +11,8 @@ return [
         'description' => '説明',
         'notes' => 'メモ',
         'action' => 'アクション',
+        'edit' => '編集',
+        'delete' => '消去',
     ],
 
     // Modal content for Add and Edit Package

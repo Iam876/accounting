@@ -388,7 +388,8 @@
                 <li class="menu-title"><span>Main</span></li>
                 <!-- /Main -->
                 <li class="submenu">
-                    <a href="#" class=""><i class="fe fe-user"></i> <span> {{ __('menu.dashboard') }}</span></a>
+                    <a href="#" class=""><i class="fa-regular fa-window-maximize"></i><span>
+                            {{ __('menu.dashboard') }}</span></a>
                     <!-- <ul>
                         <li><a href="dashboard.html" class="active">Dashboard</a></li>
                         <li><a href="companies.html">Companies</a></li>
@@ -399,64 +400,66 @@
                     </ul> -->
                 </li>
                 <li>
-                    <a href="{{ Route('school.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.schools') }}</span></a>
+                    <a href="{{ Route('school.index') }}"><i class="fa-solid fa-building-columns"></i>
+                        <span>{{ __('menu.schools') }}</span></a>
                 </li>
                 <li>
-                    <a href="{{ Route('apartment.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.apartment') }}</span></a>
+                    <a href="{{ Route('apartment.index') }}"><i class="fa-solid fa-building"></i>
+                        <span>{{ __('menu.apartment') }}</span></a>
                 </li>
-                {{-- <li>
-                    <a href="{{ Route('room.index') }}"><i class="fe fe-users"></i> <span>Rooms</span></a>
-                </li> --}}
+
                 <li>
-                    <a href="{{ Route('student.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.students') }}</span></a>
+                    <a href="{{ Route('student.index') }}"><i
+                            class="fa-solid fa-people-line"></i><span>{{ __('menu.students') }}</span></a>
                 </li>
                 <li>
-                    <a href="{{ Route('pic.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.pic_company') }}</span></a>
+                    <a href="{{ Route('pic.index') }}"><i
+                            class="fa-solid fa-city"></i><span>{{ __('menu.pic_company') }}</span></a>
                 </li>
 
                 <!-- Categories -->
                 <li class="menu-title"><span>Categories</span></li>
                 <li>
-                    <a href="{{ Route('billing_methods.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.billing_methods') }}</span></a>
+                    <a href="{{ Route('billing_methods.index') }}"><i
+                            class="fa-solid fa-cash-register"></i><span>{{ __('menu.billing_methods') }}</span></a>
                 </li>
 
                 <li>
-                    <a href="{{ Route('package.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.package_chooses') }}</span></a>
+                    <a href="{{ Route('package.index') }}"><i
+                            class="fa-solid fa-box-open"></i><span>{{ __('menu.package_chooses') }}</span></a>
                 </li>
                 <li>
-                    <a href="{{ Route('role.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.roles') }}</span></a>
+                    <a href="{{ Route('role.index') }}"><i
+                            class="fa-solid fa-user-tie"></i><span>{{ __('menu.roles') }}</span></a>
                 </li>
                 <!-- /Customers -->
 
                 <!-- Inventory -->
                 <li class="menu-title"><span>Billings</span></li>
                 <li>
-                    <a href="{{ route('billings.index') }}"><i class="fe fe-users"></i> <span>{{ __('menu.billings') }}</span></a>
+                    <a href="{{ route('billings.index') }}"><i
+                            class="fa-solid fa-money-check-dollar"></i><span>{{ __('menu.billings') }}</span></a>
                 </li>
-                {{-- <li>
-                    <a href="inventory.html"><i class="fe fe-user"></i> <span>Inventory</span></a>
-                </li> --}}
-                <!-- /Inventory -->
 
                 <!-- Signature -->
-                <li class="menu-title"> <span>Signature</span></li>
+                {{-- <li class="menu-title"> <span>Signature</span></li>
                 <li>
                     <a href="{{Route('signature.index')}}"><i class="fe fe-clipboard"></i> <span>List of Signature</span></a>
                 </li>
-                <li><a href="{{Route('invoice.index')}}"><i class="fe fe-file"></i>Invoice Details (Admin)</a></li>
+                <li><a href="{{Route('invoice.index')}}"><i class="fe fe-file"></i>Invoice Details (Admin)</a></li> --}}
                 <!-- /Signature -->
 
                 <!-- User Management -->
                 <li class="menu-title"><span>User Management</span></li>
                 <li>
-                    <a href="{{ route('users.index') }}"><i class="fe fe-user"></i> <span>Users</span></a>
+                    <a href="{{ route('users.index') }}"><i class="fa-solid fa-users"></i><span>Users</span></a>
                 </li>
                 {{-- <li>
                     <a href="roles-permission.html"><i class="fe fe-clipboard"></i> <span>Roles &
                             Permission</span></a>
                 </li> --}}
                 <!-- /User Management -->
-
+                {{-- 
                 <li class="submenu">
                     <a href="#"><i class="fe fe-map-pin"></i> <span> Location</span> <span
                             class="menu-arrow"></span></a>
@@ -465,7 +468,7 @@
                         <li><a href="states.html">States</a></li>
                         <li><a href="cities.html">Cities</a></li>
                     </ul>
-                </li>
+                </li> --}}
                 {{-- <li><a href="tickets-list.html"><i class="fe fe-clipboard"></i>Tickets List</a></li>
                 <li><a href="lock-screen.html"><i class="fe fe-clipboard"></i> Lock Screen </a></li> --}}
 
@@ -473,22 +476,22 @@
 
                 <!-- Settings -->
                 <li class="menu-title"><span>Settings</span></li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('settings.index') }}"><i class="fe fe-settings"></i> <span>Settings</span></a>
-                </li>
+                </li> --}}
                 <li>
                     {{-- <a href="login.html"><i class="fe fe-power"></i> <span>Logout</span></a> --}}
                     <form method="POST" action="{{ route('logout') }}" id="logout-form">
                         @csrf
                         <a class="dropdown-item" href="#"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fe fe-power"></i> <span>Logout</span></a>
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa-solid fa-power-off"></i> <span>Logout</span></a>
                     </form>
                 </li>
 
                 <!-- Extras -->
-                <li class="menu-title">
+                {{-- <li class="menu-title">
                     <span>Extras</span>
-                </li>
+                </li> --}}
                 <li>
                     <a href="#"><i class="fe fe-file-text"></i> <span>Documentation</span></a>
                 </li>

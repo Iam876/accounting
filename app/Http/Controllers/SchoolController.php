@@ -15,7 +15,8 @@ class SchoolController extends Controller
 {
     public function index()
     {
-        return view('school_index');
+        $databaseYear = session('database_year', 'Default');
+        return view('school_index',compact('databaseYear'));
     }
 
     public function fetchData()

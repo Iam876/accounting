@@ -11,6 +11,8 @@ return [
         'description' => 'Description',
         'notes' => 'Notes',
         'action' => 'Action',
+        'edit' => 'Edit',
+        'delete' => 'Delete',
     ],
 
     // Modal content for Add and Edit Package

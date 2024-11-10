@@ -17,6 +17,7 @@ use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\messageController;
 use App\Helpers\CountryHelper;
 
 /*
@@ -129,6 +130,10 @@ Route::middleware(['auth', 'role.check'])->group(function () {
         Route::get('/students/edit/{id}', 'edit');
         Route::post('/students/update/{id}', 'update');
         Route::delete('/student/destroy/{id}', 'destroy')->name('student.destroy');
+
+        // Student Contract Excel File Export Route
+        Route::get('/export-student/{id}', 'exportStudentContract')->name('export.student');
+
     });
     Route::controller(BillingMethodController::class)->group(function () {
         Route::get('/billing/methods', 'index')->name('billing_methods.index');
@@ -167,11 +172,11 @@ Route::middleware(['auth', 'role.check'])->group(function () {
         Route::post('update-multiple-dues/{studentId}', 'updateMultipleDues');
         Route::post('close-account/{studentId}', 'closeAccount');
 
-        Route::get('/billings/history/{studentId}',  'fetchBillingHistory');
+        Route::get('/billings/history/{studentId}', 'fetchBillingHistory');
 
-        Route::get('/student/billings/index',  'studentAllBillings');
-        Route::get('/student/all/billings',  'getStudentBillingData');
-        
+        Route::get('/student/billings/index', 'studentAllBillings');
+        Route::get('/student/all/billings', 'getStudentBillingData');
+
 
 
     });
@@ -199,6 +204,15 @@ Route::middleware(['auth', 'role.check'])->group(function () {
     });
     Route::controller(SettingsController::class)->group(function () {
         Route::get('/settings', 'index')->name('settings.index');
+    });
+    Route::controller(messageController::class)->group(function () {
+        Route::get('/messages', 'index')->name('messages.index');
+        Route::get('/messages/fetch/{receiver_id}', 'fetchMessages')->name('messages.fetch');
+        Route::post('/messages/send', 'sendMessage')->name('messages.send');
+
+        Route::post('/messages/typing',  'typing');
+        Route::get('/messages/check-typing/{receiver_id}',  'checkTyping');
+
     });
 
 

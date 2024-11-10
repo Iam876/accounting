@@ -8,7 +8,7 @@
                     <h5>{{ __('apartment.title') }}</h5>
                     <div class="list-btn">
                         <ul class="filter-list">
-                            <li>
+                            {{-- <li>
                                 <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                                     data-bs-placement="bottom" data-bs-original-title="Filter"><span class="me-2"><img
                                             src="{{ asset('assets') }}/img/icons/filter-icon.svg"
@@ -39,11 +39,12 @@
                                 <a class="btn-filters" href="javascript:void(0);" data-bs-toggle="tooltip"
                                     data-bs-placement="bottom" data-bs-original-title="Print"><span><i
                                             class="fe fe-printer"></i></span> </a>
-                            </li>
+                            </li> --}}
                             <li>
                                 <a href="#" class="btn btn-primary waves-effect waves-light mt-1"
                                     data-bs-toggle="modal" data-bs-target="#apartment_modal_add"><i
-                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>{{ __('apartment.add_apartment') }}</a>
+                                        class="fa fa-plus-circle me-2"
+                                        aria-hidden="true"></i>{{ __('apartment.add_apartment') }}</a>
                             </li>
 
                         </ul>
@@ -86,6 +87,13 @@
                                                         class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="mansionName"
                                                     placeholder="{{ __('apartment.placeholder.mansion_name') }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-12">
+                                            <div class="input-block mb-3">
+                                                <label>{{ __('apartment.modal.structure') }} <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="mansion_structure"
+                                                    placeholder="{{ __('apartment.placeholder.structure') }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-12">
@@ -206,6 +214,13 @@
                                         </div>
                                         <div class="col-lg-6 col-md-12">
                                             <div class="input-block mb-3">
+                                                <label>{{ __('apartment.modal.structure') }} <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="edit_mansion_structure"
+                                                    placeholder="{{ __('apartment.placeholder.structure') }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="input-block mb-3">
                                                 <label>{{ __('apartment.modal.pic_name') }} <span
                                                         class="text-danger">*</span></label>
                                                 <select class="form-control" id="editpic_name"></select>
@@ -221,30 +236,24 @@
                                             <!-- Room Template (hidden) -->
                                             <div id="edit-room-template" class="room-item mb-3" style="display: none;">
                                                 <div class="row">
+                                                    <input type="hidden" name="id" value="null">
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="text" class="form-control" name="room_number"
-                                                            placeholder="{{ __('apartment.placeholder.room_number') }}">
+                                                        <input type="text" class="form-control" name="room_number" placeholder="{{ __('apartment.placeholder.room_number') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="text" class="form-control" name="room_type"
-                                                            placeholder="{{ __('apartment.placeholder.room_type') }}">
+                                                        <input type="text" class="form-control" name="room_type" placeholder="{{ __('apartment.placeholder.room_type') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="text" class="form-control" name="initial_rent"
-                                                            placeholder="{{ __('apartment.placeholder.initial_rent') }}">
+                                                        <input type="text" class="form-control" name="initial_rent" placeholder="{{ __('apartment.placeholder.initial_rent') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <select class="form-control tagging" name="facilities"
-                                                            multiple="multiple"></select>
+                                                        <input type="text" class="form-control" name="facilities" placeholder="{{ __('apartment.placeholder.facilities') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="number" class="form-control" name="max_student"
-                                                            placeholder="{{ __('apartment.placeholder.max_students') }}">
+                                                        <input type="number" class="form-control" name="max_student" placeholder="{{ __('apartment.placeholder.max_students') }}">
                                                     </div>
-                                                    <div
-                                                        class="col-lg-6 col-md-6 col-sm-12 mb-2 d-flex align-items-center">
-                                                        <button type="button"
-                                                            class="btn btn-danger remove-room-btn">{{ __('apartment.modal.remove_button') }}</button>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 mb-2 d-flex align-items-center">
+                                                        <button type="button" class="btn btn-danger remove-room-btn">{{ __('apartment.modal.remove_button') }}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -277,19 +286,23 @@
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-lg-6 mb-3 fs-5">
-                                    <label>{{ __('apartment.modal.room_number') }}: </label><span style="color:#7539FF;" id="viewRoomNumber"></span>
+                                    <label>{{ __('apartment.modal.room_number') }}: </label><span style="color:#7539FF;"
+                                        id="viewRoomNumber"></span>
 
                                 </div>
                                 <div class="col-lg-6 mb-3 fs-5">
-                                    <label>{{ __('apartment.modal.room_type') }}: </label><span style="color:#7539FF;" id="viewRoomType"></span>
+                                    <label>{{ __('apartment.modal.room_type') }}: </label><span style="color:#7539FF;"
+                                        id="viewRoomType"></span>
 
                                 </div>
                                 <div class="col-lg-6 mb-3 fs-5">
-                                    <label>{{ __('apartment.modal.initial_rent') }}: </label><span style="color:#7539FF;" id="viewInitialRent"></span>
+                                    <label>{{ __('apartment.modal.initial_rent') }}: </label><span style="color:#7539FF;"
+                                        id="viewInitialRent"></span>
 
                                 </div>
                                 <div class="col-lg-6 mb-3 fs-5">
-                                    <label>{{ __('apartment.modal.max_students') }}: </label><span style="color:#7539FF;" id="viewMaxStudent"></span>
+                                    <label>{{ __('apartment.modal.max_students') }}: </label><span style="color:#7539FF;"
+                                        id="viewMaxStudent"></span>
 
                                 </div>
                                 <div class="col-lg-12 mb-3 fs-5">
@@ -300,7 +313,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('apartment.modal.close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('apartment.modal.close') }}</button>
                         </div>
                     </div>
                 </div>
@@ -348,8 +362,15 @@
     <script>
         var translations = {
             edit: "{{ __('school.table.edit') }}",
-            delete: "{{ __('school.table.delete') }}"
+            delete: "{{ __('school.table.delete') }}",
+            paginate: {
+                previous: "{{ __('datatable.paginate.previous') }}",
+                next: "{{ __('datatable.paginate.next') }}"
+            },
+            search: "{{ __('datatable.search') }}",
+            lengthMenu: "{{ __('datatable.lengthMenu') }}"
         };
+        const defaultImagePath = "{{ asset('/assets/img/no-image.png') }}";
     </script>
     <script src="{{ asset('ajax/apartmentAjax.js') }}"></script>
 @endsection

@@ -116,17 +116,17 @@ $(document).ready(function () {
             type: "GET",
             success: function (response) {
                 if ($.fn.DataTable.isDataTable(".datatable")) {
-                    $(".datatable").DataTable().destroy(); 
+                    $(".datatable").DataTable().destroy();
                 }
-                
+
                 let tableBody = "";
                 response.schools.forEach(function (school) {
                     tableBody += `<tr>
                         <td>${school.id}</td>
-                        <td><a href="${school.image || '{{ asset("default-image-path.jpg") }}'}" class="image-popup avatar avatar-md me-2 companies">
-                            <img class="img-fluid avatar-img sales-rep" 
-                                 src="${school.image || '{{ asset("default-image-path.jpg") }}'}" 
-                                 alt="School Image" />
+                        <td><a href="${school.image ? school.image : defaultImagePath}" class="image-popup avatar avatar-md me-2 companies">
+                                <img class="img-fluid avatar-img sales-rep" 
+                                    src="${school.image ? school.image : defaultImagePath}" 
+                                    alt="School Image" />
                             </a>
                         </td>
                         <td>${school.school_name}</td>
@@ -151,7 +151,15 @@ $(document).ready(function () {
 
                 $(".datatable tbody").html(tableBody);
                 $(".datatable").DataTable({
-                    "pageLength": 10 // Ensure this matches the number of rows per page you want
+                    pageLength: 10,
+                    language: {
+                        paginate: {
+                            previous: translations.paginate.previous,
+                            next: translations.paginate.next
+                        },
+                        search: translations.search,
+                        lengthMenu: translations.lengthMenu
+                    }
                 }).page(currentPage).draw(false);
                 attachEventHandlers();
             },
@@ -166,7 +174,7 @@ $(document).ready(function () {
         // Use event delegation for dynamically added elements
         $(document).on('click', '.delete-school-btn', function () {
             let schoolId = $(this).data("id");
-    
+
             // Trigger SweetAlert confirmation
             Swal.fire({
                 title: "Are you sure?",
@@ -189,7 +197,7 @@ $(document).ready(function () {
                                 text: "Your file has been deleted.",
                                 icon: "success"
                             });
-    
+
                             // Refresh the school list
                             fetchSchools();
                         },
@@ -203,6 +211,6 @@ $(document).ready(function () {
     }
     // Call the function to attach event handlers
     attachEventHandlers();
-    
+
     fetchSchools();
 });

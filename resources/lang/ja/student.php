@@ -16,6 +16,9 @@ return [
         'house_rent' => '家賃',
         'utility_fees' => '公共料金',
         'action' => 'アクション',
+        'edit' => '編集',
+        'delete' => '消去',
+        'contract'=> '輸出学生契約',
     ],
 
     // Modal content for Add and Edit Student
@@ -34,7 +37,7 @@ return [
         'room' => '部屋を選択',
         'contract_date' => '契約日',
         'termination_date' => '終了日',
-        'billing_date' => '請求日',
+        'futon' => '布団',
         'initial_advance' => '初期/前払い',
         'house_rent' => '家賃',
         'utility_fees' => '公共料金',
@@ -57,6 +60,7 @@ return [
         'package_type' => 'パッケージタイプを選択',
         'apartment' => 'アパートを選択',
         'room' => '部屋を選択',
+        'futon' => '布団価格を入力',
         'contract_date' => '日付を選択',
         'termination_date' => '日付を選択',
         'billing_date' => '請求日を選択',

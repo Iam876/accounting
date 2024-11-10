@@ -9,6 +9,8 @@ return [
         'id' => '＃',
         'method_name' => '方法名',
         'action' => 'アクション',
+        'edit' => '編集',
+        'delete' => '消去',
     ],
 
     // Modal content for Add and Edit Billing Method

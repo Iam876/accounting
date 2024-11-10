@@ -25,6 +25,7 @@ return [
         'remove_button' => '削除',
         'mansion_name' => 'マンション名',
         'address' => '住所',
+        'structure' => 'アパートの構造',
         'pic_name' => '担当者名',
         'rooms' => '部屋',
         'close' => '閉じる',
@@ -44,6 +45,7 @@ return [
     'placeholder' => [
         'mansion_name' => 'マンション名を入力',
         'address' => 'マンションの住所を入力',
+        'structure' => 'アパート構造に入る',
         'room_number' => '部屋番号',
         'room_type' => '部屋タイプ',
         'initial_rent' => '初期家賃',

@@ -15,6 +15,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         // $schedule->command('billing:generate')->monthlyOn(20, '00:00');
         $schedule->command('billing:generate')->everyMinute();
+        $schedule->command('database:create-yearly ' . now()->year)
+             ->yearlyOn(1, 1, '00:00');
 
 
     }

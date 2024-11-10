@@ -16,6 +16,9 @@ return [
         'house_rent' => 'House Rent',
         'utility_fees' => 'Utility',
         'action' => 'Action',
+        'edit' => 'Edit',
+        'delete' => 'Delete',
+        'contract'=> 'Export Student Contract',
     ],
 
     // Modal content for Add and Edit Student
@@ -34,7 +37,7 @@ return [
         'room' => 'Select Room',
         'contract_date' => 'Contract Date',
         'termination_date' => 'Termination Date',
-        'billing_date' => 'Billing Date',
+        'futon' => 'Futon',
         'initial_advance' => 'Initial/Advance',
         'house_rent' => 'House Rent',
         'utility_fees' => 'Utility Fees',
@@ -59,7 +62,7 @@ return [
         'room' => 'Select Room',
         'contract_date' => 'Select Date',
         'termination_date' => 'Select Date',
-        'billing_date' => 'Select Billing Date',
+        'futon' => 'Enter Futon Price',
         'initial_fees' => 'Initial Fees in Number',
         'house_rent' => 'Rent Fees in Number',
         'utility_fees' => 'Utility Fees in Number',

@@ -58,7 +58,7 @@
                 @if(app()->getLocale() == 'en')
                     <img src="{{ asset('assets/img/flags/us1.png') }}" alt="flag"><span>English</span>
                 @else
-                    <img src="{{ asset('assets/img/flags/japan.png') }}" alt="flag"><span>日本語</span>
+                    <img src="{{ asset('assets/img/flags/jp.png') }}" alt="flag"><span>日本語</span>
                 @endif
             </a>
             <div class="dropdown-menu dropdown-menu-end">
@@ -66,7 +66,7 @@
                     <img src="{{ asset('assets/img/flags/us.png') }}" alt="flag"><span>English</span>
                 </a>
                 <a href="{{ route('changeLanguage', 'ja') }}" class="dropdown-item">
-                    <img src="{{ asset('assets/img/flags/japan.png') }}" alt="flag"><span>日本語</span>
+                    <img src="{{ asset('assets/img/flags/jp.png') }}" alt="flag"><span>日本語</span>
                 </a>
             </div>
         </li>
