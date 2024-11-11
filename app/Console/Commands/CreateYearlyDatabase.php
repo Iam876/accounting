@@ -12,9 +12,15 @@ class CreateYearlyDatabase extends Command
     protected $signature = 'database:create-yearly {year}';
     protected $description = 'Creates a new yearly database and copies constant table data';
 
-    public function handle()
+    public function handle($year = null)
     {
-        $year = $this->argument('year');
+        // Handle CLI and direct calls
+        if (is_array($year)) {
+            $year = $year['year'];
+        } else {
+            $year = $year ?? $this->argument('year');
+        }
+
         $newDatabaseName = "billing_db_" . $year;
 
         // Step 1: Create the new database if it doesn't exist

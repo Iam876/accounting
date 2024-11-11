@@ -1,3 +1,19 @@
+
+@php
+    use Illuminate\Support\Facades\DB;
+
+    // Retrieve the database name for the current connection
+    $databaseName = DB::connection()->getDatabaseName();
+
+    // Extract the year from the database name (e.g., "billing_db_2028" to "2028")
+    $year = null;
+    if (preg_match('/billing_db_(\d{4})$/', $databaseName, $matches)) {
+        $year = $matches[1]; // Extracted year
+    } else {
+        $year = "Default"; // If it’s the default database or doesn't match pattern
+    }
+@endphp
+
 <div class="header header-one">
 
 
@@ -36,13 +52,15 @@
     <!-- /Sidebar Toggle -->
 
     <!-- Search -->
-    <div class="top-nav-search">
+    {{-- <div class="top-nav-search">
         <form>
             <input type="text" class="form-control" placeholder="Search here">
             <button class="btn" type="submit"><img src="{{asset('assets')}}/img/icons/search.svg" alt="img"></button>
         </form>
-    </div>
+    </div> --}}
     <!-- /Search -->
+
+    
 
     <!-- Mobile Menu Toggle -->
     <a class="mobile_btn" id="mobile_btn">
@@ -53,6 +71,7 @@
     <!-- Header Menu -->
     <ul class="nav nav-tabs user-menu">
         <!-- Flag -->
+        <li class="nav-item h5" style="margin-top: 18px;">Database <span class="badge bg-success h5">{{$year}}</span></li>
         <li class="nav-item dropdown has-arrow flag-nav">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
                 @if(app()->getLocale() == 'en')
@@ -78,7 +97,7 @@
                 <i class="fe fe-moon"></i>
             </a>
         </li>
-        <li class="nav-item dropdown  flag-nav dropdown-heads">
+        {{-- <li class="nav-item dropdown  flag-nav dropdown-heads">
             <a class="nav-link" data-bs-toggle="dropdown" href="#" role="button">
                 <i class="fe fe-bell"></i> <span class="badge rounded-pill"></span>
             </a>
@@ -173,7 +192,7 @@
                     <a href="#">Clear All</a>
                 </div>
             </div>
-        </li>
+        </li> --}}
         <li class="nav-item  has-arrow dropdown-heads ">
             <a href="javascript:void(0);" class="win-maximize">
                 <i class="fe fe-maximize"></i>

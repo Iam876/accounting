@@ -46,16 +46,26 @@ $(document).ready(function () {
                             <td>${overdue}</td>
                             <td>${billing.payment_status ?? 'N/A'}</td>
                             <td class="text-end">
-                                <button class="btn btn-primary btn-sm" onclick="openEditModal(${billing.id})">Edit</button>
+                                <button class="btn btn-primary btn-sm" onclick="openEditModal(${billing.id})">${translations.edit}</button>
                                 <a onclick="openHistoryModal(${billing.student_id})" class="btn btn-greys bg-history-light me-2" >
-															<i class="far fa-eye me-1"></i> History
+															<i class="far fa-eye me-1"></i> ${translations.history}
 														</a> 
                             </td>
                         </tr>`;
                 });
 
                 $('#billingData').html(billingHtml);
-                $(".datatable").DataTable({ "pageLength": 10 }).page(currentPage).draw(false);
+                $(".datatable").DataTable({
+                    pageLength: 10,
+                    language: {
+                        paginate: {
+                            previous: translations.paginate.previous,
+                            next: translations.paginate.next
+                        },
+                        search: translations.search,
+                        lengthMenu: translations.lengthMenu
+                    }
+                }).page(currentPage).draw(false);
             },
             error: function (xhr) {
                 console.error("Error fetching billing data:", xhr.responseText);
@@ -120,21 +130,56 @@ $(document).ready(function () {
         $('#amount_paid').val(totalAmount);  // Set the total amount in the input field
     });
 
+    // $('#billingUpdateForm').submit(function (event) {
+    //     event.preventDefault();
+    //     const billingId = $('#billing_id').val();
+    //     const formData = {
+    //         billing_id: billingId,
+    //         student_id: $('#student_id').val(),
+    //         payment_method_id: $('#payment_method_id').val(),
+    //         amount_paid: $('#amount_paid').val(),
+    //         payment_date: $('#payment_date').val(),
+    //         transaction_id: $('#payment_id').val(),  // Payment ID
+    //         pending_dues: $('#pending_dues').val(),  // Multiple dues selected
+    //     };
+
+    //     $.ajax({
+    //         url: '/payments/store',  // Route to PaymentController
+    //         type: 'POST',
+    //         data: formData,
+    //         success: function (response) {
+    //             $('#billing_modal_update').modal('hide');
+    //             fetchBillingData();  // Refresh the billing data
+    //             alert("Payment processed successfully!");
+    //         },
+    //         error: function (xhr) {
+    //             console.error("Error processing payment:", xhr.responseText);
+    //             alert("Failed to process payment.");
+    //         }
+    //     });
+    // });
+
+
+    // Function to open the history modal and fetch billing history
+
     $('#billingUpdateForm').submit(function (event) {
         event.preventDefault();
+
         const billingId = $('#billing_id').val();
+        console.log("Billing ID:", billingId); // Log billing ID for debugging
+
         const formData = {
             billing_id: billingId,
             student_id: $('#student_id').val(),
             payment_method_id: $('#payment_method_id').val(),
             amount_paid: $('#amount_paid').val(),
             payment_date: $('#payment_date').val(),
-            transaction_id: $('#payment_id').val(),  // Payment ID
-            pending_dues: $('#pending_dues').val(),  // Multiple dues selected
+            transaction_id: $('#payment_id').val(),
+            pending_dues: $('#pending_dues').val() || []  // Ensures it's always an array
         };
 
         $.ajax({
-            url: '/payments/store',  // Route to PaymentController
+            url: '/payments/store',  // Ensure this route points to your controller correctly
             type: 'POST',
             data: formData,
             success: function (response) {
@@ -149,7 +194,8 @@ $(document).ready(function () {
         });
     });
 
-    // Function to open the history modal and fetch billing history
+
+
     window.openHistoryModal = function (studentId) {
         $.ajax({
             url: `/billings/history/${studentId}`, // Route to fetch the billing history

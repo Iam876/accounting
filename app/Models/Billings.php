@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
-
 class Billings extends Model
 {
     use HasFactory;
@@ -17,14 +16,19 @@ class Billings extends Model
     const STATUS_PARTIALLY_PAID = 'partially_paid';
     const STATUS_OVERDUE = 'overdue';
     const STATUS_SETTLED = 'settled';
-    // protected $connection = 'yearly_database';
+
     protected $fillable = [
         'student_id', 'billing_month', 'total_amount', 'payment_status', 'completed_billing', 'payment_method_id'
     ];
 
+    /**
+     * Dynamically set the database connection based on the session's `database_year`
+     *
+     * @return string
+     */
     public function getConnectionName()
     {
-        // Check if a yearly database is selected in the session
+        // Use `yearly_database` if a `database_year` is set, otherwise the default
         return Session::has('database_year') ? 'yearly_database' : $this->connection;
     }
 
@@ -34,7 +38,6 @@ class Billings extends Model
         return $this->belongsTo(Student::class);
     }
     
-
     // Relationship to Payments
     public function payments()
     {

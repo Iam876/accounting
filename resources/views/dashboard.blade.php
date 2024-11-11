@@ -1,21 +1,19 @@
 @extends('layouts.header')
-@section('content')	
+@section('content')
+    <!-- Page Wrapper -->
+    <div class="page-wrapper">
+        <div class="content container-fluid pb-0">
 
-
-<!-- Page Wrapper -->
-<div class="page-wrapper">
-    <div class="content container-fluid pb-0">
-
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="content-page-header">
-                <h5>Dashboard</h5>
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="content-page-header">
+                    <h5>Dashboard</h5>
+                </div>
             </div>
-        </div>
-        <!-- /Page Header -->
-        <div class="super-admin-dashboard">Search Filter
-            <div class="row">
-                <div class="col-xl-5 d-flex">
+            <!-- /Page Header -->
+            <div class="super-admin-dashboard"> 
+                <div class="row">
+                    {{-- <div class="col-xl-5 d-flex">
                     <div class="dash-user-card w-100">
                         <h4><i class="fe fe-sun"></i>Good Morning, John</h4>
                         <p>14 New Companies Subscribed Today</p>
@@ -27,159 +25,187 @@
                             <img src="{{asset('assets')}}/img/dashboard-card-img.png" alt="">
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-7 d-flex p-0">
-                    <div class="row dash-company-row w-100 m-0">
-                        <div class="col-lg-3 col-sm-6 d-flex">
-                            <div class="company-detail-card w-100">
-                                <div class="company-icon">
-                                    <img src="{{asset('assets')}}/img/icons/dash-card-icon-01.svg" alt="">
-                                </div>
-                                <div class="dash-comapny-info">
-                                    <h6>Total Apartments</h6>
-                                    <h5>987</h5>
-                                    <!-- <p><span>14% <i class="fe fe-chevrons-up"></i></span>Last month</p> -->
-                                </div>
+                </div> --}}
+                    <div class="col-xl-5 d-flex ">
+                        <div class="dash-user-card w-100">
+                            <h4><i class="fe fe-sun"></i> {{ $greeting }}, {{ $userName }}</h4>
+                                <h2 class="text-white" id="live-clock"></h2>
+                                <h6 class="text-white" id="live-date"></h6>
+                            <div class="dash-btns">
+                                <a href="companies.html" class="btn view-company-btn">View Companies</a>
+                                <a href="packages.html" class="btn view-package-btn">All Packages</a>
+                            </div>
+                            <div class="dash-img">
+                                <img src="{{ asset('assets/img/dashboard-card-img.png') }}" alt="">
                             </div>
                         </div>
-                        <div class="col-lg-3 col-sm-6 d-flex">
-                            <div class="company-detail-card bg-info-light w-100">
-                                <div class="company-icon">
-                                    <img src="{{asset('assets')}}/img/icons/dash-card-icon-02.svg" alt="">
-                                </div>
-                                <div class="dash-comapny-info">
-                                    <h6>Rented Apartment</h6>
-                                    <h5>154</h5>
-                                    <!-- <p><span>1% <i class="fe fe-chevrons-up"></i></span>Last month</p> -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6 d-flex">
-                            <div class="company-detail-card bg-pink-light w-100">
-                                <div class="company-icon">
-                                    <img src="{{asset('assets')}}/img/icons/dash-card-icon-03.svg" alt="">
-                                </div>
-                                <div class="dash-comapny-info">
-                                    <h6>Not Rented</h6>
-                                    <h5>2</h5>
-                                    <!-- <p><span>2% <i class="fe fe-chevrons-up"></i></span>Last month</p> -->
+                    </div>
+                    <div class="col-xl-7 d-flex p-0">
+                        <div class="row dash-company-row w-100 m-0">
+                            <div class="col-lg-3 col-sm-6 d-flex">
+                                <div class="company-detail-card w-100">
+                                    <div class="company-icon">
+                                        <img src="{{ asset('assets') }}/img/icons/dash-card-icon-01.svg" alt="">
+                                    </div>
+                                    <div class="dash-comapny-info">
+                                        <h6>Total Apartments</h6>
+                                        <h5>{{ $totalApartments }}</h5>
+                                        <!-- <p><span>14% <i class="fe fe-chevrons-up"></i></span>Last month</p> -->
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6 d-flex">
-                            <div class="company-detail-card bg-success-light w-100">
-                                <div class="company-icon">
-                                    <img src="{{asset('assets')}}/img/icons/dash-card-icon-04.svg" alt="">
+                            <div class="col-lg-3 col-sm-6 d-flex">
+                                <div class="company-detail-card bg-info-light w-100">
+                                    <div class="company-icon">
+                                        <img src="{{ asset('assets') }}/img/icons/dash-card-icon-02.svg" alt="">
+                                    </div>
+                                    <div class="dash-comapny-info">
+                                        <h6>Total Rooms</h6>
+                                        <h5>{{ $totalRooms }}</h5>
+                                        <!-- <p><span>1% <i class="fe fe-chevrons-up"></i></span>Last month</p> -->
+                                    </div>
                                 </div>
-                                <div class="dash-comapny-info">
-                                    <h6>Apartment Progress</h6>
-                                    <h5>6</h5>
-                                    <!-- <p><span>6% <i class="fe fe-chevrons-up"></i></span>Last month</p> -->
+                            </div>
+                            <div class="col-lg-3 col-sm-6 d-flex">
+                                <div class="company-detail-card bg-pink-light w-100">
+                                    <div class="company-icon">
+                                        <img src="{{ asset('assets') }}/img/icons/dash-card-icon-03.svg" alt="">
+                                    </div>
+                                    <div class="dash-comapny-info">
+                                        <h6>Total Students</h6>
+                                        <h5>{{ $totalStudents }}</h5>
+                                        <!-- <p><span>2% <i class="fe fe-chevrons-up"></i></span>Last month</p> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 d-flex">
+                                <div class="company-detail-card bg-success-light w-100">
+                                    <div class="company-icon">
+                                        <img src="{{ asset('assets') }}/img/icons/dash-card-icon-04.svg" alt="">
+                                    </div>
+                                    <div class="dash-comapny-info">
+                                        <h6>Total Students</h6>
+                                        <h5>{{ $totalSchools }}</h5>
+                                        <!-- <p><span>6% <i class="fe fe-chevrons-up"></i></span>Last month</p> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-3 col-sm-6 col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="dash-widget-header">
-                                    <span class="dash-widget-icon bg-2">
-                                        <i class="fas fa-users"></i>
-                                    </span>
-                                    <div class="dash-count">
-                                        <div class="dash-title">Total Students</div>
-                                        <div class="dash-counts">
-                                            <p>3,642</p>
+                    <div class="row">
+                        <!-- Total Students Card -->
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="dash-widget-header">
+                                        <span class="dash-widget-icon bg-2">
+                                            <i class="fas fa-users"></i>
+                                        </span>
+                                        <div class="dash-count">
+                                            <div class="dash-title">Total Students</div>
+                                            <div class="dash-counts">
+                                                <p>{{$totalStudents}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="progress progress-sm mt-3">
+                                        <!-- Example dynamic progress bar for total students -->
+                                        <div class="progress-bar" role="progressbar" style="width: 65%; background-color: #28a745;" 
+                                            aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <!-- Students Paid Card -->
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="dash-widget-header">
+                                        <span class="dash-widget-icon bg-3">
+                                            <i class="fas fa-users"></i>
+                                        </span>
+                                        <div class="dash-count">
+                                            <div class="dash-title">Students Paid</div>
+                                            <div class="dash-counts">
+                                                <p>{{$studentsPaidCount}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="progress progress-sm mt-3">
+                                        <!-- Dynamic progress bar for students paid -->
+                                        <div class="progress-bar" role="progressbar" 
+                                            style="width: {{ ($studentsPaidCount / $totalStudents) * 100 }}%; 
+                                                background-color: {{ ($studentsPaidCount / $totalStudents) * 100 >= 75 ? '#28a745' : (($studentsPaidCount / $totalStudents) * 100 >= 50 ? '#ffc107' : '#dc3545') }};" 
+                                            aria-valuenow="{{ ($studentsPaidCount / $totalStudents) * 100 }}" 
+                                            aria-valuemin="0" 
+                                            aria-valuemax="100">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="progress progress-sm mt-3">
-                                    <div class="progress-bar bg-6" role="progressbar" style="width: 65%"
-                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6 col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="dash-widget-header">
-                                    <span class="dash-widget-icon bg-3">
-                                        <i class="fas fa-users"></i>
-                                    </span>
-                                    <div class="dash-count">
-                                        <div class="dash-title">Students Paid</div>
-                                        <div class="dash-counts">
-                                            <p>1,041</p>
+                    
+                        <!-- Total Amount Card -->
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="dash-widget-header">
+                                        <span class="dash-widget-icon bg-4">
+                                            <i class="far fa-file"></i>
+                                        </span>
+                                        <div class="dash-count">
+                                            <div class="dash-title">Total Amount</div>
+                                            <div class="dash-counts">
+                                                <p><span>&#165; </span>{{$totalBillingAmount}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="progress progress-sm mt-3">
+                                        <!-- Dynamic progress bar for total amount -->
+                                        <div class="progress-bar" role="progressbar" 
+                                            style="width: {{ ($totalBillingAmount / 100000) * 100 }}%; 
+                                                background-color: {{ ($totalBillingAmount >= 75000) ? '#28a745' : (($totalBillingAmount >= 50000) ? '#ffc107' : '#dc3545') }};" 
+                                            aria-valuenow="{{ ($totalBillingAmount / 100000) * 100 }}" 
+                                            aria-valuemin="0" 
+                                            aria-valuemax="100">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="progress progress-sm mt-3">
-                                    <div class="progress-bar bg-7" role="progressbar" style="width: 85%"
-                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-
-                                 {{-- <p class="text-muted mt-3 mb-0"><span class="text-success me-1"><i
-                                            class="fas fa-arrow-up me-1"></i>3.77%</span> since last week</p>
-                             --}}
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6 col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="dash-widget-header">
-                                    <span class="dash-widget-icon bg-4">
-                                        <i class="far fa-file"></i>
-                                    </span>
-                                    <div class="dash-count">
-                                        <div class="dash-title">Total Amount</div>
-                                        <div class="dash-counts">
-                                            <p>2,150</p>
+                    
+                        <!-- Amount Due Card -->
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="dash-widget-header">
+                                        <span class="dash-widget-icon bg-1">
+                                            <i class="fas fa-dollar-sign"></i>
+                                        </span>
+                                        <div class="dash-count">
+                                            <div class="dash-title">Amount Due</div>
+                                            <div class="dash-counts">
+                                                <p><span>&#165; </span>{{$remainingDueAmount}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="progress progress-sm mt-3">
+                                        <!-- Dynamic progress bar for amount due -->
+                                        <div class="progress-bar" role="progressbar" 
+                                            style="width: {{ ($remainingDueAmount / $totalBillingAmount) * 100 }}%; 
+                                                background-color: {{ ($remainingDueAmount <= 5000) ? '#28a745' : (($remainingDueAmount <= 20000) ? '#ffc107' : '#dc3545') }};" 
+                                            aria-valuenow="{{ ($remainingDueAmount / $totalBillingAmount) * 100 }}" 
+                                            aria-valuemin="0" 
+                                            aria-valuemax="100">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="progress progress-sm mt-3">
-                                    <div class="progress-bar bg-8" role="progressbar" style="width: 45%"
-                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-
-                                {{-- <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i
-                                            class="fas fa-arrow-down me-1"></i>8.68%</span> since last week</p>
-                             --}}
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-sm-6 col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="dash-widget-header">
-                                    <span class="dash-widget-icon bg-1">
-                                        <i class="fas fa-dollar-sign"></i>
-                                    </span>
-                                    <div class="dash-count">
-                                        <div class="dash-title">Amount Due</div>
-                                        <div class="dash-counts">
-                                            <p>1,642</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progress progress-sm mt-3">
-                                    <div class="progress-bar bg-5" role="progressbar" style="width: 75%"
-                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-
-                                {{--  <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i
-                                            class="fas fa-arrow-down me-1"></i>1.15%</span> since last week</p>
-                             --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-               {{--  <!-- <div class="col-xl-5 d-flex">
+                    
+                    {{--  <!-- <div class="col-xl-5 d-flex">
                     <div class="card super-admin-dash-card">
                         <div class="card-header">
                             <div class="row align-center">
@@ -823,9 +849,42 @@
                     </div>
                 </div> -->
                 --}}
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <script>
+        function updateClock() {
+            const now = new Date();
 
+            // Get date information
+            const day = now.getDate().toString().padStart(2, '0');
+            const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+            const year = now.getFullYear();
+
+            // Get time information
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+
+            // Convert 24-hour format to 12-hour format
+            hours = hours % 12;
+            hours = hours ? hours : 12; // The hour '0' should be '12'
+            const timeString = `${hours}:${minutes}:${seconds} ${ampm}`;
+
+            // Format date as MM/DD/YYYY
+            const dateString = `${month}/${day}/${year}`;
+
+            // Update clock and date elements
+            document.getElementById('live-clock').textContent = `${timeString}`;
+            document.getElementById('live-date').textContent = `${dateString}`;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+
+        // Initialize the clock immediately when the page loads
+        updateClock();
+    </script>
 @endsection

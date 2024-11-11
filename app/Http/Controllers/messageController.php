@@ -71,9 +71,6 @@ class messageController extends Controller
     // }
 
 
-
-
-
     public function index()
     {
         $users = cache()->remember('users_except_auth_' . Auth::id(), now()->addMinutes(5), function () {
@@ -82,10 +79,6 @@ class messageController extends Controller
 
         return view('message', compact('users'));
     }
-
-
-
-
 
     public function fetchMessages($receiver_id)
     {

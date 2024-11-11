@@ -43,6 +43,7 @@ class StudentController extends Controller
             'passport_photo.mimes' => 'The Passport photo must be a file of type: jpg, jpeg, png.',
             'passport_photo.max' => 'The Passport photo size must not exceed 5MB.',
         ];
+
         // Validation
         $request->validate([
             'student_name' => 'required|string|max:255',
@@ -65,7 +66,6 @@ class StudentController extends Controller
             'zyro_back' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
             'passport_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
         ], $messages);
-
 
         $optimizerChain = OptimizerChainFactory::create();
 

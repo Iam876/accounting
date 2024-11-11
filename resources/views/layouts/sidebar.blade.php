@@ -1,4 +1,19 @@
 <!-- Sidebar -->
+
+@php
+    use Illuminate\Support\Facades\DB;
+
+    // Retrieve the database name for the current connection
+    $databaseName = DB::connection()->getDatabaseName();
+
+    // Extract the year from the database name (e.g., "billing_db_2028" to "2028")
+    $year = null;
+    if (preg_match('/billing_db_(\d{4})$/', $databaseName, $matches)) {
+        $year = $matches[1]; // Extracted year
+    } else {
+        $year = "Default"; // If it’s the default database or doesn't match pattern
+    }
+@endphp
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
@@ -387,17 +402,9 @@
                 <!-- Main -->
                 <li class="menu-title"><span>Main</span></li>
                 <!-- /Main -->
-                <li class="submenu">
-                    <a href="#" class=""><i class="fa-regular fa-window-maximize"></i><span>
+                <li>
+                    <a href="{{route('dashboard')}}" class=""><i class="fa-regular fa-window-maximize"></i><span>
                             {{ __('menu.dashboard') }}</span></a>
-                    <!-- <ul>
-                        <li><a href="dashboard.html" class="active">Dashboard</a></li>
-                        <li><a href="companies.html">Companies</a></li>
-                        <li><a href="subscription.html">Subscription</a></li>
-                        <li><a href="packages.html">Packages</a></li>
-                        <li><a href="domain.html">Domain</a></li>
-                        <li><a href="purchase-transaction.html">Purchase Transaction</a></li>
-                    </ul> -->
                 </li>
                 <li>
                     <a href="{{ Route('school.index') }}"><i class="fa-solid fa-building-columns"></i>
@@ -439,6 +446,14 @@
                 <li>
                     <a href="{{ route('billings.index') }}"><i
                             class="fa-solid fa-money-check-dollar"></i><span>{{ __('menu.billings') }}</span></a>
+                </li>
+                <li>
+                    <a href="{{ route('student.billings.index') }}"><i
+                            class="fa-solid fa-money-check-dollar"></i><span>All student billing track</span></a>
+                </li>
+                <li>
+                    <a href="{{ route('messages.index') }}"><i
+                            class="fa-solid fa-money-check-dollar"></i><span>Message</span></a>
                 </li>
 
                 <!-- Signature -->
@@ -494,6 +509,15 @@
                 </li> --}}
                 <li>
                     <a href="#"><i class="fe fe-file-text"></i> <span>Documentation</span></a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <i class="fe fe-database"></i> 
+                        <span>Database</span>
+                        <span class="badge badge-primary">
+                            {{ $year }}
+                        </span>
+                    </a>
                 </li>
             </ul>
         </div>
