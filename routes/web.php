@@ -20,10 +20,10 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\messageController;
 use App\Helpers\CountryHelper;
 
-Route::middleware(['web', 'auth', 'role.check', \App\Http\Middleware\SwitchDatabase::class])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::middleware(['web', 'auth','geo.restriction', 'role.check', \App\Http\Middleware\SwitchDatabase::class])->group(function () {
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
     Route::get('/get-countries', function () {

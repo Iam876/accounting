@@ -38,6 +38,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\LocaleMiddleware::class,
             \App\Http\Middleware\SwitchDatabase::class,
+            
         ],
 
         'api' => [
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\RoleMiddleware::class,
         'role.check' => \App\Http\Middleware\UserHasRole::class,
+        'geo.restriction' => \App\Http\Middleware\GeoRestriction::class,
     ];
 }
