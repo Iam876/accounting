@@ -1,5 +1,6 @@
 @extends('layouts.header')
 @section('content')
+@can('view dashboard')
     <!-- Page Wrapper -->
     <div class="page-wrapper">
         <div class="content container-fluid pb-0">
@@ -887,4 +888,5 @@
         // Initialize the clock immediately when the page loads
         updateClock();
     </script>
+@endcan
 @endsection

@@ -9,6 +9,34 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
+
+    public function permissionsIndex()
+    {
+        // Define modules (or fetch from the database if you have a modules table)
+        $modules = [
+            (object)['name' => 'dashboard'],
+            (object)['name' => 'school'],
+            (object)['name' => 'apartment'],
+            (object)['name' => 'student'],
+            (object)['name' => 'pic company'],
+            (object)['name' => 'billing method'],
+            (object)['name' => 'package'],
+            (object)['name' => 'role'],
+            (object)['name' => 'billings'],
+            (object)['name' => 'message'],
+            (object)['name' => 'user'],
+        ];
+    
+        // Pass modules and user to the view
+        $user = auth()->user(); // Retrieve the currently authenticated user
+        $roleName = $user->roles->first()->name ?? 'No Role Assigned';
+
+        // Pass modules, user, and role name to the view
+        return view('permission', compact('modules', 'user', 'roleName'));
+        // return view('permission', compact('modules', 'user'));
+    }
+    
+    
     // Load the view for users
     public function index()
     {
@@ -49,9 +77,10 @@ class UsersController extends Controller
             ]);
     
             // Assign roles to the user
+            // $user->syncRoles($request->roles);
             $user->syncRoles($request->roles);
-    
             return response()->json(['status' => 'User Created Successfully']);
+            // return response()->json(['status' => 'User Created Successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);  // Return detailed error for debugging
         }
@@ -86,7 +115,6 @@ class UsersController extends Controller
 
         // Sync roles for the user
         $user->syncRoles($request->roles);
-
         return response()->json(['status' => 'User Updated Successfully']);
     }
 
@@ -96,4 +124,38 @@ class UsersController extends Controller
         User::find($id)->delete();
         return response()->json(['status' => 'User Deleted Successfully']);
     }
+
+    public function assignPermissionsToRole(Request $request, Role $role)
+{
+    $request->validate([
+        'permissions' => 'array', // Expect an array of permission names
+        'permissions.*' => 'exists:permissions,name', // Ensure each permission exists
+    ]);
+
+    try {
+        // Sync permissions with the role (adds specified permissions, removes others)
+        $role->syncPermissions($request->permissions);
+
+        return response()->json(['status' => 'Permissions updated successfully for the role']);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
+public function updatePermissions(Request $request, User $user)
+{
+    $request->validate([
+        'permissions' => 'array', // Expect an array of permission names
+        'permissions.*' => 'exists:permissions,name', // Ensure each permission exists
+    ]);
+
+    try {
+        // Sync permissions directly with the user
+        $user->syncPermissions($request->permissions);
+
+        return response()->json(['status' => 'User permissions updated successfully!']);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
+
 }

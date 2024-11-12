@@ -20,7 +20,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\messageController;
 use App\Helpers\CountryHelper;
 
-Route::middleware(['web', 'auth','geo.restriction', 'role.check', \App\Http\Middleware\SwitchDatabase::class])->group(function () {
+Route::middleware(['web', 'auth', 'geo.restriction', 'role.check', \App\Http\Middleware\SwitchDatabase::class])->group(function () {
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -31,12 +31,6 @@ Route::middleware(['web', 'auth','geo.restriction', 'role.check', \App\Http\Midd
         return response()->json(['countries' => $countries]);
 
     });
-
-    // Route::get('/dashboard', function () {
-    //     return view('dashboard');
-    // })->middleware(['auth', 'verified'])->name('dashboard');
-
-    
 
     // ###### Start language Routes ########
 
@@ -186,7 +180,13 @@ Route::middleware(['web', 'auth','geo.restriction', 'role.check', \App\Http\Midd
         Route::get('/users/edit/{id}', 'edit')->name('users.edit');
         Route::post('/users/update/{id}', 'update')->name('users.update');
         Route::delete('/users/destroy/{id}', 'destroy')->name('users.destroy');
+
+        Route::post('/roles/{role}/assign-permissions', 'assignPermissionsToRole')->name('roles.assignPermissions');
+        Route::post('/users/{user}/update-permissions', 'updatePermissions')->name('users.updatePermissions');
+        Route::get('/permissions', 'permissionsIndex')->name('permissions.index');
+
     });
+
     Route::controller(SettingsController::class)->group(function () {
         Route::get('/settings', 'index')->name('settings.index');
     });
@@ -195,8 +195,8 @@ Route::middleware(['web', 'auth','geo.restriction', 'role.check', \App\Http\Midd
         Route::get('/messages/fetch/{receiver_id}', 'fetchMessages')->name('messages.fetch');
         Route::post('/messages/send', 'sendMessage')->name('messages.send');
 
-        Route::post('/messages/typing',  'typing');
-        Route::get('/messages/check-typing/{receiver_id}',  'checkTyping');
+        Route::post('/messages/typing', 'typing');
+        Route::get('/messages/check-typing/{receiver_id}', 'checkTyping');
 
     });
 

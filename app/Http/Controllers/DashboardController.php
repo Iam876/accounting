@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 class DashboardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view dashboard')->only('index');
+    }
     public function dashboard()
     {
         // Fetch totals for apartments, rooms, students, and schools
