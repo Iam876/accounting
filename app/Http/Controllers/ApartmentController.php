@@ -31,10 +31,8 @@ class ApartmentController extends Controller
         return response()->json($picNames); // Return as JSON
     }
 
-
     public function store(Request $request)
     {
-        // Validate the request
         $request->validate([
             'mansion_name' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
@@ -42,40 +40,67 @@ class ApartmentController extends Controller
             'rooms' => 'nullable|array',
             'rooms.*.room_number' => 'nullable|string',
             'rooms.*.room_type' => 'nullable|string',
-            'rooms.*.initial_rent' => 'nullable|numeric', // Ensure rent is a numeric value
+            'rooms.*.initial_rent' => 'nullable|numeric',
             'rooms.*.facilities' => 'nullable|string',
-            'rooms.*.max_student' => 'nullable|integer', // Ensure max_student is an integer
+            'rooms.*.max_student' => 'nullable|integer',
+            'rooms.*.photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
             'pic_value' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:9048', // Image validation
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:9048',
         ]);
-
-        // Create new apartment record
+    
         $apartmentData = new Apartment();
         $apartmentData->mansion_name = $request->mansion_name;
         $apartmentData->mansion_address = $request->address;
         $apartmentData->mansion_structure = $request->mansion_structure;
         $apartmentData->pic_id = $request->pic_value;
-
-        // Handle image upload if exists
+    
+        // Handle the main apartment image
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $path = 'apartment_images/' . uniqid() . '.' . $image->getClientOriginalExtension();
-
-            // Read and resize the image using Image::read()
-            $resizedImage = Image::read($image)
-                ->resize(300, 300)
-                ->save(storage_path('app/public/' . $path));
-
-            // Store the full path of the image in the database
+            $fileName = $request->mansion_name . '_main';
+            $path = 'Accounting/Apartment/' . $request->mansion_name . '/' . $fileName . '.' . $image->getClientOriginalExtension();
+    
+            // Optimize and resize the main image using Intervention Image
+            $optimizedImage = Image::read($image)->resize(300, 300);
+            Storage::put('public/' . $path, (string) $optimizedImage->encode());
+    
             $apartmentData->image = 'storage/' . $path;
         }
-
-        // Save the apartment
+    
         $apartmentData->save();
-
-        // Save room data if provided
+    
+        // Handle room data
         if (!empty($request->rooms)) {
-            foreach ($request->rooms as $room) {
+            foreach ($request->rooms as $index => $room) {
+                $photoPaths = []; // Reset for each room
+    
+                // Process and upload photos for this room
+                if (isset($room['photos']) && is_array($room['photos'])) {
+                    foreach ($room['photos'] as $photo) {
+                        $roomDirectory = 'Accounting/Apartment/' . $request->mansion_name . '/Room_' . ($room['room_number'] ?? 'Room' . ($index + 1)) . '/';
+                        $fileName = uniqid() . '.' . $photo->getClientOriginalExtension();
+                        $path = $roomDirectory . $fileName;
+    
+                        // Optimize room image
+                        $optimizedImage = Image::read($photo)->resize(780, 550, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+    
+                        $tempPath = storage_path('app/temp/' . uniqid() . '.jpg');
+                        $optimizedImage->save($tempPath);
+    
+                        // Upload to Google Drive
+                        Storage::disk('google')->put($path, file_get_contents($tempPath));
+                        unlink($tempPath);
+    
+                        $photoPaths[] = $path;
+                    }
+                }
+    
+                // Encode photos for saving
+                $encodedPhotos = !empty($photoPaths) ? json_encode($photoPaths) : null;
+    
+                // Save room data
                 roomTable::create([
                     'apartment_id' => $apartmentData->id,
                     'room_number' => $room['room_number'] ?? null,
@@ -83,14 +108,14 @@ class ApartmentController extends Controller
                     'initial_rent' => $room['initial_rent'] ?? null,
                     'facilities' => isset($room['facilities']) ? json_encode(explode(',', $room['facilities'])) : null,
                     'max_student' => $room['max_student'] ?? null,
+                    'photos' => $encodedPhotos,
                 ]);
             }
         }
-
+    
         return response()->json(['message' => 'Apartment added successfully!']);
     }
-
-
+    
 
     public function getAllPics()
     {
@@ -101,14 +126,30 @@ class ApartmentController extends Controller
         return response()->json(['pics' => $pics]);
     }
 
+     
 
     public function edit($id)
     {
-        // Fetch the apartment with its related PIC and rooms
         $apartment = Apartment::with(['pic', 'rooms'])->findOrFail($id);
-
+    
+        foreach ($apartment->rooms as $room) {
+            if ($room->photos) {
+                // Decode JSON to get stored file names
+                $photos = json_decode($room->photos, true);
+                $room->photo_urls = array_map(function ($photoPath) {
+                    // Generate a route URL to dynamically retrieve the file
+                    $filename = basename($photoPath); // Extract the filename
+                    return route('file.retrieve', ['filename' => $filename]);
+                }, $photos);
+            } else {
+                $room->photo_urls = [];
+            }
+        }
+    
         return response()->json($apartment);
     }
+    
+
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -116,43 +157,74 @@ class ApartmentController extends Controller
             'mansion_address' => 'nullable|string|max:255',
             'mansion_structure' => 'nullable|string|max:255',
             'rooms' => 'nullable|array',
-            'rooms.*.id' => 'nullable|integer', // Updated here
+            'rooms.*.id' => 'nullable|integer', // For existing room IDs
             'rooms.*.room_number' => 'nullable|string',
             'rooms.*.room_type' => 'nullable|string',
             'rooms.*.initial_rent' => 'nullable|numeric',
             'rooms.*.facilities' => 'nullable|string',
             'rooms.*.max_student' => 'nullable|integer',
+            'rooms.*.photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120', // Multiple photos for each room
             'pic_id' => 'nullable|integer',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:9048',
         ]);
-    
+
+        // Fetch the apartment record
         $apartment = Apartment::findOrFail($id);
-        $apartment->mansion_name = $request->input('mansion_name');
-        $apartment->mansion_address = $request->input('mansion_address');
-        $apartment->mansion_structure = $request->input('mansion_structure');
-        $apartment->pic_id = $request->input('pic_id');
-    
-        // Process the image update if applicable
+        $apartment->mansion_name = $request->mansion_name;
+        $apartment->mansion_address = $request->mansion_address;
+        $apartment->mansion_structure = $request->mansion_structure;
+        $apartment->pic_id = $request->pic_id;
+
+        // Process the main apartment image
         if ($request->hasFile('image')) {
+            // Delete the existing image if it exists
             if ($apartment->image && Storage::exists('public/' . str_replace('storage/', '', $apartment->image))) {
                 Storage::delete('public/' . str_replace('storage/', '', $apartment->image));
             }
+
             $image = $request->file('image');
-            $path = 'apartment_images/' . uniqid() . '.' . $image->getClientOriginalExtension();
-    
-            Image::read($image)
-                ->resize(300, 300, function ($constraint) {
-                    $constraint->aspectRatio();
-                })
-                ->save(storage_path('app/public/' . $path));
-    
+            $fileName = $request->mansion_name . '_main';
+            $path = 'apartment_images/' . $fileName . '.' . $image->getClientOriginalExtension();
+
+            // Optimize and resize the image using Intervention
+            $optimizedImage = Image::read($image)->resize(300, 300);
+            Storage::put('public/' . $path, (string) $optimizedImage->encode());
+
             $apartment->image = 'storage/' . $path;
         }
         $apartment->save();
-    
-        // Update or create rooms
+
+        // Process rooms
         $processedRoomIds = [];
-        foreach ($request->rooms as $roomData) {
+        foreach ($request->rooms as $index => $roomData) {
+            $photoPaths = []; // Reset for each room
+
+            // Handle room photos
+            if (isset($roomData['photos']) && is_array($roomData['photos'])) {
+                foreach ($roomData['photos'] as $photo) {
+                    $fileName = $request->mansion_name . '_' . ($roomData['room_number'] ?? 'room' . ($index + 1)) . '_' . uniqid();
+                    $path = 'Accounting/Apartment/room_photos/' . $fileName . '.' . $photo->getClientOriginalExtension();
+
+                    // Optimize room image
+                    $optimizedImage = Image::read($photo)->resize(780, 550, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    $tempPath = storage_path('app/temp/' . uniqid() . '.jpg');
+                    $optimizedImage->save($tempPath);
+
+                    // Upload to Google Drive
+                    Storage::disk('google')->put($path, file_get_contents($tempPath));
+                    unlink($tempPath); // Delete temporary file
+
+                    $photoPaths[] = $path;
+                }
+            }
+
+            // Encode photos for saving
+            $encodedPhotos = !empty($photoPaths) ? json_encode($photoPaths) : null;
+
+            // Update existing room or create a new one
             if (!empty($roomData['id']) && RoomTable::where('id', $roomData['id'])->where('apartment_id', $apartment->id)->exists()) {
                 $room = RoomTable::find($roomData['id']);
                 $room->update([
@@ -161,6 +233,7 @@ class ApartmentController extends Controller
                     'initial_rent' => $roomData['initial_rent'] ?? $room->initial_rent,
                     'facilities' => isset($roomData['facilities']) ? json_encode(explode(',', $roomData['facilities'])) : $room->facilities,
                     'max_student' => $roomData['max_student'] ?? $room->max_student,
+                    'photos' => $encodedPhotos, // Save photos as JSON
                 ]);
                 $processedRoomIds[] = $room->id;
             } else {
@@ -171,19 +244,21 @@ class ApartmentController extends Controller
                     'initial_rent' => $roomData['initial_rent'] ?? null,
                     'facilities' => isset($roomData['facilities']) ? json_encode(explode(',', $roomData['facilities'])) : null,
                     'max_student' => $roomData['max_student'] ?? null,
+                    'photos' => $encodedPhotos, // Save photos as JSON
                 ]);
                 $processedRoomIds[] = $newRoom->id;
             }
         }
-    
-        // Delete rooms that are not processed
+
+        // Delete rooms that were not processed
         RoomTable::where('apartment_id', $apartment->id)->whereNotIn('id', $processedRoomIds)->delete();
-    
+
         return response()->json(['message' => 'Apartment updated successfully']);
     }
-    
-    
-        public function destroy($id)
+
+
+
+    public function destroy($id)
     {
         try {
             // Find the school by ID

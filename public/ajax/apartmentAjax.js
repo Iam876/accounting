@@ -1,13 +1,4 @@
 $(document).ready(function () {
-    // // Initialize select2 with tagging options
-    // $(".tagging, #editroom,.edit-tagging").select2({
-    //     tags: true,
-    //     tokenSeparators: [",", " "],
-    //     placeholder: function () {
-    //         return $(this).data("placeholder");
-    //     },
-    // });
-
     // Add and remove room functionality
     $(document).on("click", "#add-room-btn, #add-edit-room-btn", function () {
         const roomTemplate = $(this).data("target-template");
@@ -34,6 +25,73 @@ $(document).ready(function () {
     });
 
     // Save Apartment with Room Data
+    // $("#apartment_modal_add .customer-btn-save").click(function () {
+    //     let formData = new FormData();
+    //     let fileInput = $("#apartmentImage")[0].files;
+
+    //     if (fileInput.length > 0) {
+    //         formData.append("image", fileInput[0]);
+    //     }
+
+    //     formData.append("mansion_name", $("#mansionName").val());
+    //     formData.append("address", $("#address").val());
+    //     formData.append("mansion_structure", $("#mansion_structure").val());
+    //     formData.append("pic_value", $("#pic_name").val());
+
+    //     // Gather room data
+    //     $("#rooms-container .room-item").each(function (index) {
+    //         formData.append(
+    //             `rooms[${index}][room_number]`,
+    //             $(this).find('[name="room_number"]').val()
+    //         );
+    //         formData.append(
+    //             `rooms[${index}][room_type]`,
+    //             $(this).find('[name="room_type"]').val()
+    //         );
+    //         formData.append(
+    //             `rooms[${index}][initial_rent]`,
+    //             $(this).find('[name="initial_rent"]').val()
+    //         );
+    //         formData.append(
+    //             `rooms[${index}][facilities]`,
+    //             $(this).find('[name="facilities"]').val()
+    //         );
+    //         formData.append(
+    //             `rooms[${index}][max_student]`,
+    //             $(this).find('[name="max_student"]').val()
+    //         );
+
+    //         // Add photos for this room
+    //         const photoFiles = $(this).find('[name="photos[]"]')[0]?.files || [];
+    //         for (let i = 0; i < photoFiles.length; i++) {
+    //             formData.append(`rooms[${index}][photos][]`, photoFiles[i]);
+    //         }
+    //     });
+
+    //     $.ajax({
+    //         url: "/apartment/store",
+    //         type: "POST",
+    //         data: formData,
+    //         processData: false,
+    //         contentType: false,
+    //         success: function () {
+    //             Swal.fire({
+    //                 position: "top-end",
+    //                 icon: "success",
+    //                 title: "Apartment added successfully!",
+    //                 showConfirmButton: false,
+    //                 timer: 3000,
+    //             });
+    //             $("#apartment_modal_add").modal("hide");
+    //             fetchApartment();
+    //         },
+    //         error: function (xhr) {
+    //             console.log(xhr.responseText);
+    //             alert("Error adding apartment");
+    //         },
+    //     });
+    // });
+
     $("#apartment_modal_add .customer-btn-save").click(function () {
         let formData = new FormData();
         let fileInput = $("#apartmentImage")[0].files;
@@ -49,27 +107,23 @@ $(document).ready(function () {
 
         // Gather room data
         $("#rooms-container .room-item").each(function (index) {
-            formData.append(
-                `rooms[${index}][room_number]`,
-                $(this).find('[name="room_number"]').val()
-            );
-            formData.append(
-                `rooms[${index}][room_type]`,
-                $(this).find('[name="room_type"]').val()
-            );
-            formData.append(
-                `rooms[${index}][initial_rent]`,
-                $(this).find('[name="initial_rent"]').val()
-            );
-            formData.append(
-                `rooms[${index}][facilities]`,
-                $(this).find('[name="facilities"]').val()
-            );
-            formData.append(
-                `rooms[${index}][max_student]`,
-                $(this).find('[name="max_student"]').val()
-            );
+            formData.append(`rooms[${index}][room_number]`, $(this).find('[name="room_number"]').val());
+            formData.append(`rooms[${index}][room_type]`, $(this).find('[name="room_type"]').val());
+            formData.append(`rooms[${index}][initial_rent]`, $(this).find('[name="initial_rent"]').val());
+            formData.append(`rooms[${index}][facilities]`, $(this).find('[name="facilities"]').val());
+            formData.append(`rooms[${index}][max_student]`, $(this).find('[name="max_student"]').val());
+
+            // Add photos for this room
+            const photoFiles = $(this).find('[name="photos[]"]')[0]?.files || [];
+            for (let i = 0; i < photoFiles.length; i++) {
+                formData.append(`rooms[${index}][photos][]`, photoFiles[i]);
+            }
         });
+
+        // Debug the data being sent
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ": " + pair[1]);
+        }
 
         $.ajax({
             url: "/apartment/store",
@@ -149,15 +203,13 @@ $(document).ready(function () {
         formData.append("mansion_structure", $("#edit_mansion_structure").val());
         formData.append("pic_id", $("#editpic_name").val());
 
-        // Update to use `id` instead of `room_id`
+        // Update room data
         $("#edit-rooms-container .room-item").each(function (index) {
-            const roomIdValue = $(this).find('[name="id"]').val(); // Change here
+            const roomIdValue = $(this).find('[name="id"]').val();
             const roomId = roomIdValue ? parseInt(roomIdValue, 10) : null;
 
-            console.log("Room ID:", roomId); // Verify this is correct
-
             if (roomId !== null && !isNaN(roomId)) {
-                formData.append(`rooms[${index}][id]`, roomId); // Update here
+                formData.append(`rooms[${index}][id]`, roomId);
             }
 
             formData.append(`rooms[${index}][room_number]`, $(this).find('[name="room_number"]').val());
@@ -165,6 +217,12 @@ $(document).ready(function () {
             formData.append(`rooms[${index}][initial_rent]`, $(this).find('[name="initial_rent"]').val());
             formData.append(`rooms[${index}][facilities]`, $(this).find('[name="facilities"]').val());
             formData.append(`rooms[${index}][max_student]`, $(this).find('[name="max_student"]').val());
+
+            // Add room photos
+            const photoFiles = $(this).find('[name="photos[]"]')[0]?.files || [];
+            for (let i = 0; i < photoFiles.length; i++) {
+                formData.append(`rooms[${index}][photos][]`, photoFiles[i]);
+            }
         });
 
         $.ajax({
@@ -190,6 +248,7 @@ $(document).ready(function () {
             },
         });
     });
+
 
     // Fetch and display apartments
     function fetchApartment() {
@@ -352,40 +411,9 @@ $(document).ready(function () {
         });
     }
 
-    // function populateRoomNumbers(rooms) {
-    //     const container = $("#edit-rooms-container");
-    //     container.empty();
-    //     console.log(rooms);
-    //     rooms.forEach((room) => {
-    //         const newRoom = $("#edit-room-template")
-    //             .clone()
-    //             .removeAttr("id")
-    //             .show();
-
-    //         newRoom.find('[name="room_number"]').val(room.room_number);
-    //         newRoom.find('[name="room_type"]').val(room.room_type);
-    //         newRoom.find('[name="initial_rent"]').val(room.initial_rent);
-    //         newRoom.find('[name="max_student"]').val(room.max_student);
-
-    //         // Populate the facilities field as a comma-separated string if it exists
-    //         if (room.facilities) {
-    //             try {
-    //                 const facilitiesArray = JSON.parse(room.facilities);
-    //                 newRoom.find('[name="facilities"]').val(facilitiesArray.join(", "));
-    //             } catch (error) {
-    //                 console.error("Error parsing facilities:", error);
-    //                 newRoom.find('[name="facilities"]').val(room.facilities);
-    //             }
-    //         }
-
-    //         container.append(newRoom);
-    //     });
-    // }
-
     function populateRoomNumbers(rooms) {
         const container = $("#edit-rooms-container");
         container.empty();
-        console.log(rooms);
 
         rooms.forEach((room) => {
             const newRoom = $("#edit-room-template")
@@ -393,13 +421,11 @@ $(document).ready(function () {
                 .removeAttr("id")
                 .show();
 
-            // Set the room data
+            // Populate room data
             newRoom.find('[name="room_number"]').val(room.room_number);
             newRoom.find('[name="room_type"]').val(room.room_type);
             newRoom.find('[name="initial_rent"]').val(room.initial_rent);
             newRoom.find('[name="max_student"]').val(room.max_student);
-
-            // Update to use `id`
             newRoom.find('[name="id"]').val(room.id);
 
             if (room.facilities) {
@@ -412,12 +438,45 @@ $(document).ready(function () {
                 }
             }
 
+            // Add "View Images" button
+            const viewImagesButton = `
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
+                    <button type="button" class="btn btn-primary view-room-images-btn" data-room-images='${JSON.stringify(room.photo_urls)}'>View Images</button>
+                </div>
+            `;
+            newRoom.append(viewImagesButton);
+
             container.append(newRoom);
         });
     }
 
+    $(document).on("click", ".view-room-images-btn", function () {
+        const roomImages = $(this).data("room-images");
+        console.log("Room Images:", roomImages);
 
+    
+        // Clear existing images in the modal
+        const container = $("#room-images-container");
+        container.empty();
+    
+        if (roomImages && roomImages.length > 0) {
+            roomImages.forEach((imageUrl) => {
+                const imageElement = `
+                    <div class="col-md-4">
+                        <img src="${imageUrl}" class="img-fluid rounded mb-2" alt="Room Image">
+                    </div>
+                `;
+                container.append(imageElement);
 
+            });
+        } else {
+            container.append('<p>No images available for this room.</p>');
+        }
+    
+        // Show the modal
+        $("#view-room-images-modal").modal("show");
+    });
+    
     function populatePicOptions(selectedPicId) {
         $.ajax({
             url: "/path-to-fetch-pic-options",

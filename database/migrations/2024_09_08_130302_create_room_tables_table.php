@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('initial_rent', 8, 2)->nullable(); // Store rent with decimal precision
             $table->integer('max_student')->nullable(); // Store the maximum number of students as an integer
             $table->json('facilities')->nullable(); // Store facilities as a JSON array if needed
+            $table->json('photos')->nullable();
             $table->timestamps();
             $table->softDeletes();
         

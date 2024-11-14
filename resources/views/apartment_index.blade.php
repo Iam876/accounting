@@ -8,38 +8,6 @@
                     <h5>{{ __('apartment.title') }}</h5>
                     <div class="list-btn">
                         <ul class="filter-list">
-                            {{-- <li>
-                                <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" data-bs-original-title="Filter"><span class="me-2"><img
-                                            src="{{ asset('assets') }}/img/icons/filter-icon.svg"
-                                            alt="filter"></span>Filter </a>
-                            </li>
-                            <li class="">
-                                <div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-original-title="Download">
-                                    <a href="#" class="btn-filters" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><span><i class="fe fe-download"></i></span></a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <ul class="d-block">
-                                            <li>
-                                                <a class="d-flex align-items-center download-item"
-                                                    href="javascript:void(0);" download><i
-                                                        class="far fa-file-pdf me-2"></i>PDF</a>
-                                            </li>
-                                            <li>
-                                                <a class="d-flex align-items-center download-item"
-                                                    href="javascript:void(0);" download><i
-                                                        class="far fa-file-text me-2"></i>CVS</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="btn-filters" href="javascript:void(0);" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" data-bs-original-title="Print"><span><i
-                                            class="fe fe-printer"></i></span> </a>
-                            </li> --}}
                             <li>
                                 <a href="#" class="btn btn-primary waves-effect waves-light mt-1"
                                     data-bs-toggle="modal" data-bs-target="#apartment_modal_add"><i
@@ -145,6 +113,9 @@
                                                         <input type="number" class="form-control" name="max_student"
                                                             placeholder="{{ __('apartment.placeholder.max_students') }}">
                                                     </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
+                                                        <input type="file" class="form-control" name="photos[]" multiple>
+                                                    </div>
                                                     <div
                                                         class="col-lg-6 col-md-6 col-sm-12 mb-2 d-flex align-items-center">
                                                         <button type="button"
@@ -238,25 +209,29 @@
                                                 <div class="row">
                                                     <input type="hidden" name="id" value="null">
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="text" class="form-control" name="room_number" placeholder="{{ __('apartment.placeholder.room_number') }}">
+                                                        <input type="text" class="form-control" name="room_number" placeholder="Room Number">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="text" class="form-control" name="room_type" placeholder="{{ __('apartment.placeholder.room_type') }}">
+                                                        <input type="text" class="form-control" name="room_type" placeholder="Room Type">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="text" class="form-control" name="initial_rent" placeholder="{{ __('apartment.placeholder.initial_rent') }}">
+                                                        <input type="text" class="form-control" name="initial_rent" placeholder="Initial Rent">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="text" class="form-control" name="facilities" placeholder="{{ __('apartment.placeholder.facilities') }}">
+                                                        <input type="text" class="form-control" name="facilities" placeholder="Facilities">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="number" class="form-control" name="max_student" placeholder="{{ __('apartment.placeholder.max_students') }}">
+                                                        <input type="number" class="form-control" name="max_student" placeholder="Max Students">
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
+                                                        <input type="file" class="form-control" name="photos[]" multiple>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2 d-flex align-items-center">
-                                                        <button type="button" class="btn btn-danger remove-room-btn">{{ __('apartment.modal.remove_button') }}</button>
+                                                        <button type="button" class="btn btn-danger remove-room-btn">Remove Room</button>
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -273,6 +248,23 @@
                     </div>
                 </div>
             </div>
+
+            <div id="view-room-images-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Room Images</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row" id="room-images-container">
+                                <!-- Images will be dynamically added here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
 
             <!-- Room Details Modal -->
             <div id="roomDetailsModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">

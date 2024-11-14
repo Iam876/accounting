@@ -196,7 +196,7 @@ class BillingController extends Controller
     public function generateMonthlyBilling()
     {
         // Set the billing date to the 20th of the current month
-        $billingDate = Carbon::parse('2028-05-20'); // Custom date for testing
+        $billingDate = Carbon::parse('2026-05-20'); // Custom date for testing
         Log::info('Billing Date:', ['billing_date' => $billingDate->toDateString()]);
 
         // Determine the fiscal year for billing purposes

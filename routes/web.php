@@ -18,9 +18,10 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\messageController;
+use App\Http\Controllers\FileRetrieveController;
 use App\Helpers\CountryHelper;
 
-Route::middleware(['web', 'auth', 'geo.restriction', 'role.check', \App\Http\Middleware\SwitchDatabase::class])->group(function () {
+Route::middleware(['web', 'auth', 'role.check', \App\Http\Middleware\SwitchDatabase::class])->group(function () {
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -47,6 +48,8 @@ Route::middleware(['web', 'auth', 'geo.restriction', 'role.check', \App\Http\Mid
 
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
+        Route::post('/generate-billing-database', 'generateBillingDatabase')->name('generate.billing.database');
+        Route::post('/generate-monthly-billing', 'triggerMonthlyBilling')->name('generate.monthly.billing');
         // Route::post('/store', 'store');
         // Route::get('/show/{id}', 'show');
         // Route::put('/update/{id}', 'update');
@@ -85,9 +88,13 @@ Route::middleware(['web', 'auth', 'geo.restriction', 'role.check', \App\Http\Mid
         Route::get('/path-to-fetch-pic-options', 'getAllPics');
         Route::delete('/apartment/destroy/{id}', 'destroy')->name('apartment.destroy');
 
-        Route::get('/apartments/{id}/rooms', [ApartmentController::class, 'getRoomsByApartment']);
+        Route::get('/apartments/{id}/rooms',  'getRoomsByApartment');
+        // Route::get('/file/{filename}')->name('file.retrieve');
 
     });
+
+    Route::get('/file/{filename}', FileRetrieveController::class)->name('file.retrieve');
+
 
     Route::controller(RoomController::class)->group(function () {
         Route::get('/rooms', 'index')->name('room.index');

@@ -12,6 +12,9 @@ use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
+
 class DashboardController extends Controller
 {
     public function __construct()
@@ -60,5 +63,34 @@ class DashboardController extends Controller
             'studentsPaidCount',
             'remainingDueAmount',
         ));
+    }
+
+    public function generateBillingDatabase(Request $request)
+    {
+        $year = $request->input('year');
+        
+        // Run the Artisan command and pass the year argument
+        Artisan::call('database:create-yearly', [
+            'year' => $year,
+        ]);
+
+        $message = 'Database created successfully for year ' . $year;
+
+        // Log the response message
+        Log::info($message);
+
+        // Return JSON response
+        return response()->json(['message' => $message]);
+    }
+    public function triggerMonthlyBilling()
+    {
+        // Run the Artisan command for generating monthly billing
+        Artisan::call('billing:generate');
+
+        // Log and return a success message
+        $message = 'Monthly billing generated successfully.';
+        Log::info($message);
+
+        return response()->json(['message' => $message]);
     }
 }

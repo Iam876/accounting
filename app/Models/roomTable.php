@@ -15,7 +15,8 @@ class roomTable extends Model
         'room_type',
         'initial_rent',
         'max_student',
-        'facilities'
+        'facilities',
+        'photos',
     ];
 
     public function apartment()
