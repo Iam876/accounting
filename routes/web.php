@@ -88,8 +88,10 @@ Route::middleware(['web', 'auth', 'role.check', \App\Http\Middleware\SwitchDatab
         Route::get('/path-to-fetch-pic-options', 'getAllPics');
         Route::delete('/apartment/destroy/{id}', 'destroy')->name('apartment.destroy');
 
-        Route::get('/apartments/{id}/rooms',  'getRoomsByApartment');
-        // Route::get('/file/{filename}')->name('file.retrieve');
+        Route::get('/apartments/{id}/rooms', 'getRoomsByApartment');
+        Route::post('/apartment/upload-photo',  'uploadPhoto');
+        Route::get('/apartment/upload-status', 'uploadStatus')->name('apartment.uploadStatus');
+
 
     });
 

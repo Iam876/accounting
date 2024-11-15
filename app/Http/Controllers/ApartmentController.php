@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Apartment;
 use App\Models\picCompany;
 use App\Models\roomTable;
+use App\Jobs\ProcessRoomPhoto;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Laravel\Facades\Image;
@@ -24,98 +25,87 @@ class ApartmentController extends Controller
         return response()->json(['apartments' => $apartments]);
     }
 
-
     public function fetchPicNames()
     {
         $picNames = PicCompany::all(['id', 'pic_company_name', 'pic_company_contact']); // Fetch the relevant fields
         return response()->json($picNames); // Return as JSON
     }
 
+    public function uploadPhoto(Request $request)
+    {
+        $request->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'room_number' => 'required|string',
+            'mansion_name' => 'required|string',
+        ]);
+
+        $photo = $request->file('photo');
+        $roomDirectory = 'Accounting/Apartment/' . $request->mansion_name . '/Room_' . $request->room_number . '/';
+        $fileName = uniqid() . '.' . $photo->getClientOriginalExtension();
+
+        // Save photo temporarily
+        $localPath = $photo->store('temp_photos', 'local');
+
+        // Dispatch job for background processing
+        ProcessRoomPhoto::dispatch($localPath, $roomDirectory . $fileName);
+
+        return response()->json(['filePath' => $roomDirectory . $fileName], 200);
+    }
+
+    public function uploadStatus(Request $request)
+    {
+        $filePath = $request->get('filePath');
+        $isUploaded = Storage::disk('google')->exists($filePath); // Check if file exists on Google Drive
+
+        return response()->json(['status' => $isUploaded ? 'completed' : 'processing']);
+    }
+
     public function store(Request $request)
     {
+        $request->merge([
+            'rooms' => json_decode($request->input('rooms'), true),
+        ]);
+
         $request->validate([
             'mansion_name' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
             'mansion_structure' => 'nullable|string|max:255',
+            'notes' => 'nullable|string',
             'rooms' => 'nullable|array',
             'rooms.*.room_number' => 'nullable|string',
             'rooms.*.room_type' => 'nullable|string',
             'rooms.*.initial_rent' => 'nullable|numeric',
             'rooms.*.facilities' => 'nullable|string',
             'rooms.*.max_student' => 'nullable|integer',
-            'rooms.*.photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
-            'pic_value' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:9048',
+            'rooms.*.photos' => 'nullable|array',
+            'rooms.*.notes' => 'nullable|string',
         ]);
-    
-        $apartmentData = new Apartment();
-        $apartmentData->mansion_name = $request->mansion_name;
-        $apartmentData->mansion_address = $request->address;
-        $apartmentData->mansion_structure = $request->mansion_structure;
-        $apartmentData->pic_id = $request->pic_value;
-    
-        // Handle the main apartment image
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $fileName = $request->mansion_name . '_main';
-            $path = 'Accounting/Apartment/' . $request->mansion_name . '/' . $fileName . '.' . $image->getClientOriginalExtension();
-    
-            // Optimize and resize the main image using Intervention Image
-            $optimizedImage = Image::read($image)->resize(300, 300);
-            Storage::put('public/' . $path, (string) $optimizedImage->encode());
-    
-            $apartmentData->image = 'storage/' . $path;
+
+        // Save apartment details
+        $apartment = Apartment::create([
+            'mansion_name' => $request->mansion_name,
+            'mansion_address' => $request->address,
+            'mansion_structure' => $request->mansion_structure,
+            'pic_id' => $request->pic_value,
+            'notes' => $request->notes,
+        ]);
+
+        // Save rooms
+        foreach ($request->rooms as $room) {
+            RoomTable::create([
+                'apartment_id' => $apartment->id,
+                'room_number' => $room['room_number'] ?? null,
+                'room_type' => $room['room_type'] ?? null,
+                'initial_rent' => $room['initial_rent'] ?? null,
+                'facilities' => isset($room['facilities']) ? json_encode(explode(',', $room['facilities'])) : null,
+                'max_student' => $room['max_student'] ?? null,
+                'photos' => json_encode($room['photos'] ?? []),
+                'notes' => $room['notes'] ?? null,
+            ]);
         }
-    
-        $apartmentData->save();
-    
-        // Handle room data
-        if (!empty($request->rooms)) {
-            foreach ($request->rooms as $index => $room) {
-                $photoPaths = []; // Reset for each room
-    
-                // Process and upload photos for this room
-                if (isset($room['photos']) && is_array($room['photos'])) {
-                    foreach ($room['photos'] as $photo) {
-                        $roomDirectory = 'Accounting/Apartment/' . $request->mansion_name . '/Room_' . ($room['room_number'] ?? 'Room' . ($index + 1)) . '/';
-                        $fileName = uniqid() . '.' . $photo->getClientOriginalExtension();
-                        $path = $roomDirectory . $fileName;
-    
-                        // Optimize room image
-                        $optimizedImage = Image::read($photo)->resize(780, 550, function ($constraint) {
-                            $constraint->aspectRatio();
-                        });
-    
-                        $tempPath = storage_path('app/temp/' . uniqid() . '.jpg');
-                        $optimizedImage->save($tempPath);
-    
-                        // Upload to Google Drive
-                        Storage::disk('google')->put($path, file_get_contents($tempPath));
-                        unlink($tempPath);
-    
-                        $photoPaths[] = $path;
-                    }
-                }
-    
-                // Encode photos for saving
-                $encodedPhotos = !empty($photoPaths) ? json_encode($photoPaths) : null;
-    
-                // Save room data
-                roomTable::create([
-                    'apartment_id' => $apartmentData->id,
-                    'room_number' => $room['room_number'] ?? null,
-                    'room_type' => $room['room_type'] ?? null,
-                    'initial_rent' => $room['initial_rent'] ?? null,
-                    'facilities' => isset($room['facilities']) ? json_encode(explode(',', $room['facilities'])) : null,
-                    'max_student' => $room['max_student'] ?? null,
-                    'photos' => $encodedPhotos,
-                ]);
-            }
-        }
-    
-        return response()->json(['message' => 'Apartment added successfully!']);
+
+        return response()->json(['message' => 'Apartment and rooms saved successfully!']);
     }
-    
 
     public function getAllPics()
     {
@@ -126,7 +116,6 @@ class ApartmentController extends Controller
         return response()->json(['pics' => $pics]);
     }
 
-     
 
     public function edit($id)
     {
@@ -134,129 +123,155 @@ class ApartmentController extends Controller
     
         foreach ($apartment->rooms as $room) {
             if ($room->photos) {
-                // Decode JSON to get stored file names
                 $photos = json_decode($room->photos, true);
-                $room->photo_urls = array_map(function ($photoPath) {
-                    // Generate a route URL to dynamically retrieve the file
-                    $filename = basename($photoPath); // Extract the filename
-                    return route('file.retrieve', ['filename' => $filename]);
-                }, $photos);
+                if (is_array($photos)) {
+                    $room->photo_urls = array_map(function ($photoPath) {
+                        $filename = basename($photoPath);
+                        return route('file.retrieve', ['filename' => $filename]);
+                    }, $photos);
+                } else {
+                    $room->photo_urls = [];
+                }
             } else {
                 $room->photo_urls = [];
             }
         }
     
+        // Debug the response
+        \Log::info('Apartment Edit Response:', $apartment->toArray());
+    
         return response()->json($apartment);
     }
     
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'mansion_name' => 'required|string|max:255',
-            'mansion_address' => 'nullable|string|max:255',
-            'mansion_structure' => 'nullable|string|max:255',
-            'rooms' => 'nullable|array',
-            'rooms.*.id' => 'nullable|integer', // For existing room IDs
-            'rooms.*.room_number' => 'nullable|string',
-            'rooms.*.room_type' => 'nullable|string',
-            'rooms.*.initial_rent' => 'nullable|numeric',
-            'rooms.*.facilities' => 'nullable|string',
-            'rooms.*.max_student' => 'nullable|integer',
-            'rooms.*.photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120', // Multiple photos for each room
-            'pic_id' => 'nullable|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:9048',
-        ]);
+    // public function update(Request $request, $id)
+    // {
+    //     try {
+    //         \Log::info("Starting apartment update for ID: $id");
 
-        // Fetch the apartment record
-        $apartment = Apartment::findOrFail($id);
-        $apartment->mansion_name = $request->mansion_name;
-        $apartment->mansion_address = $request->mansion_address;
-        $apartment->mansion_structure = $request->mansion_structure;
-        $apartment->pic_id = $request->pic_id;
+    //         // Log the incoming request data
+    //         \Log::info("Request Data: ", $request->all());
 
-        // Process the main apartment image
-        if ($request->hasFile('image')) {
-            // Delete the existing image if it exists
-            if ($apartment->image && Storage::exists('public/' . str_replace('storage/', '', $apartment->image))) {
-                Storage::delete('public/' . str_replace('storage/', '', $apartment->image));
-            }
+    //         $request->validate([
+    //             'mansion_name' => 'required|string|max:255',
+    //             'mansion_address' => 'nullable|string|max:255',
+    //             'mansion_structure' => 'nullable|string|max:255',
+    //             'notes' => 'nullable|string',
+    //             'rooms' => 'nullable|array',
+    //             'rooms.*.id' => 'nullable|integer',
+    //             'rooms.*.room_number' => 'nullable|string',
+    //             'rooms.*.room_type' => 'nullable|string',
+    //             'rooms.*.initial_rent' => 'nullable|numeric',
+    //             'rooms.*.facilities' => 'nullable|string',
+    //             'rooms.*.max_student' => 'nullable|integer',
+    //             'rooms.*.photos' => 'nullable|array',
+    //             'rooms.*.photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+    //             'rooms.*.notes' => 'nullable|string',
+    //             'pic_id' => 'nullable|integer',
+    //             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:9048',
+    //         ]);
 
-            $image = $request->file('image');
-            $fileName = $request->mansion_name . '_main';
-            $path = 'apartment_images/' . $fileName . '.' . $image->getClientOriginalExtension();
+    //         \Log::info("Raw Request Data:", $request->all());
+    //         \Log::info("Validation Passed");
 
-            // Optimize and resize the image using Intervention
-            $optimizedImage = Image::read($image)->resize(300, 300);
-            Storage::put('public/' . $path, (string) $optimizedImage->encode());
+    //         $apartment = Apartment::findOrFail($id);
+    //         \Log::info("Apartment Found: ", $apartment->toArray());
 
-            $apartment->image = 'storage/' . $path;
-        }
-        $apartment->save();
+    //         // Update apartment details
+    //         $apartment->update([
+    //             'mansion_name' => $request->mansion_name,
+    //             'mansion_address' => $request->mansion_address,
+    //             'mansion_structure' => $request->mansion_structure,
+    //             'pic_id' => $request->pic_id,
+    //             'notes' => $request->notes,
+    //         ]);
 
-        // Process rooms
-        $processedRoomIds = [];
-        foreach ($request->rooms as $index => $roomData) {
-            $photoPaths = []; // Reset for each room
+    //         // Update main image synchronously
+    //         if ($request->hasFile('image')) {
+    //             \Log::info("Main Image Uploaded: " . $request->file('image')->getClientOriginalName());
 
-            // Handle room photos
-            if (isset($roomData['photos']) && is_array($roomData['photos'])) {
-                foreach ($roomData['photos'] as $photo) {
-                    $fileName = $request->mansion_name . '_' . ($roomData['room_number'] ?? 'room' . ($index + 1)) . '_' . uniqid();
-                    $path = 'Accounting/Apartment/room_photos/' . $fileName . '.' . $photo->getClientOriginalExtension();
+    //             if ($apartment->image && Storage::exists('public/' . str_replace('storage/', '', $apartment->image))) {
+    //                 Storage::delete('public/' . str_replace('storage/', '', $apartment->image));
+    //             }
 
-                    // Optimize room image
-                    $optimizedImage = Image::read($photo)->resize(780, 550, function ($constraint) {
-                        $constraint->aspectRatio();
-                    });
+    //             $image = $request->file('image');
+    //             $fileName = $request->mansion_name . '_main';
+    //             $path = 'apartment_images/' . $fileName . '.' . $image->getClientOriginalExtension();
 
-                    $tempPath = storage_path('app/temp/' . uniqid() . '.jpg');
-                    $optimizedImage->save($tempPath);
+    //             $optimizedImage = Image::read($image->getRealPath())->resize(300, 300)->encode();
+    //             Storage::put('public/' . $path, $optimizedImage);
 
-                    // Upload to Google Drive
-                    Storage::disk('google')->put($path, file_get_contents($tempPath));
-                    unlink($tempPath); // Delete temporary file
+    //             $apartment->update(['image' => 'storage/' . $path]);
+    //         } else {
+    //             \Log::info("No Main Image Provided");
+    //         }
 
-                    $photoPaths[] = $path;
-                }
-            }
+    //         $processedRoomIds = [];
+    //         foreach ($request->rooms as $index => $roomData) {
+    //             \Log::info("Processing Room $index: ", $roomData);
 
-            // Encode photos for saving
-            $encodedPhotos = !empty($photoPaths) ? json_encode($photoPaths) : null;
+    //             if (!empty($roomData['id'])) {
+    //                 // Update existing room
+    //                 $room = RoomTable::findOrFail($roomData['id']);
+    //                 $room->update([
+    //                     'room_number' => $roomData['room_number'] ?? $room->room_number,
+    //                     'room_type' => $roomData['room_type'] ?? $room->room_type,
+    //                     'initial_rent' => $roomData['initial_rent'] ?? $room->initial_rent,
+    //                     'facilities' => isset($roomData['facilities']) ? json_encode(explode(',', $roomData['facilities'])) : $room->facilities,
+    //                     'max_student' => $roomData['max_student'] ?? $room->max_student,
+    //                     'notes' => $roomData['notes'] ?? $room->notes,
+    //                 ]);
+    //                 $processedRoomIds[] = $room->id;
 
-            // Update existing room or create a new one
-            if (!empty($roomData['id']) && RoomTable::where('id', $roomData['id'])->where('apartment_id', $apartment->id)->exists()) {
-                $room = RoomTable::find($roomData['id']);
-                $room->update([
-                    'room_number' => $roomData['room_number'] ?? $room->room_number,
-                    'room_type' => $roomData['room_type'] ?? $room->room_type,
-                    'initial_rent' => $roomData['initial_rent'] ?? $room->initial_rent,
-                    'facilities' => isset($roomData['facilities']) ? json_encode(explode(',', $roomData['facilities'])) : $room->facilities,
-                    'max_student' => $roomData['max_student'] ?? $room->max_student,
-                    'photos' => $encodedPhotos, // Save photos as JSON
-                ]);
-                $processedRoomIds[] = $room->id;
-            } else {
-                $newRoom = RoomTable::create([
-                    'apartment_id' => $apartment->id,
-                    'room_number' => $roomData['room_number'] ?? null,
-                    'room_type' => $roomData['room_type'] ?? null,
-                    'initial_rent' => $roomData['initial_rent'] ?? null,
-                    'facilities' => isset($roomData['facilities']) ? json_encode(explode(',', $roomData['facilities'])) : null,
-                    'max_student' => $roomData['max_student'] ?? null,
-                    'photos' => $encodedPhotos, // Save photos as JSON
-                ]);
-                $processedRoomIds[] = $newRoom->id;
-            }
-        }
+    //                 // Dispatch jobs for new photos
+    //                 if (isset($roomData['photos']) && is_array($roomData['photos'])) {
+    //                     foreach ($roomData['photos'] as $photo) {
+    //                         $fileName = uniqid() . '.' . $photo->getClientOriginalExtension();
+    //                         $localPath = $photo->store('temp_photos', 'local');
+    //                         $destinationPath = 'Accounting/Apartment/room_photos/' . $fileName;
 
-        // Delete rooms that were not processed
-        RoomTable::where('apartment_id', $apartment->id)->whereNotIn('id', $processedRoomIds)->delete();
+    //                         ProcessRoomPhoto::dispatch($localPath, $destinationPath);
 
-        return response()->json(['message' => 'Apartment updated successfully']);
-    }
+    //                         \Log::info("Dispatched photo processing job for room $room->id");
+    //                     }
+    //                 }
+    //             } else {
+    //                 // Create new room
+    //                 $newRoom = RoomTable::create([
+    //                     'apartment_id' => $apartment->id,
+    //                     'room_number' => $roomData['room_number'] ?? null,
+    //                     'room_type' => $roomData['room_type'] ?? null,
+    //                     'initial_rent' => $roomData['initial_rent'] ?? null,
+    //                     'facilities' => isset($roomData['facilities']) ? json_encode(explode(',', $roomData['facilities'])) : null,
+    //                     'max_student' => $roomData['max_student'] ?? null,
+    //                     'notes' => $roomData['notes'] ?? $room->notes,
+    //                 ]);
+    //                 $processedRoomIds[] = $newRoom->id;
 
+    //                 // Dispatch jobs for new photos
+    //                 if (isset($roomData['photos']) && is_array($roomData['photos'])) {
+    //                     foreach ($roomData['photos'] as $photo) {
+    //                         $fileName = uniqid() . '.' . $photo->getClientOriginalExtension();
+    //                         $localPath = $photo->store('temp_photos', 'local');
+    //                         $destinationPath = 'Accounting/Apartment/room_photos/' . $fileName;
 
+    //                         ProcessRoomPhoto::dispatch($localPath, $destinationPath);
+
+    //                         \Log::info("Dispatched photo processing job for new room $newRoom->id");
+    //                     }
+    //                 }
+    //             }
+    //         }
+
+    //         RoomTable::where('apartment_id', $apartment->id)->whereNotIn('id', $processedRoomIds)->delete();
+    //         \Log::info("Room Processing Completed");
+
+    //         return response()->json(['message' => 'Apartment updated successfully. Photos are being processed in the background.']);
+    //     } catch (\Exception $e) {
+    //         \Log::error("Error Updating Apartment: " . $e->getMessage());
+    //         return response()->json(['error' => 'An error occurred during the update process.'], 500);
+    //     }
+    // }
 
     public function destroy($id)
     {
@@ -290,6 +305,150 @@ class ApartmentController extends Controller
         return response()->json(['rooms' => $apartment->rooms]);
     }
 
+
+    public function update(Request $request, $id)
+{
+    try {
+        \Log::info("Starting apartment update for ID: $id");
+
+        // Log the incoming request data
+        \Log::info("Request Data: ", $request->all());
+
+        $request->validate([
+            'mansion_name' => 'required|string|max:255',
+            'mansion_address' => 'nullable|string|max:255',
+            'mansion_structure' => 'nullable|string|max:255',
+            'notes' => 'nullable|string',
+            'rooms' => 'nullable|array',
+            'rooms.*.id' => 'nullable|integer',
+            'rooms.*.room_number' => 'nullable|string',
+            'rooms.*.room_type' => 'nullable|string',
+            'rooms.*.initial_rent' => 'nullable|numeric',
+            'rooms.*.facilities' => 'nullable|string',
+            'rooms.*.max_student' => 'nullable|integer',
+            'rooms.*.photos' => 'nullable|array',
+            'rooms.*.photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'rooms.*.notes' => 'nullable|string',
+            'pic_id' => 'nullable|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:9048',
+        ]);
+
+        \Log::info("Validation Passed");
+
+        $apartment = Apartment::findOrFail($id);
+        \Log::info("Apartment Found: ", $apartment->toArray());
+
+        // Update apartment details
+        $apartment->update([
+            'mansion_name' => $request->mansion_name,
+            'mansion_address' => $request->mansion_address,
+            'mansion_structure' => $request->mansion_structure,
+            'pic_id' => $request->pic_id,
+            'notes' => $request->notes,
+        ]);
+
+        // Update main image synchronously
+        if ($request->hasFile('image')) {
+            \Log::info("Main Image Uploaded: " . $request->file('image')->getClientOriginalName());
+
+            if ($apartment->image && Storage::exists('public/' . str_replace('storage/', '', $apartment->image))) {
+                Storage::delete('public/' . str_replace('storage/', '', $apartment->image));
+            }
+
+            $image = $request->file('image');
+            $fileName = $request->mansion_name . '_main';
+            $path = 'apartment_images/' . $fileName . '.' . $image->getClientOriginalExtension();
+
+            $optimizedImage = Image::read($image->getRealPath())->resize(300, 300)->encode();
+            Storage::put('public/' . $path, $optimizedImage);
+
+            $apartment->update(['image' => 'storage/' . $path]);
+        } else {
+            \Log::info("No Main Image Provided");
+        }
+
+        $processedRoomIds = [];
+        foreach ($request->rooms as $index => $roomData) {
+            \Log::info("Processing Room $index: ", $roomData);
+
+            if (!empty($roomData['id'])) {
+                // Update existing room
+                $room = RoomTable::findOrFail($roomData['id']);
+                
+                // Collect existing photos
+                $existingPhotos = $room->photos ? json_decode($room->photos, true) : [];
+
+                // Process new photos
+                if (isset($roomData['photos']) && is_array($roomData['photos'])) {
+                    foreach ($roomData['photos'] as $photo) {
+                        $fileName = uniqid() . '.' . $photo->getClientOriginalExtension();
+                        $localPath = $photo->store('temp_photos', 'local');
+                        $destinationPath = 'Accounting/Apartment/room_photos/' . $fileName;
+
+                        // Dispatch job to process the photo
+                        ProcessRoomPhoto::dispatch($localPath, $destinationPath);
+
+                        // Add the new photo path to the array
+                        $existingPhotos[] = $destinationPath;
+
+                        \Log::info("Dispatched photo processing job for room $room->id");
+                    }
+                }
+
+                // Update the room with new data and photos
+                $room->update([
+                    'room_number' => $roomData['room_number'] ?? $room->room_number,
+                    'room_type' => $roomData['room_type'] ?? $room->room_type,
+                    'initial_rent' => $roomData['initial_rent'] ?? $room->initial_rent,
+                    'facilities' => isset($roomData['facilities']) ? json_encode(explode(',', $roomData['facilities'])) : $room->facilities,
+                    'max_student' => $roomData['max_student'] ?? $room->max_student,
+                    'notes' => $roomData['notes'] ?? $room->notes,
+                    'photos' => json_encode($existingPhotos), // Save the updated photos array
+                ]);
+                $processedRoomIds[] = $room->id;
+            } else {
+                // Create new room
+                $newPhotos = [];
+                if (isset($roomData['photos']) && is_array($roomData['photos'])) {
+                    foreach ($roomData['photos'] as $photo) {
+                        $fileName = uniqid() . '.' . $photo->getClientOriginalExtension();
+                        $localPath = $photo->store('temp_photos', 'local');
+                        $destinationPath = 'Accounting/Apartment/room_photos/' . $fileName;
+
+                        // Dispatch job to process the photo
+                        ProcessRoomPhoto::dispatch($localPath, $destinationPath);
+
+                        // Add the new photo path to the array
+                        $newPhotos[] = $destinationPath;
+
+                        \Log::info("Dispatched photo processing job for new room");
+                    }
+                }
+
+                // Save the new room
+                $newRoom = RoomTable::create([
+                    'apartment_id' => $apartment->id,
+                    'room_number' => $roomData['room_number'] ?? null,
+                    'room_type' => $roomData['room_type'] ?? null,
+                    'initial_rent' => $roomData['initial_rent'] ?? null,
+                    'facilities' => isset($roomData['facilities']) ? json_encode(explode(',', $roomData['facilities'])) : null,
+                    'max_student' => $roomData['max_student'] ?? null,
+                    'notes' => $roomData['notes'] ?? null,
+                    'photos' => json_encode($newPhotos), // Save the new photos array
+                ]);
+                $processedRoomIds[] = $newRoom->id;
+            }
+        }
+
+        RoomTable::where('apartment_id', $apartment->id)->whereNotIn('id', $processedRoomIds)->delete();
+        \Log::info("Room Processing Completed");
+
+        return response()->json(['message' => 'Apartment updated successfully. Photos are being processed in the background.']);
+    } catch (\Exception $e) {
+        \Log::error("Error Updating Apartment: " . $e->getMessage());
+        return response()->json(['error' => 'An error occurred during the update process.'], 500);
+    }
+}
 
 
 }

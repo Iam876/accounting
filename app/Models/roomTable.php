@@ -17,6 +17,7 @@ class roomTable extends Model
         'max_student',
         'facilities',
         'photos',
+        'notes',
     ];
 
     public function apartment()

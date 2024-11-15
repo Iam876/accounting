@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('max_student')->nullable(); // Store the maximum number of students as an integer
             $table->json('facilities')->nullable(); // Store facilities as a JSON array if needed
             $table->json('photos')->nullable();
+            $table->text('notes')->nullable(); // Change notes to text type
             $table->timestamps();
             $table->softDeletes();
         

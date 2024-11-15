@@ -11,9 +11,7 @@ class Apartment extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = [
-        'mansion_name',
-    ];
+    protected $guarded = [];
     // In Apartment.php
     public function pic()
     {

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('mansion_structure')->nullable();
             $table->text('mansion_address')->nullable();
             $table->string('pic_id')->nullable();
+            $table->text('notes')->nullable();
             // $table->string('contact')->nullable();
             // $table->string('prefecture')->nullable();
             $table->timestamps();

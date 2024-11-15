@@ -1,4 +1,11 @@
 $(document).ready(function () {
+    // Set up AJAX headers with CSRF token
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+    });
+
     // Add and remove room functionality
     $(document).on("click", "#add-room-btn, #add-edit-room-btn", function () {
         const roomTemplate = $(this).data("target-template");
@@ -17,139 +24,176 @@ $(document).ready(function () {
         placeholder: "Select PIC",
     });
 
-    // Set up AJAX headers with CSRF token
-    $.ajaxSetup({
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-    });
 
-    // Save Apartment with Room Data
-    // $("#apartment_modal_add .customer-btn-save").click(function () {
-    //     let formData = new FormData();
-    //     let fileInput = $("#apartmentImage")[0].files;
+    function updateSweetAlertProgress(percent) {
+        const progressBar = $(".swal2-progress-bar");
+        progressBar.css("width", percent + "%");
+        $(".swal2-title").text(`Uploading... ${percent}%`);
+    }
 
-    //     if (fileInput.length > 0) {
-    //         formData.append("image", fileInput[0]);
-    //     }
+    function uploadPhoto(file, roomNumber, mansionName) {
+        return new Promise((resolve, reject) => {
+            let photoData = new FormData();
+            photoData.append("photo", file);
+            photoData.append("room_number", roomNumber);
+            photoData.append("mansion_name", mansionName);
 
-    //     formData.append("mansion_name", $("#mansionName").val());
-    //     formData.append("address", $("#address").val());
-    //     formData.append("mansion_structure", $("#mansion_structure").val());
-    //     formData.append("pic_value", $("#pic_name").val());
+            $.ajax({
+                url: "/apartment/upload-photo",
+                type: "POST",
+                data: photoData,
+                processData: false,
+                contentType: false,
+                xhr: function () {
+                    let xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener(
+                        "progress",
+                        function (evt) {
+                            if (evt.lengthComputable) {
+                                const percentComplete = Math.round(
+                                    (evt.loaded / evt.total) * 100
+                                );
+                                updateSweetAlertProgress(percentComplete);
+                            }
+                        },
+                        false
+                    );
+                    return xhr;
+                },
+                success: function (response) {
+                    resolve(response.filePath);
+                },
+                error: function (xhr) {
+                    reject(xhr.responseText);
+                },
+            });
+        });
+    }
 
-    //     // Gather room data
-    //     $("#rooms-container .room-item").each(function (index) {
-    //         formData.append(
-    //             `rooms[${index}][room_number]`,
-    //             $(this).find('[name="room_number"]').val()
-    //         );
-    //         formData.append(
-    //             `rooms[${index}][room_type]`,
-    //             $(this).find('[name="room_type"]').val()
-    //         );
-    //         formData.append(
-    //             `rooms[${index}][initial_rent]`,
-    //             $(this).find('[name="initial_rent"]').val()
-    //         );
-    //         formData.append(
-    //             `rooms[${index}][facilities]`,
-    //             $(this).find('[name="facilities"]').val()
-    //         );
-    //         formData.append(
-    //             `rooms[${index}][max_student]`,
-    //             $(this).find('[name="max_student"]').val()
-    //         );
+    function checkUploadStatus(filePath) {
+        let progress = 0; // Start progress at 0
+        const interval = setInterval(() => {
+            progress += 5; // Simulate incremental progress
+            updateProgressBar(progress);
 
-    //         // Add photos for this room
-    //         const photoFiles = $(this).find('[name="photos[]"]')[0]?.files || [];
-    //         for (let i = 0; i < photoFiles.length; i++) {
-    //             formData.append(`rooms[${index}][photos][]`, photoFiles[i]);
-    //         }
-    //     });
-
-    //     $.ajax({
-    //         url: "/apartment/store",
-    //         type: "POST",
-    //         data: formData,
-    //         processData: false,
-    //         contentType: false,
-    //         success: function () {
-    //             Swal.fire({
-    //                 position: "top-end",
-    //                 icon: "success",
-    //                 title: "Apartment added successfully!",
-    //                 showConfirmButton: false,
-    //                 timer: 3000,
-    //             });
-    //             $("#apartment_modal_add").modal("hide");
-    //             fetchApartment();
-    //         },
-    //         error: function (xhr) {
-    //             console.log(xhr.responseText);
-    //             alert("Error adding apartment");
-    //         },
-    //     });
-    // });
+            $.get("/apartment/upload-status", { filePath: filePath }, function (response) {
+                if (response.status === "completed") {
+                    clearInterval(interval);
+                    updateProgressBar(100); // Ensure it reaches 100%
+                    console.log("Upload complete!");
+                }
+            }).fail(() => {
+                clearInterval(interval);
+                updateProgressBar(100); // Ensure it finishes on failure
+                console.error("Error checking upload status");
+            });
+        }, 1000); // Check every second
+    }
 
     $("#apartment_modal_add .customer-btn-save").click(function () {
-        let formData = new FormData();
-        let fileInput = $("#apartmentImage")[0].files;
+        const modal = $("#apartment_modal_add");
+        const formData = new FormData();
+        const fileInput = $("#apartmentImage")[0].files;
 
+        // Close the modal immediately
+        modal.modal("hide");
+
+        // Show SweetAlert with progress bar positioned in the top-right
+        Swal.fire({
+            title: "Uploading... 0%",
+            html: `
+                <div class="progress" style="height: 10px;">
+                    <div class="progress-bar swal2-progress-bar" 
+                         role="progressbar" 
+                         style="width: 0%; height: 100%; background-color: #7539FF;">
+                    </div>
+                </div>
+            `,
+            position: "top-end",
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            customClass: {
+                popup: "swal2-top-right-popup",
+            },
+            backdrop: false, // Remove background overlay for unobtrusive behavior
+        });
+
+        // Add image to formData if present
         if (fileInput.length > 0) {
             formData.append("image", fileInput[0]);
         }
 
+        // Add other form fields to formData
         formData.append("mansion_name", $("#mansionName").val());
         formData.append("address", $("#address").val());
         formData.append("mansion_structure", $("#mansion_structure").val());
         formData.append("pic_value", $("#pic_name").val());
+        formData.append("notes", $("#apartmentNotes").val());
 
-        // Gather room data
-        $("#rooms-container .room-item").each(function (index) {
-            formData.append(`rooms[${index}][room_number]`, $(this).find('[name="room_number"]').val());
-            formData.append(`rooms[${index}][room_type]`, $(this).find('[name="room_type"]').val());
-            formData.append(`rooms[${index}][initial_rent]`, $(this).find('[name="initial_rent"]').val());
-            formData.append(`rooms[${index}][facilities]`, $(this).find('[name="facilities"]').val());
-            formData.append(`rooms[${index}][max_student]`, $(this).find('[name="max_student"]').val());
+        const roomData = [];
+        const uploadPromises = [];
 
-            // Add photos for this room
-            const photoFiles = $(this).find('[name="photos[]"]')[0]?.files || [];
-            for (let i = 0; i < photoFiles.length; i++) {
-                formData.append(`rooms[${index}][photos][]`, photoFiles[i]);
-            }
+        // Collect room data
+        $("#rooms-container .room-item").each(function () {
+            const roomForm = {
+                room_number: $(this).find('[name="room_number"]').val(),
+                room_type: $(this).find('[name="room_type"]').val(),
+                initial_rent: $(this).find('[name="initial_rent"]').val(),
+                facilities: $(this).find('[name="facilities"]').val(),
+                max_student: $(this).find('[name="max_student"]').val(),
+                photos: [],
+                notes: $(this).find('[name="room_notes"]').val(),
+            };
+
+            const photoFiles = $(this).find(".photos-input")[0]?.files || [];
+            Array.from(photoFiles).forEach((file) => {
+                const uploadPromise = uploadPhoto(file, roomForm.room_number, $("#mansionName").val());
+                uploadPromises.push(
+                    uploadPromise.then((filePath) => {
+                        roomForm.photos.push(filePath);
+                    })
+                );
+            });
+
+            roomData.push(roomForm);
         });
 
-        // Debug the data being sent
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ": " + pair[1]);
-        }
+        // Wait for all photo uploads to complete
+        Promise.all(uploadPromises).then(() => {
+            formData.append("rooms", JSON.stringify(roomData));
 
-        $.ajax({
-            url: "/apartment/store",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function () {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Apartment added successfully!",
-                    showConfirmButton: false,
-                    timer: 3000,
-                });
-                $("#apartment_modal_add").modal("hide");
-                fetchApartment();
-            },
-            error: function (xhr) {
-                console.log(xhr.responseText);
-                alert("Error adding apartment");
-            },
+            // Submit the apartment and room data
+            $.ajax({
+                url: "/apartment/store",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Apartment added successfully!",
+                        timer: 3000,
+                        position: "top-end",
+                        showConfirmButton: false,
+                    });
+                    fetchApartment(); // Refresh the apartment list
+                },
+                error: function (xhr) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: xhr.responseText,
+                        position: "top-end",
+                    });
+                },
+            });
         });
     });
 
-    // Fetch Apartment data for editing
+
+
     $(document).on("click", ".apartment_edit_btn", function () {
         const apartmentId = $(this).data("id");
 
@@ -158,29 +202,37 @@ $(document).ready(function () {
             type: "GET",
             success: function (response) {
                 const host = window.location.origin;
-                const imageUrl = response.image
-                    ? `${host}/${response.image}`
-                    : "assets/img/profiles/avatar-14.jpg";
+                const imageUrl = response.image ? `${host}/${response.image}` : "assets/img/profiles/avatar-14.jpg";
 
-                // Populate form fields with response data
                 $("#editmansionName").val(response.mansion_name);
                 $("#editaddress").val(response.mansion_address);
                 $("#edit_mansion_structure").val(response.mansion_structure);
                 $("#editpic_name").val(response.pic_id);
+                $(".apartment_edit_update").data("id", response.id);
+                $("#edit-rooms-container").empty();
+                $("#editapartmentNotes").val(response.notes);
                 populatePicOptions(response.pic_id);
-                // Populate room data
-                if (response.rooms && Array.isArray(response.rooms)) {
+                response.rooms.forEach((room) => {
+                    console.log('Type of notes:', typeof room.notes);
+
+                    const roomTemplate = $("#edit-room-template").clone().removeAttr("id").show();
+                    roomTemplate.find('[name="id"]').val(room.id);
+                    roomTemplate.find('[name="room_number"]').val(room.room_number);
+                    roomTemplate.find('[name="room_type"]').val(room.room_type);
+                    roomTemplate.find('[name="initial_rent"]').val(room.initial_rent);
+                    roomTemplate.find('[name="facilities"]').val(room.facilities);
+                    roomTemplate.find('[name="max_student"]').val(room.max_student);
+                    roomTemplate.find('[name="room_notes"]').val(room.notes);
+
+                    room.photo_urls.forEach((url) => {
+                        roomTemplate.find(".uploaded-photos").append(`<img src="${url}" class="img-thumbnail" />`);
+                    });
+                    $("#edit-rooms-container").append(roomTemplate);
                     populateRoomNumbers(response.rooms);
-                } else {
-                    populateRoomNumbers([]);
-                }
+                });
 
-                // Set the image source
                 $(".avatar").attr("src", imageUrl);
-
-                // Open the edit modal
                 $("#apartment_modal_edit").modal("show");
-                $(".apartment_edit_update").data("id", apartmentId);
             },
             error: function () {
                 alert("Error fetching apartment data");
@@ -188,42 +240,56 @@ $(document).ready(function () {
         });
     });
 
-    // Update Edited Apartment
+
     $(document).on("click", ".apartment_edit_update", function () {
         const apartmentId = $(this).data("id");
+
+        // Debug apartmentId
+
+
+        if (!apartmentId) {
+            console.error("Error: Apartment ID is undefined!");
+            return;
+        }
+
         const formData = new FormData();
         const fileInput = $("#editapartmentImage")[0].files;
 
         if (fileInput.length > 0) {
             formData.append("image", fileInput[0]);
+        } else {
+            console.log("No Main Image Provided");
         }
 
         formData.append("mansion_name", $("#editmansionName").val());
         formData.append("mansion_address", $("#editaddress").val());
         formData.append("mansion_structure", $("#edit_mansion_structure").val());
         formData.append("pic_id", $("#editpic_name").val());
+        formData.append("notes", $("#editapartmentNotes").val());
 
-        // Update room data
+
         $("#edit-rooms-container .room-item").each(function (index) {
-            const roomIdValue = $(this).find('[name="id"]').val();
-            const roomId = roomIdValue ? parseInt(roomIdValue, 10) : null;
-
-            if (roomId !== null && !isNaN(roomId)) {
-                formData.append(`rooms[${index}][id]`, roomId);
+            const roomId = $(this).find('[name="id"]').val();
+        
+            // Only append the ID if it's a valid integer
+            if (roomId && roomId !== "null") {
+                formData.append(`rooms[${index}][id]`, parseInt(roomId, 10));
             }
-
+        
             formData.append(`rooms[${index}][room_number]`, $(this).find('[name="room_number"]').val());
             formData.append(`rooms[${index}][room_type]`, $(this).find('[name="room_type"]').val());
             formData.append(`rooms[${index}][initial_rent]`, $(this).find('[name="initial_rent"]').val());
             formData.append(`rooms[${index}][facilities]`, $(this).find('[name="facilities"]').val());
             formData.append(`rooms[${index}][max_student]`, $(this).find('[name="max_student"]').val());
-
-            // Add room photos
+            formData.append(`rooms[${index}][notes]`, $(this).find('[name="room_notes"]').val());
+        
             const photoFiles = $(this).find('[name="photos[]"]')[0]?.files || [];
             for (let i = 0; i < photoFiles.length; i++) {
                 formData.append(`rooms[${index}][photos][]`, photoFiles[i]);
             }
         });
+        
+
 
         $.ajax({
             url: `/apartment/update/${apartmentId}`,
@@ -232,25 +298,23 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function () {
+
                 Swal.fire({
-                    position: "top-end",
                     icon: "success",
                     title: "Apartment updated successfully!",
-                    showConfirmButton: false,
                     timer: 3000,
                 });
                 $("#apartment_modal_edit").modal("hide");
-                fetchApartment();
+                fetchApartment(); // Reload apartment list
             },
             error: function (xhr) {
-                console.log(xhr.responseText);
+                console.error("Error Response:", xhr.responseText);
                 alert("Error updating apartment");
             },
         });
     });
 
 
-    // Fetch and display apartments
     function fetchApartment() {
         const currentPage = $(".datatable").DataTable().page();
         $.ajax({
@@ -415,7 +479,9 @@ $(document).ready(function () {
         const container = $("#edit-rooms-container");
         container.empty();
 
-        rooms.forEach((room) => {
+        rooms.forEach((room, index) => {
+
+
             const newRoom = $("#edit-room-template")
                 .clone()
                 .removeAttr("id")
@@ -427,7 +493,9 @@ $(document).ready(function () {
             newRoom.find('[name="initial_rent"]').val(room.initial_rent);
             newRoom.find('[name="max_student"]').val(room.max_student);
             newRoom.find('[name="id"]').val(room.id);
+            newRoom.find('[name="room_notes"]').val(room.notes);
 
+            // Handle facilities
             if (room.facilities) {
                 try {
                     const facilitiesArray = JSON.parse(room.facilities);
@@ -438,45 +506,94 @@ $(document).ready(function () {
                 }
             }
 
-            // Add "View Images" button
-            const viewImagesButton = `
-                <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                    <button type="button" class="btn btn-primary view-room-images-btn" data-room-images='${JSON.stringify(room.photo_urls)}'>View Images</button>
-                </div>
-            `;
-            newRoom.append(viewImagesButton);
+            // Assign photo URLs to the "View Images" button
+            const photoUrls = room.photo_urls || [];
+
+
+            newRoom.find(".view-room-images-btn").attr("data-room-images", JSON.stringify(photoUrls));
+
 
             container.append(newRoom);
         });
     }
 
     $(document).on("click", ".view-room-images-btn", function () {
-        const roomImages = $(this).data("room-images");
-        console.log("Room Images:", roomImages);
+        // Use .attr() to retrieve the raw attribute value
+        const roomImages = $(this).attr("data-room-images");
 
-    
-        // Clear existing images in the modal
-        const container = $("#room-images-container");
-        container.empty();
-    
-        if (roomImages && roomImages.length > 0) {
-            roomImages.forEach((imageUrl) => {
-                const imageElement = `
-                    <div class="col-md-4">
-                        <img src="${imageUrl}" class="img-fluid rounded mb-2" alt="Room Image">
+        // Parse the JSON string
+        let parsedRoomImages = [];
+        try {
+            parsedRoomImages = JSON.parse(roomImages);
+        } catch (error) {
+            console.error("Error parsing room images:", error);
+        }
+
+        // Clear existing images in the gallery and carousel
+        const galleryContainer = $("#room-images-container");
+        const carouselContainer = $("#carousel-images-container");
+        galleryContainer.empty();
+        carouselContainer.empty();
+
+        if (Array.isArray(parsedRoomImages) && parsedRoomImages.length > 0) {
+            parsedRoomImages.forEach((imageUrl, index) => {
+                // Create a gallery placeholder with spinner
+                const galleryImageWrapper = $(`
+                    <div class="col-md-3 d-flex justify-content-center align-items-center" style="min-height: 150px;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                     </div>
-                `;
-                container.append(imageElement);
+                `);
 
+                // Append the spinner placeholder to the gallery
+                galleryContainer.append(galleryImageWrapper);
+
+                // Create the actual image element
+                const galleryImage = $(`
+                    <img src="${imageUrl}" class="img-fluid rounded gallery-image col-md-3" alt="Room Image" style="display: none;" data-index="${index}">
+                `);
+
+                // Handle image loading
+                galleryImage.on("load", function () {
+                    galleryImageWrapper.replaceWith(galleryImage); // Replace spinner with the loaded image
+                    galleryImage.fadeIn(); // Fade-in effect for a smoother transition
+                });
+
+                // Handle image load errors
+                galleryImage.on("error", function () {
+                    galleryImageWrapper.replaceWith('<p class="text-danger">Failed to load image</p>');
+                });
+
+                // Add image to the carousel
+                const carouselItem = $(`
+                    <div class="carousel-item ${index === 0 ? "active" : ""}">
+                        <img src="${imageUrl}" class="d-block w-100" alt="Room Image">
+                    </div>
+                `);
+                carouselContainer.append(carouselItem);
+            });
+
+            // Show the gallery modal
+            $("#room-images-modal").modal("show");
+
+            // Set up click event for gallery images to open carousel
+            $(document).on("click", ".gallery-image", function () {
+                const startIndex = $(this).data("index");
+                $("#room-images-modal").modal("hide"); // Close the gallery modal
+                $("#image-carousel-modal").modal("show"); // Show the carousel modal
+                $("#image-carousel").carousel(startIndex); // Start carousel at the clicked image
+            });
+
+            // Reopen the gallery modal when the carousel modal is closed
+            $("#image-carousel-modal").on("hidden.bs.modal", function () {
+                $("#room-images-modal").modal("show"); // Reopen gallery modal
             });
         } else {
-            container.append('<p>No images available for this room.</p>');
+            galleryContainer.append('<p>No images available for this room.</p>');
         }
-    
-        // Show the modal
-        $("#view-room-images-modal").modal("show");
     });
-    
+
     function populatePicOptions(selectedPicId) {
         $.ajax({
             url: "/path-to-fetch-pic-options",

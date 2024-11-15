@@ -1,5 +1,7 @@
 @extends('layouts.header')
 @section('content')
+    {{-- <div id="upload-progress-bar" style="position: fixed; top: 0; left: 0; width: 0; height: 5px; background: #7539FF; z-index: 9999; transition: width 0.2s; display: none;"></div> --}}
+
     <div class="page-wrapper">
         <div class="content container-fluid">
             <!-- Page Header -->
@@ -9,9 +11,8 @@
                     <div class="list-btn">
                         <ul class="filter-list">
                             <li>
-                                <a href="#" class="btn btn-primary waves-effect waves-light mt-1"
-                                    data-bs-toggle="modal" data-bs-target="#apartment_modal_add"><i
-                                        class="fa fa-plus-circle me-2"
+                                <a href="#" class="btn btn-primary waves-effect waves-light mt-1" data-bs-toggle="modal"
+                                    data-bs-target="#apartment_modal_add"><i class="fa fa-plus-circle me-2"
                                         aria-hidden="true"></i>{{ __('apartment.add_apartment') }}</a>
                             </li>
 
@@ -59,7 +60,8 @@
                                         </div>
                                         <div class="col-lg-4 col-md-12">
                                             <div class="input-block mb-3">
-                                                <label>{{ __('apartment.modal.structure') }} <span class="text-danger">*</span></label>
+                                                <label>{{ __('apartment.modal.structure') }} <span
+                                                        class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="mansion_structure"
                                                     placeholder="{{ __('apartment.placeholder.structure') }}">
                                             </div>
@@ -81,17 +83,25 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <!-- Apartment Notes -->
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <label>{{ __('apartment.modal.notes') ?? 'Notes' }}</label>
+                                                <textarea class="form-control" id="apartmentNotes" rows="3" placeholder="Add apartment notes..."></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <label>{{ __('apartment.modal.rooms') }}</label>
-                                            {{-- <button type="button" id="add-room-btn" class="btn btn-primary mb-2">Add Room</button> --}}
                                             <button id="add-room-btn" class="btn btn-primary mb-2"
                                                 data-target-template="#room-template"
                                                 data-target-container="#rooms-container">{{ __('apartment.modal.rooms') }}</button>
                                             <div id="rooms-container"></div>
                                             <!-- Room Template (hidden) -->
-                                            <div id="room-template" class="room-item mb-3" style="display: none;">
+                                            <div id="room-template" class="room-item mb-3"
+                                                style="display: none;border:2px solid #7539FF; padding:5px; border-radius:5px;">
                                                 <div class="row">
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
                                                         <input type="text" class="form-control" name="room_number"
@@ -114,7 +124,12 @@
                                                             placeholder="{{ __('apartment.placeholder.max_students') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="file" class="form-control" name="photos[]" multiple>
+                                                        <input type="file" class="form-control photos-input"
+                                                            name="photos[]" multiple>
+                                                    </div>
+                                                    <!-- Room Notes -->
+                                                    <div class="col-lg-12 col-md-12 mb-2">
+                                                        <textarea class="form-control" name="room_notes" rows="2" placeholder="Add room notes..."></textarea>
                                                     </div>
                                                     <div
                                                         class="col-lg-6 col-md-6 col-sm-12 mb-2 d-flex align-items-center">
@@ -125,6 +140,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                             <div class="row">
@@ -185,7 +201,8 @@
                                         </div>
                                         <div class="col-lg-6 col-md-12">
                                             <div class="input-block mb-3">
-                                                <label>{{ __('apartment.modal.structure') }} <span class="text-danger">*</span></label>
+                                                <label>{{ __('apartment.modal.structure') }} <span
+                                                        class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="edit_mansion_structure"
                                                     placeholder="{{ __('apartment.placeholder.structure') }}">
                                             </div>
@@ -197,6 +214,13 @@
                                                 <select class="form-control" id="editpic_name"></select>
                                             </div>
                                         </div>
+                                        <!-- Apartment Notes -->
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <label>{{ __('apartment.modal.notes') }}</label>
+                                                <textarea class="form-control" id="editapartmentNotes" rows="3" placeholder="Add apartment notes..."></textarea>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-12">
                                             <label>{{ __('apartment.modal.rooms') }}</label>
                                             {{-- <button type="button" id="add-edit-room-btn" class="btn btn-primary mb-2">Add Room</button> --}}
@@ -204,34 +228,54 @@
                                                 data-target-template="#edit-room-template"
                                                 data-target-container="#edit-rooms-container">{{ __('apartment.modal.rooms') }}</button>
                                             <div id="edit-rooms-container"></div>
+
                                             <!-- Room Template (hidden) -->
-                                            <div id="edit-room-template" class="room-item mb-3" style="display: none;">
+                                            <div id="edit-room-template" class="room-item mb-3"
+                                                style="display: none;border:2px solid #7539FF; padding:5px; border-radius:5px;">
                                                 <div class="row">
                                                     <input type="hidden" name="id" value="null">
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="text" class="form-control" name="room_number" placeholder="Room Number">
+                                                        <input type="text" class="form-control" name="room_number"
+                                                            placeholder="Room Number">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="text" class="form-control" name="room_type" placeholder="Room Type">
+                                                        <input type="text" class="form-control" name="room_type"
+                                                            placeholder="Room Type">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="text" class="form-control" name="initial_rent" placeholder="Initial Rent">
+                                                        <input type="text" class="form-control" name="initial_rent"
+                                                            placeholder="Initial Rent">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="text" class="form-control" name="facilities" placeholder="Facilities">
+                                                        <input type="text" class="form-control" name="facilities"
+                                                            placeholder="Facilities">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="number" class="form-control" name="max_student" placeholder="Max Students">
+                                                        <input type="number" class="form-control" name="max_student"
+                                                            placeholder="Max Students">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
-                                                        <input type="file" class="form-control" name="photos[]" multiple>
+                                                        <input type="file" class="form-control" name="photos[]"
+                                                            multiple>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 mb-2 d-flex align-items-center">
-                                                        <button type="button" class="btn btn-danger remove-room-btn">Remove Room</button>
+                                                    <div class="col-lg-12 col-md-12 mb-2">
+                                                        <textarea class="form-control" name="room_notes" rows="2" placeholder="Add room notes..."></textarea>
+                                                    </div>
+                                                    
+                                                    <div
+                                                        class="col-lg-6 col-md-6 col-sm-12 mb-2 d-flex align-items-center">
+                                                        <button type="button"
+                                                            class="btn btn-danger remove-room-btn">Remove Room</button>
+                                                    </div>
+                                                    <div
+                                                        class="col-lg-6 col-md-6 col-sm-12 mb-2 d-flex align-items-center">
+                                                        <button type="button"
+                                                            class="btn btn-primary view-room-images-btn"
+                                                            data-room-images="[]">View Images</button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -249,12 +293,13 @@
                 </div>
             </div>
 
-            <div id="view-room-images-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            {{-- <div id="view-room-images-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Room Images</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row" id="room-images-container">
@@ -263,8 +308,58 @@
                         </div>
                     </div>
                 </div>
+            </div> --}}
+
+            <!-- Modal for Gallery -->
+            <div id="room-images-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Room Images</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row g-3" id="room-images-container">
+                                <!-- Gallery Images will be dynamically added here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
+
+            <!-- Carousel Modal -->
+            <div id="image-carousel-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Room Image</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="image-carousel" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner" id="carousel-images-container">
+                                    <!-- Carousel Items will be dynamically added here -->
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#image-carousel"
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#image-carousel"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
 
             <!-- Room Details Modal -->
             <div id="roomDetailsModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
